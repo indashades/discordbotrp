@@ -1,0 +1,8 @@
+{
+    "from": "Dutchy of Novo-Gorod",
+    "to": "Kingdom of Storhamn",
+    "send_item": "timber",
+    "send_amount": 3000.0,
+    "receive_item": "money",
+    "receive_amount": 2000.0
+}
