@@ -107,8 +107,6 @@ with open("countries.json", "r") as f:
     countries = json.load(f)
 
 
-
-economy_loop()
     
 
 
