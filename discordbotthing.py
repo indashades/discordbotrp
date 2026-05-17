@@ -10,11 +10,8 @@ from datetime import datetime
 
 
 
-def economy_tick():
-    print("economy updated")
-from ka import keep_alive
 
-keep_alive()
+
 
 def economy_loop():
     last_run = 2
@@ -65,8 +62,12 @@ def economy_loop():
         time.sleep(120)
 
 # start background thread
-thread = threading.Thread(target=economy_loop, daemon=True)
+thread = threading.Thread(target=economy_loop)
 thread.start()
+
+from ka import keep_alive
+
+keep_alive()
 
 
 
