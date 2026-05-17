@@ -7,7 +7,7 @@ import json
 import time
 import threading
 from datetime import datetime
-
+from ka import keep_alive
 
 
 
@@ -65,7 +65,7 @@ def economy_loop():
 thread = threading.Thread(target=economy_loop)
 thread.start()
 
-from ka import keep_alive
+
 
 keep_alive()
 
