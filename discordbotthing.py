@@ -21,9 +21,10 @@ def economy_loop():
 
     while True:
         now = datetime.now()
-
+        print("uhhh..."+now.hour)
         if now.hour in [0, 4, 8, 12, 16, 20]:
             slot = now.hour
+            print("now in slot: "+slot)
 
             if slot != last_run:
                 countries = []
