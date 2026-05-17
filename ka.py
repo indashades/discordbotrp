@@ -2,11 +2,13 @@ from flask import Flask
 from threading import Thread
 from flask import send_file
 
+
+
+app = Flask('')
+
 @app.route("/download")
 def download():
     return send_file("countries.json", as_attachment=True)
-
-app = Flask('')
 
 @app.route('/')
 def home():
