@@ -10,6 +10,9 @@ from datetime import datetime
 
 def economy_tick():
     print("economy updated")
+from ka import keep_alive
+
+keep_alive()
 
 def economy_loop():
     last_run = 2
