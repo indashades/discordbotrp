@@ -1,5 +1,10 @@
 from flask import Flask
 from threading import Thread
+from flask import send_file
+
+@app.route("/download")
+def download():
+    return send_file("countries.json", as_attachment=True)
 
 app = Flask('')
 
