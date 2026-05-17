@@ -108,7 +108,7 @@ with open("countries.json", "r") as f:
 
 
 
-
+economy_loop()
     
 
 
@@ -587,6 +587,8 @@ async def on_message(msg):
 
 
             if "!economy" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 print(msg.author.display_name+" wants to know their economy")
                 m="you are not on the list"
                 def fmt(num):
