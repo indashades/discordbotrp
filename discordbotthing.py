@@ -8,6 +8,8 @@ import time
 import threading
 from datetime import datetime
 
+
+
 def economy_tick():
     print("economy updated")
 from ka import keep_alive
@@ -43,20 +45,19 @@ def economy_loop():
                         nam["food"]=0
 
                     if nam["pop+"]<=1.001:
-                        nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/1000)/1000)
+                        nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/1000)/10000)
                     elif nam["pop+"]>1.001:
-                        nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/1000)/1000)
-                    elif nam["pop+"]>1.3:
+                        nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/1000)/10000)
+                    if nam["pop+"]>1.3:
                         nam["pop+"]=nam["pop+"]-0.05
                 m="time progressed!"
                 print(m)
-                def save_countries(data):
-                    temp_file = "countries.tmp"
+                
 
-                    with open(temp_file, "w") as f:
-                        json.dump(data, f, indent=4)
+                with open("temp.txt", "w") as f:
+                    json.dump(countries, f, indent=4)
 
-                    os.replace(temp_file, "countries.json")
+                os.replace("temp.txt", "countries.json")
                 #!progressTimeNow
                 last_run = slot
 
@@ -470,10 +471,10 @@ async def on_message(msg):
                         nam["food"]=0
 
                     if nam["pop+"]<=1.001:
-                        nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/1000)/1000)
+                        nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/1000)/10000)
                     elif nam["pop+"]>1.001:
-                        nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/1000)/1000) #5000/1000=5 5/1000=0.005
-                    elif nam["pop+"]>1.3:
+                        nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/1000)/10000) #50000/1000=5 5/1000=0.005
+                    if nam["pop+"]>1.3:
                         nam["pop+"]=nam["pop+"]-0.05
                 m="time progressed!"
                 await msg.channel.send(m)
