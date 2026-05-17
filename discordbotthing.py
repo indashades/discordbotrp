@@ -12,58 +12,61 @@ from ka import keep_alive
 
 
 
+try:
+    def economy_loop():
+        last_run = 2
 
-def economy_loop():
-    last_run = 2
+        while True:
+            now = datetime.now()
+            print("uhhh...", now.hour)
+            if now.hour in [0, 4, 8, 12, 16, 20]:
+                slot = now.hour
+                print("now in slot: ", slot)
 
-    while True:
-        now = datetime.now()
-        print("uhhh...", now.hour)
-        if now.hour in [0, 4, 8, 12, 16, 20]:
-            slot = now.hour
-            print("now in slot: ", slot)
+                if slot != last_run:
+                    countries = []
+                    with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                    for  nam in countries:
+                        nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/nam["moncon"])*nam["tax"])/1000)
+                        nam["pop"]=nam["pop"]*nam["pop+"]
+                        nam["food"]=nam["food"]+nam["food+"]
+                        nam["lux"]=nam["lux"]+nam["lux+"]
+                        nam["timber"]=nam["timber"]+nam["timber+"]
+                        nam["stone"]=nam["stone"]+nam["stone+"]
+                        nam["nobleMetals"]=nam["nobleMetals"]+nam["nobleMetals+"]
+                        nam["strategicMetals"]=nam["strategicMetals"]+nam["strategicMetals+"]
+                        nam["livestock"]=nam["livestock"]*nam["pop+"]
+                        nam["rideAnimals"]=nam["rideAnimals"]*nam["pop+"]
+                        if nam["food"]<0:
+                            nam["pop+"]=0.9
+                            nam["food"]=0
 
-            if slot != last_run:
-                countries = []
-                with open("countries.json", "r") as f:
-                    countries = json.load(f)
-                for  nam in countries:
-                    nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/nam["moncon"])*nam["tax"])/1000)
-                    nam["pop"]=nam["pop"]*nam["pop+"]
-                    nam["food"]=nam["food"]+nam["food+"]
-                    nam["lux"]=nam["lux"]+nam["lux+"]
-                    nam["timber"]=nam["timber"]+nam["timber+"]
-                    nam["stone"]=nam["stone"]+nam["stone+"]
-                    nam["nobleMetals"]=nam["nobleMetals"]+nam["nobleMetals+"]
-                    nam["strategicMetals"]=nam["strategicMetals"]+nam["strategicMetals+"]
-                    nam["livestock"]=nam["livestock"]*nam["pop+"]
-                    nam["rideAnimals"]=nam["rideAnimals"]*nam["pop+"]
-                    if nam["food"]<0:
-                        nam["pop+"]=0.9
-                        nam["food"]=0
+                        if nam["pop+"]<=1.001:
+                            nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/1000)/10000)
+                        elif nam["pop+"]>1.001:
+                            nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/1000)/10000)
+                        if nam["pop+"]>1.3:
+                            nam["pop+"]=nam["pop+"]-0.05
+                    m="time progressed!"
+                    print(m)
+                    
 
-                    if nam["pop+"]<=1.001:
-                        nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/1000)/10000)
-                    elif nam["pop+"]>1.001:
-                        nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/1000)/10000)
-                    if nam["pop+"]>1.3:
-                        nam["pop+"]=nam["pop+"]-0.05
-                m="time progressed!"
-                print(m)
-                
+                    with open("temp.txt", "w") as f:
+                        json.dump(countries, f, indent=4)
 
-                with open("temp.txt", "w") as f:
-                    json.dump(countries, f, indent=4)
+                    os.replace("temp.txt", "countries.json")
+                    #!progressTimeNow
+                    last_run = slot
 
-                os.replace("temp.txt", "countries.json")
-                #!progressTimeNow
-                last_run = slot
+            time.sleep(120)
 
-        time.sleep(120)
-
-# start background thread
-thread = threading.Thread(target=economy_loop)
-thread.start()
+    # start background thread
+    thread = threading.Thread(target=economy_loop)
+    thread.start()
+except Exception as e:
+            print("🔥 THREAD CRASH:", repr(e))
+            time.sleep(5)
 
 
 
