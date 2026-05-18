@@ -1,8 +1,8 @@
 {
     "from": "Yangtze Dynasty",
     "to": "Kiwilandia",
-    "send_item": "lux",
-    "send_amount": 500.0,
+    "send_item": "money",
+    "send_amount": 50000.0,
     "receive_item": "money",
     "receive_amount": 0.0
 }

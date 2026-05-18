@@ -16,7 +16,7 @@ from ka import keep_alive
 
 try:
     def economy_loop():
-        last_run = 0
+        last_run = 16
 
         while True:
             now = datetime.now()
@@ -45,9 +45,9 @@ try:
                             nam["food"]=0
 
                         if nam["pop+"]<=1.001:
-                            nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/1000)/10000)
+                            nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
                         elif nam["pop+"]>1.001:
-                            nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/1000)/10000)
+                            nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
                         if nam["pop+"]>1.3:
                             nam["pop+"]=nam["pop+"]-0.05
                     m="time progressed!"
@@ -544,7 +544,25 @@ async def on_message(msg):
                             "write !10 to: build triemes\n"
                             "write !11 to: build war canoes \n"
                             "write !12 to: build patrol boats \n"
+                            "write !13 to: build longships \n"
                         )
+                        '''
+                        ARMY
+                        hoplites - 0.7m
+                        warel - 15.0m
+                        sling - 0.4r
+                        arch - 0.7r
+                        milit - 0.5m
+                        harch - 0.9r
+                        ligcav - 1.0m
+                        merccav - 1.2m
+                        mercinf - 0.8m
+                        NAVY
+                        triemes - 1.0a - 1.0d
+                        canoes - 0.1a - 0.2d
+                        patrol - 0.1a - 0.9d
+                        longships - 2.0a - 0.5d
+                        '''
             if "!1" in msg.content:
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
@@ -570,10 +588,366 @@ async def on_message(msg):
                             countries = json.load(f)
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
-                                nam["hoplites+"]=amount
+                                nam["hoplites+"]+=amount
                         nam["us"] = ""
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
+            if "!2" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="warelmob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "warelmob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["warel+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!3" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="slingmob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "slingmob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["sling+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!4" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="archmob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "archmob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["arch+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!5" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="milmob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "milmob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["milit+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!6" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="harchmob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "harchmob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["harch+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!7" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="ligcavmob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "ligcavmob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["ligcav+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!8" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="merccavmob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "merccavmob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["merccav+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!9" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="mercinfmob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "mercinfmob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["mercinf+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!10" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="btriemes"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "btriemes":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["triemes+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!11" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="bcanoes"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "bcanoes":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["canoes+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!12" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="bpatrol"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "bpatrol":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["patrol+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            if "!13" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="blongships"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "blongships":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["longships+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+            '''
+                        NAVY
+                        triemes - 1.0a - 1.0d
+                        canoes - 0.1a - 0.2d
+                        patrol - 0.1a - 0.9d
+                        longships - 2.0a - 0.5d
+            '''
+
 
                 
 
@@ -614,6 +988,13 @@ async def on_message(msg):
 
             if "!time"  in msg.content:
                 await msg.channel.send("time skips at: \n <t:1778968800:t> \n <t:1778983200:t> \n <t:1778997600:t> \n <t:1779012000:t> \n <t:1779026400:t> \n <t:1779040800:t>")
+            
+            if "!grass" in msg.content:
+                await msg.channel.send('''Grass refers to various families of plants. The three major families of grasslike plants are true grasses (Poaceae), sedges (Cyperaceae), and rushes (Juncaceae). Lawns and pasturelands are typically composed of true grasses, five of which cover 46% of the world's arable land: rice, wheat, maize, barley, and sugar cane.[1][2]
+
+"Grass" as a name has been applied to a wide group of unrelated plants including herbaceous plants whose leaves and stems are eaten by both domesticated and wild animals. The word may have its origin in the Proto-Indo-European root *gʰreh₁-, meaning 'to grow'.[3]
+
+Grass can refer to a green area, such as a lawn, park, or a field, and is often used for recreation or for sports such as lawn tennis or bowls.[4] Beginning in the 1970s, some sports venues have installed artificial grass to reduce maintenance costs.''')
 
 
 
@@ -900,14 +1281,36 @@ async def on_message(msg):
                 "t28": 0,
                 "t29": 0,
                 "t30": 0,
-                "us": ""
+                "us": "",
+                "hoplites+": 0,
+                "hoplites": 0,
+                "warel+": 0,
+                "warel": 0,
+                "sling+": 0,
+                "sling": 0,
+                "arch+": 0,
+                "arch": 0,
+                "milit+": 0,
+                "milit": 0,
+                "harch+": 0,
+                "harch": 0,
+                "ligcav+": 0,
+                "ligcav": 0,
+                "merccav+": 0,
+                "merccav": 0,
+                "mercinf+": 0,
+                "mercinf": 0,
+                "triemes":0,
+                "canoes":0,
+                "patrol":0,
+                "longships":0
 
-                #current format => !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals| moneyconversionate
+                #current format => !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|moneyconversionate|tax
 
 
 #Storhamn: !add|Kingdom of Storhamn|5200000000|1300000|1.001|50000|25000|10000|1000|50000|100|1000|500|0|700|1000|500|10000|5000|0.8|0.1
 #Dutchy of Novo-Gorod: !add|Dutchy of Novo-Gorod|6500000000|50000|1.001|50000|100|10|1|50000|100|100|50|500|70|1000|100|1000|5000|1|0.25
-#base: !add|name|10000|pop|1.001 or more if low pop|500|100|pop/1000|<-/100|timber depends on region 5000-1000|timbersurplus depends on region 400-100|1000|50|500|100|500|200|2000|2000|0.7
+#base: !add|name|10000|pop|1.001 or more if low pop|3000|100|pop/1000|<-/100|timber depends on region 5000-1000|timbersurplus depends on region 400-100|1000|50|500|100|500|200|2000|2000|0.7|tax
 
 
 
