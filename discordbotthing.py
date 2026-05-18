@@ -814,7 +814,7 @@ async def on_message(msg):
                         nam["stone+"] +
                         nam["nobleMetals+"] +
                         nam["strategicMetals+"] +
-                        nam["money"]*nam["moncon"]
+                        nam["money"]*nam["moncon"]/10000
                     )
                 countries2 = sorted(countries, key=score, reverse=True)
                 z=0
