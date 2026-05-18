@@ -9,6 +9,9 @@ app = Flask('')
 @app.route("/download")
 def download():
     return send_file("countries.json", as_attachment=True)
+@app.route("/download2")
+def download2():
+    return send_file("output.txt", as_attachment=True)
 
 @app.route('/')
 def home():

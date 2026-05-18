@@ -7,6 +7,8 @@ import json
 import time
 import threading
 from datetime import datetime
+import re
+import asyncio
 from ka import keep_alive
 
 
@@ -14,12 +16,12 @@ from ka import keep_alive
 
 try:
     def economy_loop():
-        last_run = 2
+        last_run = 0
 
         while True:
             now = datetime.now()
             print("uhhh...", now.hour)
-            if now.hour in [2, 6, 10, 14, 18, 22]:
+            if now.hour in [2, 6, 10, 14, 18, 22]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
                 slot = now.hour
                 print("now in slot: ", slot)
 
@@ -28,7 +30,7 @@ try:
                     with open("countries.json", "r") as f:
                         countries = json.load(f)
                     for  nam in countries:
-                        nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/nam["moncon"])*nam["tax"])/1000)
+                        nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"])) #1 was nam["moncon"] but now tax is debuffed
                         nam["pop"]=nam["pop"]*nam["pop+"]
                         nam["food"]=nam["food"]+nam["food+"]
                         nam["lux"]=nam["lux"]+nam["lux+"]
@@ -82,6 +84,8 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+
+
 @bot.event
 async def on_ready():
     print(f"{bot.user} is online!")
@@ -115,48 +119,10 @@ async def on_message(msg):
     if msg.author.id != bot.user.id and msg.content.startswith('!'):
         try:
 
-            """if "!y" in msg.content:
-                with open("trade.json", "r") as f:
-                    trade = json.load(f)
-                p1 = trade["from"]
-                p2 = trade["to"]
-
-                tradevar1 = trade["send_amount"]
-                trade1 = trade["send_item"]
-
-                tradevar2 = trade["receive_amount"]
-                trade2 = trade["receive_item"]
-                z=None
-                x=None
-                
-                if msg.author.display_name==p2:
-                    for  nam in countries:
-                        if p1==nam["name"]:
-                            if trade1=="money":
-                                nam[trade1]=nam[trade1]-(tradevar1*nam["moncon"])
-                                z=nam
-                            else:
-                                nam[trade1]=nam[trade1]-tradevar1
-                            if trade2=="money":
-                                z=nam
-                            else:
-                                nam[trade2]=nam[trade2]+tradevar2
-                            
-                        if p2==nam["name"]:
-                            if trade1=="money":
-                                nam[trade1]=nam[trade1]+(tradevar1*z["moncon"])
-                            else:
-                                nam[trade1]=nam[trade1]+tradevar1
-                            if trade2=="money":
-                                vam=nam
-                                z[trade1]=z[trade1]+(tradevar1*z["moncon"])
-                                nam[trade2]=nam[trade2]-(tradevar2*nam["moncon"])
-                            else:
-                                nam[trade2]=nam[trade2]-tradevar2
-                            
-                    m="trade accepted"
-                    await msg.channel.send(m)"""
+            
             if "!y" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 with open("trade.json", "r") as f:
                     trade = json.load(f)
 
@@ -221,12 +187,16 @@ async def on_message(msg):
                             json.dump(countries, f, indent=4)
 
             if "!n" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 m="trade denied"
                 await msg.channel.send(m)
 
 
             
             if "!expand" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         nam["food"]=nam["food"]-2000
@@ -238,26 +208,91 @@ async def on_message(msg):
                         await msg.channel.send("you expanded succesfully probably")
 
             #tech things
+            #addTech name: name, foodcost: value, moneycost: value, luxurycost: value, timbercost: value, stonecost: value, valuableMetalcost: value, strategicMetalcost: value --- foodproduction: value, moneyproduction: value, luxuryproduction: value, timberproduction: value, stoneproduction: value, valuableMetalproduction: value, strategicMetalproduction: value, techId: id, role: role
+            if "!addTech" in msg.content and any(role.name == "Collaborators" for role in msg.author.roles): #add and progress time need the correct roles
+                ##splits=msg.content.split(" name: ",", foodcost: ",", moneycost: ",", luxurycost: ",", timbercost: ",", stonecost: ",", valuableMetalcost: ",", strategicMetalcost: "," --- foodproduction: ",", moneyproduction: ",", luxuryproduction: "+", timberproduction: "+", stoneproduction: "+", valuableMetalproduction: ",", strategicMetalproduction: ",", techId: ",", role: ")
+                
+                splits = re.split(
+                    r'name: |, foodcost: |, moneycost: |, luxurycost: |, timbercost: |, stonecost: |, valuableMetalcost: |, strategicMetalcost: | --- foodproduction: |, moneyproduction: |, luxuryproduction: |, timberproduction: |, stoneproduction: |, valuableMetalproduction: |, strategicMetalproduction: |, techId: |, role: ',
+                    msg.content
+                    
+                )
+                print(splits)
+                text = '''if "!'''+splits[1]+'''" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t'''+splits[16]+'''"]==0 and any(role.name == "'''+splits[17]+'''" for role in msg.author.roles):
+                        if nam["food"]>='''+splits[2]+''' and nam["money"]>='''+splits[3]+''' and nam["lux"]>='''+splits[4]+''' and nam["timber"]>='''+''' and nam["stone"]>='''+splits[5]+''' and nam["nobleMetals"]>='''+splits[6]+''' and nam["strategicMetals"]>='''+splits[7]+''':
+                            nam["food"]=nam["food"]-'''+splits[2]+'''
+                            nam["money"]=nam["money"]-'''+splits[3]+'''
+                            nam["lux"]=nam["lux"]-'''+splits[4]+'''
+                            nam["timber"]=nam["timber"]-'''+splits[5]+'''
+                            nam["stone"]=nam["stone"]-'''+splits[6]+'''
+                            nam["nobleMetals"]=nam["nobleMetals"]-'''+splits[7]+'''
+                            nam["strategicMetals"]=nam["strategicMetals"]-'''+splits[8]+'''
+                            nam["food+"]=nam["food+"]+'''+splits[9]+'''
+                            nam["gra+"]=nam["gra+"]+'''+splits[10]+'''
+                            nam["lux+"]=nam["lux+"]+'''+splits[11]+'''
+                            nam["timber+"]=nam["timber+"]+'''+splits[12]+'''
+                            nam["stone+"]=nam["stone+"]+'''+splits[13]+'''
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+'''+splits[14]+'''
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+'''+splits[15]+'''
+                            nam["t'''+splits[16]+'''"]='''+splits[16]+'''
+                            await msg.channel.send("crop rotation researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")'''
+
+                with open("output.txt", "a", encoding="utf-8") as f:
+                    f.write(text + "\n\n")
+                    '''
+                    "money": float(parts[2]), #name of money/treasury
+                "gra+": float(0), #money that goes +
+                "moncon": float(parts[19]), #currency exchange rate
+                "pop": float(parts[3]), #population
+                "pop+": float(parts[4]), #pop modifer
+                "food": float(parts[5]), #food stockpile
+                "food+": float(parts[6]), #food production
+                "lux": float(parts[7]), #luxury goods
+                "lux+": float(parts[8]), #lux production
+                "timber": float(parts[9]), #timber stockpile
+                "timber+": float(parts[10]), #timber production
+                "stone": float(parts[11]), #stone stockpile
+                "stone+": float(parts[12]), #stone production
+                "nobleMetals": float(parts[13]), #gold/silver stockpile
+                "nobleMetals+": float(parts[14]), #gold/silver mining
+                "strategicMetals": float(parts[15]), #brass/copper/bronze/iron
+                "strategicMetals+": float(parts[16]), #iron/copper etc mining
+                "livestock": float(parts[17]), #livestock (pretty useless right now)
+                "rideAnimals"
+                '''
+
             if "!tech" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 await msg.channel.send("technologies that can be researched are: \n"
                                        +"!cropRotation - costs: 10k food, earns: +500 food production\n"+
                                        "!aqueducts - costs: 10k money and 500 stone, earns: +200 food production\n"+
-                                       "!roads - costs: 10k stone, 10k money and 10k timber, earns: +100 money income from road tolls\n"+
+                                       "!roads - costs: 10k stone, 10k money and 10k timber, earns: +500 income x currencyValue money from road tolls\n"+
                                        "!metallurgy - costs 10k money, 5k precious metals and 15k strategic metals earns: +500 strategic metals production \n"+
-                                       "!standardizedTaxation - costs: 100k money and 10k precious metals earns: +1k income \n"+
+                                       "!standardizedTaxation - costs: 100k money and 10k precious metals earns: +1k income x currencyValue  \n"+
                                        "!smallIrrigation - costs: 12k money and 6k stone, earns: +250 food production \n"+
                                        "!basicLogging - costs: 10k money and 3k strategic metals, earns: +200 timber production\n"+
                                        "!smallQuarries - costs: 10k money, 3k timber and 3k strategic metals, earns: +200 stone production\n"+
                                        "!simpleSmelting - costs: 10k money, 5k strategic metals and 2k precious metals, earns: +200 strategic metals production\n"+
-                                       "!smallMarket - costs: 10k money, 5k stone and 3k timber, earns: +200 treasury income\n"+
+                                       "!smallMarket - costs: 10k money, 5k stone and 3k timber, earns: +2k income x currencyValue \n"+
                                        "!basicWinePress - costs: 12k money, 5k food and 3k timber, earns: +200 luxury goods production\n"+
                                        "!simpleOilPress - costs: 10k money, 3k timber and 3k luxury goods, earns: +150 luxury goods production \n"+
-                                       "!dirtRoads - costs: 10k money, 5k stone and 5k timber, earns: +150 treasury income\n"
+                                       "!dirtRoads - costs: 10k money, 5k stone and 5k timber, earns: +300 income x currencyValue treasury\n"
                                         "coming soon: \n"+
                                        "!horseTraining - costs: 10k money, 3k food and 2k livestock, earns: +15 ride animals production\n"
                                        )
                 
             if "!cropRotation" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t1"]==0:
                         if nam["food"]>=10000:
@@ -270,6 +305,8 @@ async def on_message(msg):
                         else:
                             await msg.channel.send("you cannot afford that!")
             if "!aqueducts" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t2"]==0:
                         if nam["money"]>=10000 and nam["stone"]>=500:
@@ -283,13 +320,15 @@ async def on_message(msg):
                         else:
                             await msg.channel.send("you cannot afford that!")
             if "!roads" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t3"]==0:
                         if nam["money"]>=10000 and nam["stone"]>=10000 and nam["timber"]>=10000:
                             nam["money"]=nam["money"]-10000
                             nam["stone"]=nam["stone"]-10000
                             nam["timber"]=nam["timber"]-10000
-                            nam["gra+"]=nam["gra+"]+100
+                            nam["gra+"]=nam["gra+"]+500*nam["moncon"]
                             nam["t3"]=1
                             await msg.channel.send("roads researched!")
                             with open("countries.json", "w") as f:
@@ -297,6 +336,8 @@ async def on_message(msg):
                         else:
                             await msg.channel.send("you cannot afford that!")
             if "!metallurgy" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t4"]==0:
                         if nam["money"]>=10000 and nam["nobleMetals"]>=5000 and nam["timber"]>=15000:
@@ -311,12 +352,14 @@ async def on_message(msg):
                         else:
                             await msg.channel.send("you cannot afford that!")
             if "!standardizedTaxation" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t5"]==0:
                         if nam["money"]>=100000 and nam["nobleMetals"]>=10000:
                             nam["money"]=nam["money"]-100000
                             nam["nobleMetals"]=nam["nobleMetals"]-10000
-                            nam["gra+"]=nam["gra+"]+1000
+                            nam["gra+"]=nam["gra+"]+500*nam["moncon"]
                             nam["t5"]=1
                             await msg.channel.send("standardized taxation researched!")
                             with open("countries.json", "w") as f:
@@ -324,6 +367,8 @@ async def on_message(msg):
                         else:
                             await msg.channel.send("you cannot afford that!")
             if "!smallIrrigation" in msg.content: #costs: 12k money and 6k stone, earns: +250 food production
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t6"]==0:
                         if nam["money"]>=12000 and nam["stone"]>=6000:
@@ -338,6 +383,8 @@ async def on_message(msg):
                             await msg.channel.send("you cannot afford that!")
             #!basicLogging - costs: 10k money and 3k strategic metals, earns: +200 timber production\n
             if "!basicLogging" in msg.content: 
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t7"]==0:
                         if nam["money"]>=10000 and nam["strategicMetals"]>=3000:
@@ -352,6 +399,8 @@ async def on_message(msg):
                             await msg.channel.send("you cannot afford that!")
             #"!smallQuarries - costs: 10k money, 3k timber and 3k strategic metals, earns: +200 stone production\n"+
             if "!smallQuarries" in msg.content: 
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t8"]==0:
                         if nam["money"]>=10000 and nam["strategicMetals"]>=3000 and nam["timber"]>=3000:
@@ -367,6 +416,8 @@ async def on_message(msg):
                             await msg.channel.send("you cannot afford that!")
             #"!simpleSmelting - costs: 10k money, 5k strategic metals and 2k precious metals, earns: +200 strategic metals production\n"+
             if "!simpleSmelting" in msg.content: 
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t9"]==0:
                         if nam["money"]>=10000 and nam["strategicMetals"]>=5000 and nam["nobleMetals"]>=2000:
@@ -380,15 +431,17 @@ async def on_message(msg):
                                 json.dump(countries, f, indent=4)
                         else:
                             await msg.channel.send("you cannot afford that!")
-            #"!smallMarket - costs: 10k money, 5k stone and 3k timber, earns: +200 treasury income\n"+
+            #"!smallMarket - costs: 10k money, 5k stone and 3k timber, earns: +2000 treasury income\n"+
             if "!smallMarket" in msg.content: 
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t10"]==0:
                         if nam["money"]>=10000 and nam["stone"]>=5000 and nam["timber"]>=3000:
                             nam["money"]=nam["money"]-10000
                             nam["stone"]=nam["stone"]-5000
                             nam["timber"]=nam["timber"]-3000
-                            nam["gra+"]=nam["gra+"]+200
+                            nam["gra+"]=nam["gra+"]+2000*nam["moncon"]
                             nam["t10"]=1
                             await msg.channel.send("small markets researched!")
                             with open("countries.json", "w") as f:
@@ -397,6 +450,8 @@ async def on_message(msg):
                             await msg.channel.send("you cannot afford that!")
             #"!basicWinePress - costs: 12k money, 5k food and 3k timber, earns: +200 luxury goods production\n"+
             if "!basicWinePress" in msg.content: 
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t11"]==0:
                         if nam["money"]>=12000 and nam["food"]>=5000 and nam["timber"]>=3000:
@@ -412,6 +467,8 @@ async def on_message(msg):
                             await msg.channel.send("you cannot afford that!")
             #"!simpleOilPress - costs: 10k money, 3k timber and 3k luxury goods, earns: +150 luxury goods production \n"+
             if "!simpleOilPress" in msg.content: 
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t12"]==0:
                         if nam["money"]>=10000 and nam["lux"]>=3000 and nam["timber"]>=3000:
@@ -427,13 +484,15 @@ async def on_message(msg):
                             await msg.channel.send("you cannot afford that!")
             #"!dirtRoads - costs: 10k money, 5k stone and 5k timber, earns: +150 treasury income\n")
             if "!dirtRoads" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t13"]==0:
                         if nam["money"]>=10000 and nam["stone"]>=5000 and nam["timber"]>=5000:
                             nam["money"]=nam["money"]-10000
                             nam["stone"]=nam["stone"]-5000
                             nam["timber"]=nam["timber"]-5000
-                            nam["gra+"]=nam["gra+"]+150
+                            nam["gra+"]=nam["gra+"]+300*nam["moncon"]
                             nam["t13"]=1
                             await msg.channel.send("roads researched!")
                             with open("countries.json", "w") as f:
@@ -447,6 +506,8 @@ async def on_message(msg):
 
 
             if "!resources" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 await msg.channel.send("here is a list explaining all the resources: \ntreasury/money = money in the form of your national currency keep currency exchange rates in mind when trading using these \npop/population = the amount of citizens you have in your nation \n"
                 +"food = the stockpiles of what your population consumes to survive \nlux/luxury goods = the luxury goods like sugar, tobacco, honey etc that no one really needs but everyone still wants. These are vital for your nation to prosper \n"
                 +"timber = your stockpiles of wood which is useful for fortifying and building ships \n stone = your stockpile of stone used for building walled cities, castles and forts \n"
@@ -455,7 +516,72 @@ async def on_message(msg):
                 +"---\nthe + at the end of your economy signify the amount you will be gaining in the upcoming timeskip")
 
 
+
+
+            #here the players select what to mobilize, these are mobilized only next timeskip
+            if "!mob" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+
+
+                        nam["us"] = "mobMenu"
+                        with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
+
+                        await msg.channel.send(
+                            "mobilization menu:\n"
+                            "write !1 to: mobilize hoplites\n"
+                            "write !2 to: mobilize war elephants\n"
+                            "write !3 to: mobilize slingers\n"
+                            "write !4 to: mobilize archers\n"
+                            "write !5 to: mobilize militia\n"
+                            "write !6 to: mobilize horse archers\n"
+                            "write !7 to: mobilize light cavalry\n"
+                            "write !8 to: mobilize mercenary cavalry\n"
+                            "write !9 to: mobilize mercenary infantery\n"
+                            "write !10 to: build triemes\n"
+                            "write !11 to: build war canoes \n"
+                            "write !12 to: build patrol boats \n"
+                        )
+            if "!1" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="hoplitemob"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "hoplitemob":
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["hoplites+"]=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+
+                
+
+
+
             if "!progressTimeNow" in msg.content and any(role.name == "Collaborators" for role in msg.author.roles):
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 print(msg.author.roles)
                 parts = msg.content.split()
                 for  nam in countries:
@@ -492,6 +618,8 @@ async def on_message(msg):
 
 
             if "!declareWar" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["war?"]==0:
                         nam["pop+"]=nam["pop+"]-0.02
@@ -503,6 +631,8 @@ async def on_message(msg):
                         await msg.channel.send("war started")
 
             if "!declarePeace" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["war?"]==1:
                         nam["gra+"]=nam["gra+"]+100
@@ -516,6 +646,8 @@ async def on_message(msg):
 
 
             if "!trade" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 parts=msg.content.split("|")
                 p1 = msg.author.display_name
                 trade1 = int(parts[1])
@@ -541,7 +673,9 @@ async def on_message(msg):
                 await msg.channel.send("KEEP CURRENCY EXCHANGE RATES IN MIND! accept trade @" + p2 + "\n!y/!n")
 
             if "!help" in msg.content:
-                m="\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExhcangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip"
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                m="\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations \n !mob - do not use, work in progress"
                 await msg.channel.send(m)
                 with open("countries.json", "w") as f:
                     json.dump(countries, f, indent=4)
@@ -549,6 +683,8 @@ async def on_message(msg):
                 #secret commands: !progressTimeNow \n "commands are: \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate"
 
             if "!printMoney" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 parts = msg.content.split()
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
@@ -564,6 +700,8 @@ async def on_message(msg):
                 #!printMoney amount
 
             if "!deflateCurrency" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 parts = msg.content.split()
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
@@ -585,6 +723,8 @@ async def on_message(msg):
 
 
             if "!economy" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 print(msg.author.display_name+" wants to know their economy")
@@ -638,8 +778,60 @@ async def on_message(msg):
                         await msg.channel.send(m)
                         #!economy or !economy all
 
+            if "!leaderboard" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                print(msg.author.display_name+" wants rankings")
+                m=""
+                def fmt(num):
+                    num = float(num)
 
-            if "!showExhcangeRate" in msg.content:
+                    abs_num = abs(num)
+
+                    if abs_num >= 1_000_000_000:
+                        return f"{num/1_000_000_000:.3f}".rstrip("0").rstrip(".") + "B"
+                    elif abs_num >= 1_000_000:
+                        return f"{num/1_000_000:.3f}".rstrip("0").rstrip(".") + "M"
+                    elif abs_num >= 1_000:
+                        return f"{num/1_000:.3f}".rstrip("0").rstrip(".") + "K"
+                    else:
+                        return f"{num:.3f}".rstrip("0").rstrip(".")
+                countries2=countries
+                def score(nam):
+                    return (
+                        nam["moncon"]*1000 +
+                        nam["food"] +
+                        nam["lux"] +
+                        nam["timber"] +
+                        nam["stone"] +
+                        nam["nobleMetals"] +
+                        nam["strategicMetals"] +
+                        nam["pop"]/1000+
+                        (nam["t1"]+nam["t2"]+nam["t3"]+nam["t4"]+nam["t5"]+nam["t6"]+nam["t7"]+nam["t8"]+nam["t9"]+nam["t10"]+nam["t11"]+nam["t12"]+nam["t13"]+nam["t14"]+nam["t15"])*1000+
+                        nam["food+"] +
+                        nam["lux+"] +
+                        nam["timber+"] +
+                        nam["stone+"] +
+                        nam["nobleMetals+"] +
+                        nam["strategicMetals+"] +
+                        nam["money"]*nam["moncon"]
+                    )
+                countries2 = sorted(countries, key=score, reverse=True)
+                z=0
+                for  nam in countries2:
+                    z=z+1
+                    if True:
+                        m = (
+                            f'ranking:\n{z}. {nam["name"]} - currency value: {fmt(nam["moncon"])}, total resources: {fmt(nam["food"]+nam["lux"]+nam["timber"]+nam["stone"]+nam["nobleMetals"]+nam["strategicMetals"])}, population: {fmt(nam["pop"])}, technology: {nam["t1"]+nam["t2"]+nam["t3"]+nam["t4"]+nam["t5"]+nam["t6"]+nam["t7"]+nam["t8"]+nam["t9"]+nam["t10"]+nam["t11"]+nam["t12"]+nam["t13"]+nam["t14"]+nam["t15"]}, total production: {fmt(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"])}\n'
+                            "--\n"
+                        )
+                        await msg.channel.send(m)
+                        #!economy or !economy all
+
+
+            if "!showExchangeRate" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 m=""
                 for  nam in countries:
                     m = m+ (
@@ -648,10 +840,12 @@ async def on_message(msg):
                     )
                         
                 await msg.channel.send(m)
-                    #!showExhcangeRate
+                    #!showExchangeRate
 
 
             if "!add" in msg.content and any(role.name == "Collaborators" for role in msg.author.roles): #add and progress time need the correct roles
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
                 parts = msg.content.split("|")
                 countries.append({
                 "name": parts[1], #name of country
@@ -690,7 +884,23 @@ async def on_message(msg):
                 "t12": 0,
                 "t13": 0,
                 "t14": 0,
-                "t15": 0
+                "t15": 0,
+                "t16": 0,
+                "t17": 0,
+                "t18": 0,
+                "t19": 0,
+                "t20": 0,
+                "t21": 0,
+                "t22": 0,
+                "t23": 0,
+                "t24": 0,
+                "t25": 0,
+                "t26": 0,
+                "t27": 0,
+                "t28": 0,
+                "t29": 0,
+                "t30": 0,
+                "us": ""
 
                 #current format => !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals| moneyconversionate
 
@@ -706,8 +916,9 @@ async def on_message(msg):
                     json.dump(countries, f, indent=4)
                 m="country added"
                 await msg.channel.send(m)
-        except:
+        except Exception as e:
             m="ERROR something went wrong"
+            print("🔥 CRASH:", repr(e))
             await msg.channel.send(m)
             
 
