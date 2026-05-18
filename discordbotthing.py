@@ -16,7 +16,7 @@ from ka import keep_alive
 
 try:
     def economy_loop():
-        last_run = 16
+        last_run = 0
 
         while True:
             now = datetime.now()
@@ -30,14 +30,110 @@ try:
                     with open("countries.json", "r") as f:
                         countries = json.load(f)
                     for  nam in countries:
-                        nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"])) #1 was nam["moncon"] but now tax is debuffed
+                        if nam["hoplites+"] != 0:
+                            if nam["food"] >= nam["hoplites+"] and nam["strategicMetals"] >= nam["hoplites+"]:
+                                nam["food"] = nam["food"]-nam["hoplites+"]
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["hoplites+"]
+                                nam["hoplites"] += nam["hoplites+"]
+                                nam["hoplites+"]=0
+                        if nam["warel+"] != 0:
+                            if nam["food"] >= nam["warel+"] and nam["strategicMetals"] >= nam["warel+"]:
+                                nam["food"] = nam["food"]-(nam["warel+"]*20)
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["warel+"]
+                                nam["warel"] += nam["warel+"]
+                                nam["warel+"]=0
+                        if nam["sling+"] != 0:
+                            if nam["food"] >= nam["sling+"] and nam["strategicMetals"] >= nam["sling+"]:
+                                nam["food"] = nam["food"]-(nam["sling+"])
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["sling+"]
+                                nam["sling"] += nam["sling+"]
+                                nam["sling+"]=0
+                        if nam["arch+"] != 0:
+                            if nam["food"] >= nam["arch+"] and nam["strategicMetals"] >= nam["arch+"]:
+                                nam["food"] = nam["food"]-(nam["arch+"])
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["arch+"]
+                                nam["arch"] += nam["arch+"]
+                                nam["arch+"]=0
+                        if nam["milit+"] != 0:
+                            if nam["food"] >= nam["milit+"] and nam["strategicMetals"] >= nam["milit+"]:
+                                nam["food"] = nam["food"]-(nam["milit+"])
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["milit+"]
+                                nam["milit"] += nam["milit+"]
+                                nam["milit+"]=0
+                        if nam["harch+"] != 0:
+                            if nam["food"] >= nam["harch+"] and nam["strategicMetals"] >= nam["harch+"]:
+                                nam["food"] = nam["food"]-(nam["harch+"]*2)
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["harch+"]
+                                nam["harch"] += nam["harch+"]
+                                nam["harch+"]=0
+                        if nam["ligcav+"] != 0:
+                            if nam["food"] >= nam["ligcav+"] and nam["strategicMetals"] >= nam["ligcav+"]:
+                                nam["food"] = nam["food"]-(nam["ligcav+"]*2)
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["ligcav+"]
+                                nam["ligcav"] += nam["ligcav+"]
+                                nam["ligcav+"]=0
+                        
+                        if nam["merccav+"] != 0:
+                            if nam["food"] >= nam["merccav+"] and nam["strategicMetals"] >= nam["merccav+"]:
+                                nam["food"] = nam["food"]-(nam["merccav+"]*2)
+                                nam["money"] = nam["money"]-(nam["merccav+"]*100)
+                                nam["merccav"] += nam["merccav+"]
+                                nam["merccav+"]=0
+                        
+                        if nam["mercinf+"] != 0:
+                            if nam["food"] >= nam["mercinf+"] and nam["strategicMetals"] >= nam["mercinf+"]:
+                                nam["food"] = nam["food"]-(nam["mercinf+"])
+                                nam["money"] = nam["money"]-(nam["mercinf+"]*10)
+                                nam["mercinf"] += nam["mercinf+"]
+                                nam["mercinf+"]=0
+                        
+                        if nam["triemes+"] != 0:
+                            if nam["food"] >= nam["triemes+"] and nam["timber"] >= nam["triemes+"]:
+                                nam["food"] = nam["food"]-(nam["triemes+"]*40)
+                                nam["timber"] = nam["timber"]-(nam["triemes+"]*50)
+                                nam["triemes"] += nam["triemes+"]
+                                nam["triemes+"]=0
+                        
+                        if nam["canoes+"] != 0:
+                            if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]:
+                                nam["food"] = nam["food"]-(nam["canoes+"])
+                                nam["timber"] = nam["timber"]-(nam["canoes+"]*10)
+                                nam["canoes"] += nam["canoes+"]
+                                nam["canoes+"]=0
+                        
+                        if nam["patrol+"] != 0:
+                            if nam["food"] >= nam["patrol+"] and nam["timber"] >= nam["patrol+"]:
+                                nam["food"] = nam["food"]-(nam["patrol+"]*50)
+                                nam["timber"] = nam["timber"]-(nam["patrol+"]*100)
+                                nam["patrol"] += nam["patrol+"]
+                                nam["patrol+"]=0
+                        
+                        if nam["longships+"] != 0:
+                            if nam["food"] >= nam["longships+"] and nam["timber"] >= nam["longships+"]:
+                                nam["food"] = nam["food"]-(nam["longships+"]*20)
+                                nam["timber"] = nam["timber"]-(nam["longships+"]*30)
+                                nam["longships"] += nam["longships+"]
+                                nam["longships+"]=0
+                        if nam["quinqueremes+"] != 0:
+                            if nam["food"] >= nam["quinqueremes+"] and nam["timber"] >= nam["longships+"]:
+                                nam["food"] = nam["food"]-(nam["quinqueremes+"]*30)
+                                nam["timber"] = nam["timber"]-(nam["quinqueremes+"]*40)
+                                nam["quinqueremes"] += nam["quinqueremes+"]
+                                nam["quinqueremes+"]=0
+
+
+                                
+                                
+
+                  
+                        nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"]))-nam["mercinf"]*10-nam["merccav"]*20 #1 was nam["moncon"] but now tax is debuffed
                         nam["pop"]=nam["pop"]*nam["pop+"]
-                        nam["food"]=nam["food"]+nam["food+"]
+                        nam["food"]=nam["food"]+nam["food+"]-nam["hoplites"]-nam["warel"]*20-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]
                         nam["lux"]=nam["lux"]+nam["lux+"]
-                        nam["timber"]=nam["timber"]+nam["timber+"]
+                        nam["timber"]=nam["timber"]+nam["timber+"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]
                         nam["stone"]=nam["stone"]+nam["stone+"]
                         nam["nobleMetals"]=nam["nobleMetals"]+nam["nobleMetals+"]
-                        nam["strategicMetals"]=nam["strategicMetals"]+nam["strategicMetals+"]
+                        nam["strategicMetals"]=nam["strategicMetals"]+nam["strategicMetals+"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]
                         nam["livestock"]=nam["livestock"]*nam["pop+"]
                         nam["rideAnimals"]=nam["rideAnimals"]*nam["pop+"]
                         if nam["food"]<0:
@@ -52,7 +148,31 @@ try:
                             nam["pop+"]=nam["pop+"]-0.05
                     m="time progressed!"
                     print(m)
-                    
+                    '''
+                    nam["hoplites+"]
+                    nam["hoplites"]
+                    nam["warel+"]
+                    nam["warel"]
+                    nam["sling+"]
+                    nam["sling"]
+                    nam["arch+"]
+                    nam["arch"]
+                    nam["milit+"]
+                    nam["milit"]
+                    nam["harch+"]
+                    nam["harch"]
+                    nam["ligcav+"]
+                    nam["ligcav"]
+                    nam["merccav+"]
+                    nam["merccav"]
+                    nam["mercinf+"]
+                    nam["mercinf"]
+                    nam["triemes"]
+                    nam["canoes"]
+                    nam["patrol"]
+                    nam["longships"]
+                    nam["quinqueremes"]
+                    '''
 
                     with open("temp.txt", "w") as f:
                         json.dump(countries, f, indent=4)
@@ -501,6 +621,13 @@ async def on_message(msg):
                             await msg.channel.send("you cannot afford that!")
             
 
+            if "!miltech" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                await msg.channel.send("technologies that can be researched are: \n"
+                                       +"!cropRotation - costs: 10k food, earns: +500 food production\n"
+                                       )
+
 
 
 
@@ -541,19 +668,20 @@ async def on_message(msg):
                             "write !7 to: mobilize light cavalry\n"
                             "write !8 to: mobilize mercenary cavalry\n"
                             "write !9 to: mobilize mercenary infantery\n"
-                            "write !10 to: build triemes\n"
+                            "write !10 to: build triremes\n"
                             "write !11 to: build war canoes \n"
                             "write !12 to: build patrol boats \n"
                             "write !13 to: build longships \n"
+                            "write !14 to: build quinqueremes\n"
                         )
                         '''
                         ARMY
-                        hoplites - 0.7m
+                        hoplites - 0.7m |locked by med
                         warel - 15.0m
                         sling - 0.4r
                         arch - 0.7r
                         milit - 0.5m
-                        harch - 0.9r
+                        harch - 0.9r |locked by tech
                         ligcav - 1.0m
                         merccav - 1.2m
                         mercinf - 0.8m
@@ -561,7 +689,8 @@ async def on_message(msg):
                         triemes - 1.0a - 1.0d
                         canoes - 0.1a - 0.2d
                         patrol - 0.1a - 0.9d
-                        longships - 2.0a - 0.5d
+                        longships - 2.0a - 0.5d |locked by tech and tech by med
+                        quinqueremes - 1.5a - 1.2d |locked b y tech and tech by med
                         '''
             if "!1" in msg.content:
                 with open("countries.json", "r") as f:
@@ -577,7 +706,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "hoplitemob":
+                    if nam["us"] == "hoplitemob" and any(role.name == "Mediterranean" for role in msg.author.roles):
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -592,6 +721,9 @@ async def on_message(msg):
                         nam["us"] = ""
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
+                    if nam["us"] == "hoplitemob" and not(any(role.name == "Mediterranean" for role in msg.author.roles)):
+                        await msg.channel.send("only med countries can have hoplites!")
+                        nam["us"] =""
             if "!2" in msg.content:
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
@@ -722,7 +854,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "harchmob":
+                    if nam["us"] == "harchmob" and nam["t28"]==1:
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -737,6 +869,9 @@ async def on_message(msg):
                         nam["us"] = ""
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
+                    elif nam["us"] == "harchmob" and nam["t28"]==0:
+                        msg.channel.send("you need the horse archer research to build these")
+                        nam["us"] =""
             if "!7" in msg.content:
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
@@ -925,7 +1060,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "blongships":
+                    if nam["us"] == "blongships" and nam["t29"]==1:
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -940,13 +1075,74 @@ async def on_message(msg):
                         nam["us"] = ""
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
+                    if nam["us"] == "blongships" and nam["t29"]==0:
+                        msg.channel.send("you need the longship research to build these")
+                        nam["us"] =""
+            if "!14" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="bquinqueremes"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if nam["us"] == "bquinqueremes" and nam["t30"]==1:
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        with open("countries.json", "r") as f:
+                            countries = json.load(f)
+                        for  nam in countries:
+                            if msg.author.display_name==nam["name"]:
+                                nam["quinqueremes+"]+=amount
+                        nam["us"] = ""
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+                    elif nam["us"] == "bquinqueremes" and  nam["t30"]==0:
+                        msg.channel.send("you need the quinquereme research to build these")
+                        nam["us"] =""
             '''
                         NAVY
                         triemes - 1.0a - 1.0d
                         canoes - 0.1a - 0.2d
                         patrol - 0.1a - 0.9d
                         longships - 2.0a - 0.5d
+                        quinqueremes - 1.5a - 1.2d
             '''
+            if "!demob" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                
+                for  nam in countries:
+                    nam["hoplites+"] = 0
+                    nam["hoplites"] = 0
+                    nam["warel+"] = 0
+                    nam["sling+"] = 0
+                    nam["sling"] = 0
+                    nam["arch+"] = 0
+                    nam["arch"] = 0
+                    nam["milit+"] = 0
+                    nam["milit"] = 0
+                    nam["harch+"] = 0
+                    nam["harch"] = 0
+                    nam["ligcav+"] = 0
+                    nam["ligcav"] = 0
+                    nam["merccav+"] = 0
+                    nam["merccav"] = 0
+                    nam["mercinf+"] = 0
+                    nam["mercinf"] = 0
+                m="army demobilized"
+                await msg.channel.send(m)
+                
 
 
                 
@@ -956,29 +1152,126 @@ async def on_message(msg):
             if "!progressTimeNow" in msg.content and any(role.name == "Collaborators" for role in msg.author.roles):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
-                print(msg.author.roles)
-                parts = msg.content.split()
+                
                 for  nam in countries:
-                    nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/nam["moncon"])*nam["tax"])/1000)
-                    nam["pop"]=nam["pop"]*nam["pop+"]
-                    nam["food"]=nam["food"]+nam["food+"]
-                    nam["lux"]=nam["lux"]+nam["lux+"]
-                    nam["timber"]=nam["timber"]+nam["timber+"]
-                    nam["stone"]=nam["stone"]+nam["stone+"]
-                    nam["nobleMetals"]=nam["nobleMetals"]+nam["nobleMetals+"]
-                    nam["strategicMetals"]=nam["strategicMetals"]+nam["strategicMetals+"]
-                    nam["livestock"]=nam["livestock"]*nam["pop+"]
-                    nam["rideAnimals"]=nam["rideAnimals"]*nam["pop+"]
-                    if nam["food"]<0:
-                        nam["pop+"]=0.9
-                        nam["food"]=0
+                        if nam["hoplites+"] != 0:
+                            if nam["food"] >= nam["hoplites+"] and nam["strategicMetals"] >= nam["hoplites+"]:
+                                nam["food"] = nam["food"]-nam["hoplites+"]
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["hoplites+"]
+                                nam["hoplites"] += nam["hoplites+"]
+                                nam["hoplites+"]=0
+                        if nam["warel+"] != 0:
+                            if nam["food"] >= nam["warel+"] and nam["strategicMetals"] >= nam["warel+"]:
+                                nam["food"] = nam["food"]-(nam["warel+"]*20)
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["warel+"]
+                                nam["warel"] += nam["warel+"]
+                                nam["warel+"]=0
+                        if nam["sling+"] != 0:
+                            if nam["food"] >= nam["sling+"] and nam["strategicMetals"] >= nam["sling+"]:
+                                nam["food"] = nam["food"]-(nam["sling+"])
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["sling+"]
+                                nam["sling"] += nam["sling+"]
+                                nam["sling+"]=0
+                        if nam["arch+"] != 0:
+                            if nam["food"] >= nam["arch+"] and nam["strategicMetals"] >= nam["arch+"]:
+                                nam["food"] = nam["food"]-(nam["arch+"])
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["arch+"]
+                                nam["arch"] += nam["arch+"]
+                                nam["arch+"]=0
+                        if nam["milit+"] != 0:
+                            if nam["food"] >= nam["milit+"] and nam["strategicMetals"] >= nam["milit+"]:
+                                nam["food"] = nam["food"]-(nam["milit+"])
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["milit+"]
+                                nam["milit"] += nam["milit+"]
+                                nam["milit+"]=0
+                        if nam["harch+"] != 0:
+                            if nam["food"] >= nam["harch+"] and nam["strategicMetals"] >= nam["harch+"]:
+                                nam["food"] = nam["food"]-(nam["harch+"]*2)
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["harch+"]
+                                nam["harch"] += nam["harch+"]
+                                nam["harch+"]=0
+                        if nam["ligcav+"] != 0:
+                            if nam["food"] >= nam["ligcav+"] and nam["strategicMetals"] >= nam["ligcav+"]:
+                                nam["food"] = nam["food"]-(nam["ligcav+"]*2)
+                                nam["strategicMetals"] = nam["strategicMetals"]-nam["ligcav+"]
+                                nam["ligcav"] += nam["ligcav+"]
+                                nam["ligcav+"]=0
+                        
+                        if nam["merccav+"] != 0:
+                            if nam["food"] >= nam["merccav+"] and nam["strategicMetals"] >= nam["merccav+"]:
+                                nam["food"] = nam["food"]-(nam["merccav+"]*2)
+                                nam["money"] = nam["money"]-(nam["merccav+"]*100)
+                                nam["merccav"] += nam["merccav+"]
+                                nam["merccav+"]=0
+                        
+                        if nam["mercinf+"] != 0:
+                            if nam["food"] >= nam["mercinf+"] and nam["strategicMetals"] >= nam["mercinf+"]:
+                                nam["food"] = nam["food"]-(nam["mercinf+"])
+                                nam["money"] = nam["money"]-(nam["mercinf+"]*10)
+                                nam["mercinf"] += nam["mercinf+"]
+                                nam["mercinf+"]=0
+                        
+                        if nam["triemes+"] != 0:
+                            if nam["food"] >= nam["triemes+"] and nam["timber"] >= nam["triemes+"]:
+                                nam["food"] = nam["food"]-(nam["triemes+"]*40)
+                                nam["timber"] = nam["timber"]-(nam["triemes+"]*50)
+                                nam["triemes"] += nam["triemes+"]
+                                nam["triemes+"]=0
+                        
+                        if nam["canoes+"] != 0:
+                            if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]:
+                                nam["food"] = nam["food"]-(nam["canoes+"])
+                                nam["timber"] = nam["timber"]-(nam["canoes+"]*10)
+                                nam["canoes"] += nam["canoes+"]
+                                nam["canoes+"]=0
+                        
+                        if nam["patrol+"] != 0:
+                            if nam["food"] >= nam["patrol+"] and nam["timber"] >= nam["patrol+"]:
+                                nam["food"] = nam["food"]-(nam["patrol+"]*50)
+                                nam["timber"] = nam["timber"]-(nam["patrol+"]*100)
+                                nam["patrol"] += nam["patrol+"]
+                                nam["patrol+"]=0
+                        
+                        if nam["longships+"] != 0:
+                            if nam["food"] >= nam["longships+"] and nam["timber"] >= nam["longships+"]:
+                                nam["food"] = nam["food"]-(nam["longships+"]*20)
+                                nam["timber"] = nam["timber"]-(nam["longships+"]*30)
+                                nam["longships"] += nam["longships+"]
+                                nam["longships+"]=0
+                        if nam["quinqueremes+"] != 0:
+                            if nam["food"] >= nam["quinqueremes+"] and nam["timber"] >= nam["longships+"]:
+                                nam["food"] = nam["food"]-(nam["quinqueremes+"]*30)
+                                nam["timber"] = nam["timber"]-(nam["quinqueremes+"]*40)
+                                nam["quinqueremes"] += nam["quinqueremes+"]
+                                nam["quinqueremes+"]=0
 
-                    if nam["pop+"]<=1.001:
-                        nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/1000)/10000)
-                    elif nam["pop+"]>1.001:
-                        nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/1000)/10000) #50000/1000=5 5/1000=0.005
-                    if nam["pop+"]>1.3:
-                        nam["pop+"]=nam["pop+"]-0.05
+
+                                
+                                
+
+                  
+                        nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"]))-nam["mercinf"]*10-nam["merccav"]*20 #1 was nam["moncon"] but now tax is debuffed
+                        nam["pop"]=nam["pop"]*nam["pop+"]
+                        nam["food"]=nam["food"]+nam["food+"]-nam["hoplites"]-nam["warel"]*20-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]
+                        nam["lux"]=nam["lux"]+nam["lux+"]
+                        nam["timber"]=nam["timber"]+nam["timber+"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]
+                        nam["stone"]=nam["stone"]+nam["stone+"]
+                        nam["nobleMetals"]=nam["nobleMetals"]+nam["nobleMetals+"]
+                        nam["strategicMetals"]=nam["strategicMetals"]+nam["strategicMetals+"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]
+                        nam["livestock"]=nam["livestock"]*nam["pop+"]
+                        nam["rideAnimals"]=nam["rideAnimals"]*nam["pop+"]
+                        if nam["food"]<0:
+                            nam["pop+"]=0.9
+                            nam["food"]=0
+
+                        if nam["pop+"]<=1.001:
+                            nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
+                        elif nam["pop+"]>1.001:
+                            nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
+                        if nam["pop+"]>1.3:
+                            nam["pop+"]=nam["pop+"]-0.05
+                m="time progressed!"
+                print(m)
                 m="time progressed!"
                 await msg.channel.send(m)
                 with open("countries.json", "w") as f:
@@ -1056,12 +1349,28 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
             if "!help" in msg.content:
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
-                m="\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations \n !mob - do not use, work in progress"
+                m="\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations \n !mob - mobilizes specified units for your 1 per country army and navy  \n !harvestLivestock|amount - converts specified livestock into food \n !miltech - show military technologies \n !demob - demobilizes the entire armed forces of your nation"
                 await msg.channel.send(m)
                 with open("countries.json", "w") as f:
                     json.dump(countries, f, indent=4)
                 #!help
                 #secret commands: !progressTimeNow \n "commands are: \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate"
+
+            #!harvestLivestock|amount
+            if "!harvestLivestock" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                parts=msg.content.split("|")
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["livestock"]>=int(parts[1]):
+                            nam["livestock"]=nam["livestock"]-int(parts[1])
+                            nam["food"]=nam["food"]+int(parts[1])
+                            await msg.channel.send(parts[1]+" animals slain")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
 
             if "!printMoney" in msg.content:
                 with open("countries.json", "r") as f:
@@ -1127,14 +1436,14 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                     if msg.author.display_name==nam["name"] or msg.content=="!economy all":
                         m = (
                             f'\n{nam["name"]}\n'
-                            f'treasury: {fmt(nam["money"])} + {fmt(nam["gra+"])}\n'
+                            f'treasury: {fmt(nam["money"])} + {fmt(+nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"]))-nam["mercinf"]*10-nam["merccav"]*20)}\n'
                             f'population: {fmt(nam["pop"])} * {fmt(nam["pop+"])}\n'
-                            f'food: {fmt(nam["food"])} + {fmt(nam["food+"])}\n'
+                            f'food: {fmt(nam["food"])} + {fmt(nam["food+"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"])}\n'
                             f'luxury goods: {fmt(nam["lux"])} + {fmt(nam["lux+"])}\n'
-                            f'timber: {fmt(nam["timber"])} + {fmt(nam["timber+"])}\n'
+                            f'timber: {fmt(nam["timber"])} + {fmt(nam["timber+"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"])}\n'
                             f'stone: {fmt(nam["stone"])} + {fmt(nam["stone+"])}\n'
                             f'precious metals: {fmt(nam["nobleMetals"])} + {fmt(nam["nobleMetals+"])}\n'
-                            f'strategic metals: {fmt(nam["strategicMetals"])} + {fmt(nam["strategicMetals+"])}\n'
+                            f'strategic metals: {fmt(nam["strategicMetals"])} + {fmt(nam["strategicMetals+"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"])}\n'
                             f'livestock: {fmt(nam["livestock"])} * {fmt(nam["pop+"])}\n'
                             f'ride animals: {fmt(nam["rideAnimals"])} * {fmt(nam["pop+"])}\n'
                             "--"
@@ -1142,6 +1451,34 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                             
                             
                         )
+                        '''
+                        nam["hoplites+"]
+                        nam["hoplites"]
+                        nam["warel+"]
+                        nam["warel"]
+                        nam["sling+"]
+                        nam["sling"]
+                        nam["arch+"]
+                        nam["arch"]
+                        nam["milit+"]
+                        nam["milit"]
+                        nam["harch+"]
+                        nam["harch"]
+                        nam["ligcav+"]
+                        nam["ligcav"]
+                        nam["merccav+"]
+                        nam["merccav"]
+                        nam["mercinf+"]
+                        nam["mercinf"]
+                        nam["triemes"]
+                        nam["canoes"]
+                        nam["patrol"]
+                        nam["longships"]
+                        nam["quinqueremes"]
+                        '''
+
+
+
                         """
                             f'\n{nam["name"]}\n'
                            f'treasury: {f"{nam["money"]:.3f}".rstrip("0").rstrip(".")} million + {f"{nam["gra+"]:.3f}".rstrip("0").rstrip(".")}\n'
@@ -1300,10 +1637,17 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                 "merccav": 0,
                 "mercinf+": 0,
                 "mercinf": 0,
-                "triemes":0,
-                "canoes":0,
-                "patrol":0,
-                "longships":0
+                "mercinf": 0,
+                "triemes": 0,
+                "canoes": 0,
+                "patrol": 0,
+                "longships": 0,
+                "triemes+": 0,
+                "canoes+": 0,
+                "patrol+": 0,
+                "longships+": 0,
+                "quinqueremes+": 0,
+                "quinqueremes": 0
 
                 #current format => !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|moneyconversionate|tax
 
