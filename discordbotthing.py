@@ -10,6 +10,10 @@ from datetime import datetime
 import re
 import asyncio
 from ka import keep_alive
+import traceback
+from PIL import Image, ImageDraw
+import math
+import random
 
 
 
@@ -61,61 +65,61 @@ try:
                                 nam["milit"] += nam["milit+"]
                                 nam["milit+"]=0
                         if nam["harch+"] != 0:
-                            if nam["food"] >= nam["harch+"] and nam["strategicMetals"] >= nam["harch+"]:
+                            if nam["food"] >= nam["harch+"]*2 and nam["strategicMetals"] >= nam["harch+"]:
                                 nam["food"] = nam["food"]-(nam["harch+"]*2)
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["harch+"]
                                 nam["harch"] += nam["harch+"]
                                 nam["harch+"]=0
                         if nam["ligcav+"] != 0:
-                            if nam["food"] >= nam["ligcav+"] and nam["strategicMetals"] >= nam["ligcav+"]:
+                            if nam["food"] >= nam["ligcav+"]*2 and nam["strategicMetals"] >= nam["ligcav+"]:
                                 nam["food"] = nam["food"]-(nam["ligcav+"]*2)
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["ligcav+"]
                                 nam["ligcav"] += nam["ligcav+"]
                                 nam["ligcav+"]=0
                         
                         if nam["merccav+"] != 0:
-                            if nam["food"] >= nam["merccav+"] and nam["strategicMetals"] >= nam["merccav+"]:
+                            if nam["food"] >= nam["merccav+"]*2 and nam["money"] >= nam["merccav+"]*20:
                                 nam["food"] = nam["food"]-(nam["merccav+"]*2)
-                                nam["money"] = nam["money"]-(nam["merccav+"]*100)
+                                nam["money"] = nam["money"]-(nam["merccav+"]*20)
                                 nam["merccav"] += nam["merccav+"]
                                 nam["merccav+"]=0
                         
                         if nam["mercinf+"] != 0:
-                            if nam["food"] >= nam["mercinf+"] and nam["strategicMetals"] >= nam["mercinf+"]:
+                            if nam["food"] >= nam["mercinf+"] and nam["money"] >= nam["mercinf+"]*10:
                                 nam["food"] = nam["food"]-(nam["mercinf+"])
                                 nam["money"] = nam["money"]-(nam["mercinf+"]*10)
                                 nam["mercinf"] += nam["mercinf+"]
                                 nam["mercinf+"]=0
                         
                         if nam["triemes+"] != 0:
-                            if nam["food"] >= nam["triemes+"] and nam["timber"] >= nam["triemes+"]:
+                            if nam["food"] >= nam["triemes+"]*40 and nam["timber"] >= nam["triemes+"]*50:
                                 nam["food"] = nam["food"]-(nam["triemes+"]*40)
                                 nam["timber"] = nam["timber"]-(nam["triemes+"]*50)
                                 nam["triemes"] += nam["triemes+"]
                                 nam["triemes+"]=0
                         
                         if nam["canoes+"] != 0:
-                            if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]:
+                            if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]*10:
                                 nam["food"] = nam["food"]-(nam["canoes+"])
                                 nam["timber"] = nam["timber"]-(nam["canoes+"]*10)
                                 nam["canoes"] += nam["canoes+"]
                                 nam["canoes+"]=0
                         
                         if nam["patrol+"] != 0:
-                            if nam["food"] >= nam["patrol+"] and nam["timber"] >= nam["patrol+"]:
+                            if nam["food"] >= nam["patrol+"]*50 and nam["timber"] >= nam["patrol+"]*100:
                                 nam["food"] = nam["food"]-(nam["patrol+"]*50)
                                 nam["timber"] = nam["timber"]-(nam["patrol+"]*100)
                                 nam["patrol"] += nam["patrol+"]
                                 nam["patrol+"]=0
                         
                         if nam["longships+"] != 0:
-                            if nam["food"] >= nam["longships+"] and nam["timber"] >= nam["longships+"]:
+                            if nam["food"] >= nam["longships+"]*20 and nam["timber"] >= nam["longships+"]*30:
                                 nam["food"] = nam["food"]-(nam["longships+"]*20)
                                 nam["timber"] = nam["timber"]-(nam["longships+"]*30)
                                 nam["longships"] += nam["longships+"]
                                 nam["longships+"]=0
                         if nam["quinqueremes+"] != 0:
-                            if nam["food"] >= nam["quinqueremes+"] and nam["timber"] >= nam["longships+"]:
+                            if nam["food"] >= nam["quinqueremes+"]*30 and nam["timber"] >= nam["quinqueremes+"]*40:
                                 nam["food"] = nam["food"]-(nam["quinqueremes+"]*30)
                                 nam["timber"] = nam["timber"]-(nam["quinqueremes+"]*40)
                                 nam["quinqueremes"] += nam["quinqueremes+"]
@@ -139,6 +143,55 @@ try:
                         if nam["food"]<0:
                             nam["pop+"]=0.9
                             nam["food"]=0
+                        if nam["money"]<0:
+                            nam["money"]=0
+                            nam["pop+"]=0.9
+                        if nam["lux"] < 0:
+                            nam["lux"] = 0
+                            nam["pop+"] = 0.95
+
+                        if nam["timber"] < 0:
+                            nam["timber"] = 0
+
+                        if nam["stone"] < 0:
+                            nam["stone"] = 0
+
+                        if nam["nobleMetals"] < 0:
+                            nam["nobleMetals"] = 0
+
+                        if nam["strategicMetals"] < 0:
+                            nam["strategicMetals"] = 0
+
+                        if nam["livestock"] < 0:
+                            nam["livestock"] = 0
+
+                        if nam["rideAnimals"] < 0:
+                            nam["rideAnimals"] = 0
+
+                        if nam["pop"] < 0:
+                            nam["pop"] = 0
+
+                        if nam["tax"] < 0:
+                            nam["tax"] = 0
+
+                        if nam["tax"] > 1:
+                            nam["tax"] = 1
+
+                        if nam["pop+"] < 0.1:
+                            nam["pop+"] = 0.1
+
+                        if nam["strategicMetals"] == 0:
+                            nam["hoplites"] = 0
+                            nam["warel"] = 0
+                            nam["sling"] = 0
+                            nam["arch"] = 0
+                            nam["milit"] = 0
+                            nam["harch"] = 0
+                            nam["ligcav"] = 0
+
+                        if nam["rideAnimals"] == 0:
+                            nam["ligcav"] = 0
+                            nam["merccav"] = 0
 
                         if nam["pop+"]<=1.001:
                             nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
@@ -173,6 +226,164 @@ try:
                     nam["longships"]
                     nam["quinqueremes"]
                     '''
+                    '''
+                    ARMY
+                    hoplites - 0.7m |locked by med
+                    warel - 15.0m
+                    sling - 0.4r                        
+                    arch - 0.7r
+                    milit - 0.5m
+                    harch - 0.9r |locked by tech
+                    ligcav - 1.0m
+                    merccav - 1.2m
+                    mercinf - 0.8m
+                    NAVY
+                    triemes - 1.0a - 1.0d
+                    canoes - 0.1a - 0.2d
+                    patrol - 0.1a - 0.9d
+                    longships - 2.0a - 0.5d |locked by tech and tech by med
+                    quinqueremes - 1.5a - 1.2d |locked b y tech and tech by med
+                    '''
+                    i=0
+                    while i<31:
+                        for  nam in countries:
+                            #nam["x"]->nam["x2"]
+                            #nam["y"]->nam["y2"]
+                            dist1 = math.sqrt(nam["x2"] * nam["x2"])
+                            dist2=math.sqrt(nam["y2"] * nam["y2"])
+
+                            if dist > 0:
+                                step = min(1, dist)
+
+                                nam["x"] += (nam["x2"] / dist1) * step
+                                nam["y"] += (nam["y2"] / dist2) * step
+                                nam["x2"]=nam["x2"]-(nam["x2"] / dist1) * step
+                                nam["y2"]=nam["y2"]-(nam["y2"] / dist2) * step
+                            for  n in countries:
+                                if nam["x"]>n["x"]-5 and nam["x"]<n["x"]+5 and nam["y"]>n["y"]-5 and nam["y"]<n["y"]+5:
+                                    #battle
+                                    img = Image.open("war.png").convert("RGBA")
+                                    if img.getpixel((nam["x"], nam["y"]))==(11, 10, 50):
+                                        #naval battle
+                                        s1=nam["triemes"]+nam["canoes"]*0.1+nam["patrol"]*1.2+nam["longships"]*2+nam["quinqueremes"]*1.5
+                                        s2=n["triemes"]+n["canoes"]*0.1+n["patrol"]*1.2+n["longships"]*2+n["quinqueremes"]*1.5
+                                        tactics1 = random.uniform(0.8, 1.2)
+                                        tactics2 = random.uniform(0.8, 1.2)
+
+                                        final1 = s1 * tactics1
+                                        final2 = s2 * tactics2
+
+                                        print("Side 1:", final1)
+                                        print("Side 2:", final2)
+
+                                        # Determine winner
+                                        if final1 > final2:
+                                            winner = "side1"
+                                            ratio = final1 / final2
+                                        else:
+                                            winner = "side2"
+                                            ratio = final2 / final1
+
+                                        # Casualty rates
+                                        # loser takes heavier losses
+                                        winner_loss_rate = random.uniform(0.05, 0.15)
+                                        loser_loss_rate = min(0.5, 0.15 * ratio)
+
+                                        print("Winner:", winner)
+
+                                        # Apply losses
+                                        def apply_losses(fleet, loss_rate):
+                                            if nam["triemes"]>0:
+                                                nam["triemes"]=nam["triemes"]*loss_rate
+                                            if nam["canoes"]>0:
+                                                nam["canoes"]=nam["canoes"]*loss_rate
+                                            if nam["patrol"]>0:
+                                                nam["patrol"]=nam["patrol"]*loss_rate
+                                            if nam["longships"]>0:
+                                                nam["longships"]=nam["longships"]*loss_rate
+                                            if nam["quinqueremes"]>0:
+                                                nam["quinqueremes"]=nam["quinqueremes"]*loss_rate
+
+                                        if winner == "side1":
+                                            apply_losses(nam, winner_loss_rate)
+                                            apply_losses(n, loser_loss_rate)
+                                        else:
+                                            apply_losses(n, winner_loss_rate)
+                                            apply_losses(nam, loser_loss_rate)
+
+                                        print("After battle:")
+                                        print("Side1:", nam)
+                                        print("Side2:", n)
+                                        if winner=="side1":
+                                            n["x2"]=n["x"]
+                                            n["y2"]=["y"]
+                                    else:
+                                        #land battle
+                                        s1=nam["hoplites"]*0.7+15*nam["warel"]+nam["sling"]*0.4+nam["arch"]*0.7+nam["milit"]*0.5+nam["harch"]*0.9+nam["ligcav"]+nam["merccav"]*1.2+ nam["mercinf"]*0.8
+                                        s2=n["hoplites"]*0.7+15*n["warel"]+n["sling"]*0.4+n["arch"]*0.7+n["milit"]*0.5+n["harch"]*0.9+n["ligcav"]+n["merccav"]*1.2+ n["mercinf"]*0.8
+                                        tactics1 = random.uniform(0.8, 1.2)
+                                        tactics2 = random.uniform(0.8, 1.2)
+                                        '''
+                                        hoplites - 0.7m |locked by med
+                                        warel - 15.0m
+                                        sling - 0.4r                        
+                                        arch - 0.7r
+                                        milit - 0.5m
+                                        harch - 0.9r |locked by tech
+                                        ligcav - 1.0m
+                                        merccav - 1.2m
+                                        mercinf - 0.8m
+                                        '''
+
+                                        final1 = s1 * tactics1
+                                        final2 = s2 * tactics2
+
+                                        print("Side 1:", final1)
+                                        print("Side 2:", final2)
+
+                                        # Determine winner
+                                        if final1 > final2:
+                                            winner = "side1"
+                                            ratio = final1 / final2
+                                        else:
+                                            winner = "side2"
+                                            ratio = final2 / final1
+
+                                        # Casualty rates
+                                        # loser takes heavier losses
+                                        winner_loss_rate = random.uniform(0.05, 0.15)
+                                        loser_loss_rate = min(0.5, 0.15 * ratio)
+
+                                        print("Winner:", winner)
+
+                                        # Apply losses
+                                        def apply_losses(fleet, loss_rate):
+                                            z=1#not done
+
+                                        if winner == "side1":
+                                            apply_losses(nam, winner_loss_rate)
+                                            apply_losses(n, loser_loss_rate)
+                                        else:
+                                            apply_losses(n, winner_loss_rate)
+                                            apply_losses(nam, loser_loss_rate)
+
+                                        print("After battle:")
+                                        print("Side1:", nam)
+                                        print("Side2:", n)
+                                        if winner=="side1":
+                                            n["x2"]=n["x"]
+                                            n["y2"]=["y"]
+
+
+
+                                    '''map_img = Image.open("war.png").convert("RGBA")
+                for  nam in countries:
+                    flag = Image.open(nam["png"]).convert("RGBA")
+                #flag = flag.resize((8, 8))
+                #map_img.paste(flag, (855-5, 550-5), flag)
+                    map_img.paste(flag, (nam["x"]-4, nam["y"]-4), flag)
+                map_img.save("output2.png")
+                await msg.channel.send(file=discord.File("output2.png"))'''
 
                     with open("temp.txt", "w") as f:
                         json.dump(countries, f, indent=4)
@@ -625,8 +836,150 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 await msg.channel.send("technologies that can be researched are: \n"
-                                       +"!cropRotation - costs: 10k food, earns: +500 food production\n"
+                                       +"!stirrups - researches stirrups which allows for horse archers cost: 10k money and 5k strategic metal\n"
+                                       +"!longships - researches viking longships, costs 10k money and 5k timber, you must be in scandinavia to get this\n"
+                                       +"!quinqueremes - researches quinqueremes, costs 30k money and 10k timber, you must be in the mediterranean to get this"
                                        )
+            if "!stirrups" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t13"]==0:
+                        if nam["money"]>=10000 and nam["strategicMetals"]>=5000:
+                            nam["money"]=nam["money"]-10000
+                            nam["strategicMetals"]=nam["strategicMetals"]-5000
+                            nam["t28"]=1
+                            await msg.channel.send("stirrups researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!longships" in msg.content and any(role.name == "Northern Plateau" for role in msg.author.roles):
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t13"]==0:
+                        if nam["money"]>=10000 and nam["timber"]>=5000:
+                            nam["money"]=nam["money"]-10000
+                            nam["timber"]=nam["timber"]-5000
+                            nam["t29"]=1
+                            await msg.channel.send("longships researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!longships" in msg.content and any(role.name == "Mediterranean" for role in msg.author.roles):
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t13"]==0:
+                        if nam["money"]>=30000 and nam["timber"]>=10000:
+                            nam["money"]=nam["money"]-30000
+                            nam["timber"]=nam["timber"]-10000
+                            nam["t30"]=1
+                            await msg.channel.send("quinqueremes researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            
+            
+            if "!battle" in msg.content:
+                parts=msg.content.split("|")
+            with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                    #here things
+            with open("countries.json", "r") as f:
+                    countries = json.load(f)
+            '''
+            ARMY
+            hoplites - 0.7m |locked by med
+            warel - 15.0m
+            sling - 0.4r                        
+            arch - 0.7r
+            milit - 0.5m
+            harch - 0.9r |locked by tech
+            ligcav - 1.0m
+            merccav - 1.2m
+            mercinf - 0.8m
+            NAVY
+            triemes - 1.0a - 1.0d
+            canoes - 0.1a - 0.2d
+            patrol - 0.1a - 0.9d
+            longships - 2.0a - 0.5d |locked by tech and tech by med
+            quinqueremes - 1.5a - 1.2d |locked b y tech and tech by med
+            '''
+
+            if "!map" in msg.content: #40 pixlar per tur     format !order|A/F|x|y
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                map_img = Image.open("war.png").convert("RGBA")
+                for  nam in countries:
+                    flag = Image.open(nam["png"]).convert("RGBA")
+                #flag = flag.resize((8, 8))
+                #map_img.paste(flag, (855-5, 550-5), flag)
+                    map_img.paste(flag, (nam["x"]-4, nam["y"]-4), flag)
+                map_img.save("output2.png")
+                await msg.channel.send(file=discord.File("output2.png"))
+
+
+
+
+
+
+            if "!order" in msg.content: #40 pixlar per tur     format !order|x|y
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                splits = msg.content.split("|")
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        #right character
+                        nam["x2"]=int(splits[1])
+                        nam["y2"]=int(splits[2])
+                        with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
+                        await msg.channel.send("orders recieved")
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if "!flood" in msg.content and msg.author.display_name=="God":  #!flood|country|amount
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                parts=msg.content.split("|")
+                for  nam in countries:
+                    if parts[1]==nam["name"]:
+                        nam["food+"]=nam["food+"]-int(parts[2])
+                        await msg.channel.send(f'a flood has occured destroying {parts[2]} crops')
+                        with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
+            if "!volcano" in msg.content and msg.author.display_name=="God":  #!flood|country|amount
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                parts=msg.content.split("|")
+                for  nam in countries:
+                    if parts[1]==nam["name"]:
+                        nam["pop"]=nam["pop"]-int(parts[2])
+                        await msg.channel.send(f'a volcano has erupted killing {parts[2]} citizens')
+                        with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
+
+
 
 
 
@@ -659,20 +1012,21 @@ async def on_message(msg):
 
                         await msg.channel.send(
                             "mobilization menu:\n"
-                            "write !1 to: mobilize hoplites\n"
-                            "write !2 to: mobilize war elephants\n"
-                            "write !3 to: mobilize slingers\n"
-                            "write !4 to: mobilize archers\n"
-                            "write !5 to: mobilize militia\n"
-                            "write !6 to: mobilize horse archers\n"
-                            "write !7 to: mobilize light cavalry\n"
-                            "write !8 to: mobilize mercenary cavalry\n"
-                            "write !9 to: mobilize mercenary infantery\n"
-                            "write !10 to: build triremes\n"
-                            "write !11 to: build war canoes \n"
-                            "write !12 to: build patrol boats \n"
-                            "write !13 to: build longships \n"
-                            "write !14 to: build quinqueremes\n"
+                            "be aware units charge double upon mobilization\n"
+                            "write !1 to: mobilize hoplites - upkeep costs: 1 steel and 1 food per hoplite\n"
+                            "write !2 to: mobilize war elephants - costs: 1 steel and 20 food per war elephant\n"
+                            "write !3 to: mobilize slingers - costs: 1 steel and 1 food per slinger\n"
+                            "write !4 to: mobilize archers - costs: 1 steel and 1 food per per archer\n"
+                            "write !5 to: mobilize militia - costs: 1 steel and 1 food per militia\n"
+                            "write !6 to: mobilize horse archers - costs: 1 steel and 2 food per horse archer\n"
+                            "write !7 to: mobilize light cavalry - costs: 1 steel and 2 food per light cavalry\n"
+                            "write !8 to: mobilize mercenary cavalry - costs: 20 money and 2 food per mercenary cavalry\n"
+                            "write !9 to: mobilize mercenary infantery - costs: 10 money and 2 food per mercenary infantery\n"
+                            "write !10 to: build triremes - costs: 50 timber and 40 food per ship on creation then upkeep of 1 timber and 1 food\n"
+                            "write !11 to: build war canoes - costs: 10 timber and 1 food per ship on creation then upkeep of 1 timber and 1 food \n"
+                            "write !12 to: build patrol boats - costs: 100 timber and 50 food per ship on creation then upkeep of 1 timber and 1 food \n"
+                            "write !13 to: build longships - costs: 30 timber and 20 food per ship on creation then upkeep of 1 timber and 1 food \n"
+                            "write !14 to: build quinqueremes - costs: 40 timber and 30 food per ship on creation then upkeep of 1 timber and 1 food \n"
                         )
                         '''
                         ARMY
@@ -692,7 +1046,28 @@ async def on_message(msg):
                         longships - 2.0a - 0.5d |locked by tech and tech by med
                         quinqueremes - 1.5a - 1.2d |locked b y tech and tech by med
                         '''
-            if "!1" in msg.content:
+            if msg.content.replace("!", "").isdigit():
+                with open("countries.json", "r") as f:
+                        countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["us"] == "hoplitemob" and any(role.name == "Mediterranean" for role in msg.author.roles):
+
+                        try:
+                            amount = int(msg.content.replace("!", ""))
+                        except:
+                            await msg.channel.send("Write !number")
+                            return
+                        
+                            if msg.author.display_name==nam["name"]:
+                                nam["hoplites+"]+=amount
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} hoplites')
+                        with open("countries.json", "w") as f:
+                                    json.dump(countries, f, indent=4)
+                    elif nam["us"] == "hoplitemob" and all(role.name != "Mediterranean" for role in msg.author.roles):
+                        nam["us"] =""
+                        await msg.channel.send("only med countries can have hoplites!")
+            if msg.content == "!1":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
@@ -702,43 +1077,13 @@ async def on_message(msg):
                             nam["us"]="hoplitemob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
-            if msg.content.replace("!", "").isdigit():
-                with open("countries.json", "r") as f:
-                        countries = json.load(f)
-                for  nam in countries:
-                    if nam["us"] == "hoplitemob" and any(role.name == "Mediterranean" for role in msg.author.roles):
+            
 
-                        try:
-                            amount = int(msg.content.replace("!", ""))
-                        except:
-                            await msg.channel.send("Write !number")
-                            return
-                        with open("countries.json", "r") as f:
-                            countries = json.load(f)
-                        for  nam in countries:
-                            if msg.author.display_name==nam["name"]:
-                                nam["hoplites+"]+=amount
-                        nam["us"] = ""
-                        with open("countries.json", "w") as f:
-                                    json.dump(countries, f, indent=4)
-                    if nam["us"] == "hoplitemob" and not(any(role.name == "Mediterranean" for role in msg.author.roles)):
-                        await msg.channel.send("only med countries can have hoplites!")
-                        nam["us"] =""
-            if "!2" in msg.content:
-                with open("countries.json", "r") as f:
-                    countries = json.load(f)
-                for  nam in countries:
-                    if msg.author.display_name==nam["name"]:
-                        if nam["us"]=="mobMenu":
-                            await msg.channel.send("how many?")
-                            nam["us"]="warelmob"
-                            with open("countries.json", "w") as f:
-                                json.dump(countries, f, indent=4)
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "warelmob":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "warelmob" and any(role.name == "elephant" for role in msg.author.roles):
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -750,24 +1095,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["warel+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} war elephants')
                         with open("countries.json", "w") as f:
-                                    json.dump(countries, f, indent=4)
-            if "!3" in msg.content:
+                                    json.dump(countries, f, indent=4)         
+            if msg.content == "!2":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="slingmob"
+                            nam["us"]="warelmob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "slingmob":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "slingmob":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -779,24 +1126,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["sling+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} slingers')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!4" in msg.content:
+            if msg.content == "!3":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="archmob"
+                            nam["us"]="slingmob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "archmob":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "archmob":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -808,24 +1157,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["arch+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} archers')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!5" in msg.content:
+            if msg.content == "!4":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="milmob"
+                            nam["us"]="archmob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "milmob":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "milmob":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -837,24 +1188,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["milit+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} militia')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!6" in msg.content:
+            if msg.content == "!5":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="harchmob"
+                            nam["us"]="milmob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "harchmob" and nam["t28"]==1:
+                    if msg.author.display_name==nam["name"] and nam["us"] == "harchmob" and nam["t28"]==1:
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -866,27 +1219,29 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["harch+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} horse archers')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-                    elif nam["us"] == "harchmob" and nam["t28"]==0:
-                        msg.channel.send("you need the horse archer research to build these")
+                    if msg.author.display_name==nam["name"] and nam["us"] == "harchmob" and nam["t28"]==0:
+                        await msg.channel.send("you need the !stirrups research to build these")
                         nam["us"] =""
-            if "!7" in msg.content:
+            if msg.content == "!6":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="ligcavmob"
+                            nam["us"]="harchmob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "ligcavmob":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "ligcavmob":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -898,24 +1253,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["ligcav+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} light cavalry')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!8" in msg.content:
+            if msg.content == "!7":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="merccavmob"
+                            nam["us"]="ligcavmob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "merccavmob":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "merccavmob":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -927,24 +1284,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["merccav+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} mercenary cavalry')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!9" in msg.content:
+            if msg.content == "!8":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="mercinfmob"
+                            nam["us"]="merccavmob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "mercinfmob":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "mercinfmob":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -956,24 +1315,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["mercinf+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'mobilizing {amount} mercenary infantery')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!10" in msg.content:
+            if msg.content == "!9":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="btriemes"
+                            nam["us"]="mercinfmob"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "btriemes":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "btriemes":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -985,24 +1346,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["triemes+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'constructing {amount} triremes')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!11" in msg.content:
+            if msg.content == "!10":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="bcanoes"
+                            nam["us"]="btriemes"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "bcanoes":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "bcanoes":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -1014,24 +1377,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["canoes+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'constructing {amount} war canoes')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!12" in msg.content:
+            if msg.content == "!11":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="bpatrol"
+                            nam["us"]="bcanoes"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "bpatrol":
+                    if msg.author.display_name==nam["name"] and nam["us"] == "bpatrol":
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -1043,24 +1408,26 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["patrol+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'constructing {amount} patrol ships')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-            if "!13" in msg.content:
+            if msg.content == "!12":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="blongships"
+                            nam["us"]="bpatrol"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "blongships" and nam["t29"]==1:
+                    if msg.author.display_name==nam["name"] and nam["us"] == "blongships" and nam["t29"]==1:
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -1072,27 +1439,29 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["longships+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'constructing {amount} longships')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-                    if nam["us"] == "blongships" and nam["t29"]==0:
-                        msg.channel.send("you need the longship research to build these")
+                    if msg.author.display_name==nam["name"] and nam["us"] == "blongships" and nam["t29"]==0:
+                        await msg.channel.send("you need the longship research to build these")
                         nam["us"] =""
-            if "!14" in msg.content:
+            if msg.content == "!13":
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         if nam["us"]=="mobMenu":
                             await msg.channel.send("how many?")
-                            nam["us"]="bquinqueremes"
+                            nam["us"]="blongships"
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
+            
             if msg.content.replace("!", "").isdigit():
                 with open("countries.json", "r") as f:
                         countries = json.load(f)
                 for  nam in countries:
-                    if nam["us"] == "bquinqueremes" and nam["t30"]==1:
+                    if msg.author.display_name==nam["name"] and nam["us"] == "bquinqueremes" and nam["t30"]==1:
 
                         try:
                             amount = int(msg.content.replace("!", ""))
@@ -1104,12 +1473,24 @@ async def on_message(msg):
                         for  nam in countries:
                             if msg.author.display_name==nam["name"]:
                                 nam["quinqueremes+"]+=amount
-                        nam["us"] = ""
+                                nam["us"] = ""
+                                await msg.channel.send(f'constructing {amount} quinqueremes')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
-                    elif nam["us"] == "bquinqueremes" and  nam["t30"]==0:
-                        msg.channel.send("you need the quinquereme research to build these")
+                    if msg.author.display_name==nam["name"] and nam["us"] == "bquinqueremes" and  nam["t30"]==0:
+                        await msg.channel.send("you need the quinquereme research to build these")
                         nam["us"] =""
+            if msg.content == "!14":
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["us"]=="mobMenu":
+                            await msg.channel.send("how many?")
+                            nam["us"]="bquinqueremes"
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+            
             '''
                         NAVY
                         triemes - 1.0a - 1.0d
@@ -1123,36 +1504,86 @@ async def on_message(msg):
                     countries = json.load(f)
                 
                 for  nam in countries:
-                    nam["hoplites+"] = 0
-                    nam["hoplites"] = 0
-                    nam["warel+"] = 0
-                    nam["sling+"] = 0
-                    nam["sling"] = 0
-                    nam["arch+"] = 0
-                    nam["arch"] = 0
-                    nam["milit+"] = 0
-                    nam["milit"] = 0
-                    nam["harch+"] = 0
-                    nam["harch"] = 0
-                    nam["ligcav+"] = 0
-                    nam["ligcav"] = 0
-                    nam["merccav+"] = 0
-                    nam["merccav"] = 0
-                    nam["mercinf+"] = 0
-                    nam["mercinf"] = 0
-                m="army demobilized"
+                    if msg.author.display_name==nam["name"]:
+                        nam["hoplites+"] = -nam["hoplites+"]
+
+                        nam["warel+"] = -nam["warel+"]
+
+                        nam["sling+"] = -nam["sling+"]
+
+                        nam["arch+"] = -nam["arch+"]
+
+                        nam["milit+"] = -nam["milit+"]
+
+                        nam["harch+"] = -nam["harch+"]
+
+                        nam["ligcav+"] = -nam["ligcav+"]
+
+                        nam["merccav+"] = -nam["merccav+"]
+
+                        nam["mercinf+"] = -nam["mercinf+"]
+                m="army demobilized at next timeskip"
                 await msg.channel.send(m)
                 
 
 
-                
+            if "!troops" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                print(msg.author.display_name+" wants to know their economy")
+                m="you are not on the list"
+                def fmt(num):
+                    num = float(num)
+
+                    abs_num = abs(num)
+
+                    if abs_num >= 1_000_000_000:
+                        return f"{num/1_000_000_000:.3f}".rstrip("0").rstrip(".") + "B"
+                    elif abs_num >= 1_000_000:
+                        return f"{num/1_000_000:.3f}".rstrip("0").rstrip(".") + "M"
+                    elif abs_num >= 1_000:
+                        return f"{num/1_000:.3f}".rstrip("0").rstrip(".") + "K"
+                    else:
+                        return f"{num:.3f}".rstrip("0").rstrip(".")
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] or msg.content=="!troops all":
+                        m = (
+                            f'\n{nam["name"]} ARMY:\n'
+                            f'hoplites: {fmt(nam["hoplites"])}+{fmt(nam["hoplites+"])}\n'
+                            f'war elephants: {fmt(nam["warel"])}+{fmt(nam["warel+"])}\n'
+                            f'slingers: {fmt(nam["sling"])}+{fmt(nam["sling+"])}\n'
+                            f'archers: {fmt(nam["arch"])}+{fmt(nam["arch+"])}\n'
+                            f'militia: {fmt(nam["milit"])}+{fmt(nam["milit+"])}\n'
+                            f'horse archers: {fmt(nam["harch"])}+{fmt(nam["harch+"])}\n'
+                            f'light cavalry: {fmt(nam["ligcav"])}+{fmt(nam["ligcav+"])}\n'
+                            f'mercenary cavalry: {fmt(nam["merccav"])}+{fmt(nam["merccav+"])}\n'
+                            f'mercenary infantery: {fmt(nam["mercinf"])}+{fmt(nam["mercinf+"])}\n'
+                            f'x: {nam["x"]}, y: {nam["y"]}\n'
+                            f'\n{nam["name"]} NAVY:\n'
+                            f'triremes: {fmt(nam["triemes"])}+{fmt(nam["triemes+"])}\n'
+                            f'war canoes: {fmt(nam["canoes"])}+{fmt(nam["canoes+"])}\n'
+                            f'patrol ships: {fmt(nam["patrol"])}+{fmt(nam["patrol+"])}\n'
+                            f'viking longships: {fmt(nam["longships"])}+{fmt(nam["longships+"])}\n'
+                            f'quinqueremes: {fmt(nam["quinqueremes"])}+{fmt(nam["quinqueremes+"])}\n'
+                            f'---\n'
+                        )
+                        await msg.channel.send(m)
+                        '''
+                        NAVY
+                        triemes - 1.0a - 1.0d - cap 200
+                        canoes - 0.1a - 0.5d - cap 1
+                        patrol - 0.9a - 1.2d - cap 300
+                        longships - 2.0a - 0.5d - cap 50
+                        quinqueremes - 1.5a - 1.2d - cap 400
+                        '''
 
 
 
             if "!progressTimeNow" in msg.content and any(role.name == "Collaborators" for role in msg.author.roles):
                 with open("countries.json", "r") as f:
-                    countries = json.load(f)
-                
+                        countries = json.load(f)
                 for  nam in countries:
                         if nam["hoplites+"] != 0:
                             if nam["food"] >= nam["hoplites+"] and nam["strategicMetals"] >= nam["hoplites+"]:
@@ -1185,61 +1616,61 @@ async def on_message(msg):
                                 nam["milit"] += nam["milit+"]
                                 nam["milit+"]=0
                         if nam["harch+"] != 0:
-                            if nam["food"] >= nam["harch+"] and nam["strategicMetals"] >= nam["harch+"]:
+                            if nam["food"] >= nam["harch+"]*2 and nam["strategicMetals"] >= nam["harch+"]:
                                 nam["food"] = nam["food"]-(nam["harch+"]*2)
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["harch+"]
                                 nam["harch"] += nam["harch+"]
                                 nam["harch+"]=0
                         if nam["ligcav+"] != 0:
-                            if nam["food"] >= nam["ligcav+"] and nam["strategicMetals"] >= nam["ligcav+"]:
+                            if nam["food"] >= nam["ligcav+"]*2 and nam["strategicMetals"] >= nam["ligcav+"]:
                                 nam["food"] = nam["food"]-(nam["ligcav+"]*2)
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["ligcav+"]
                                 nam["ligcav"] += nam["ligcav+"]
                                 nam["ligcav+"]=0
                         
                         if nam["merccav+"] != 0:
-                            if nam["food"] >= nam["merccav+"] and nam["strategicMetals"] >= nam["merccav+"]:
+                            if nam["food"] >= nam["merccav+"]*2 and nam["money"] >= nam["merccav+"]*20:
                                 nam["food"] = nam["food"]-(nam["merccav+"]*2)
-                                nam["money"] = nam["money"]-(nam["merccav+"]*100)
+                                nam["money"] = nam["money"]-(nam["merccav+"]*20)
                                 nam["merccav"] += nam["merccav+"]
                                 nam["merccav+"]=0
                         
                         if nam["mercinf+"] != 0:
-                            if nam["food"] >= nam["mercinf+"] and nam["strategicMetals"] >= nam["mercinf+"]:
+                            if nam["food"] >= nam["mercinf+"] and nam["money"] >= nam["mercinf+"]*10:
                                 nam["food"] = nam["food"]-(nam["mercinf+"])
                                 nam["money"] = nam["money"]-(nam["mercinf+"]*10)
                                 nam["mercinf"] += nam["mercinf+"]
                                 nam["mercinf+"]=0
                         
                         if nam["triemes+"] != 0:
-                            if nam["food"] >= nam["triemes+"] and nam["timber"] >= nam["triemes+"]:
+                            if nam["food"] >= nam["triemes+"]*40 and nam["timber"] >= nam["triemes+"]*50:
                                 nam["food"] = nam["food"]-(nam["triemes+"]*40)
                                 nam["timber"] = nam["timber"]-(nam["triemes+"]*50)
                                 nam["triemes"] += nam["triemes+"]
                                 nam["triemes+"]=0
                         
                         if nam["canoes+"] != 0:
-                            if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]:
+                            if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]*10:
                                 nam["food"] = nam["food"]-(nam["canoes+"])
                                 nam["timber"] = nam["timber"]-(nam["canoes+"]*10)
                                 nam["canoes"] += nam["canoes+"]
                                 nam["canoes+"]=0
                         
                         if nam["patrol+"] != 0:
-                            if nam["food"] >= nam["patrol+"] and nam["timber"] >= nam["patrol+"]:
+                            if nam["food"] >= nam["patrol+"]*50 and nam["timber"] >= nam["patrol+"]*100:
                                 nam["food"] = nam["food"]-(nam["patrol+"]*50)
                                 nam["timber"] = nam["timber"]-(nam["patrol+"]*100)
                                 nam["patrol"] += nam["patrol+"]
                                 nam["patrol+"]=0
                         
                         if nam["longships+"] != 0:
-                            if nam["food"] >= nam["longships+"] and nam["timber"] >= nam["longships+"]:
+                            if nam["food"] >= nam["longships+"]*20 and nam["timber"] >= nam["longships+"]*30:
                                 nam["food"] = nam["food"]-(nam["longships+"]*20)
                                 nam["timber"] = nam["timber"]-(nam["longships+"]*30)
                                 nam["longships"] += nam["longships+"]
                                 nam["longships+"]=0
                         if nam["quinqueremes+"] != 0:
-                            if nam["food"] >= nam["quinqueremes+"] and nam["timber"] >= nam["longships+"]:
+                            if nam["food"] >= nam["quinqueremes+"]*30 and nam["timber"] >= nam["quinqueremes+"]*40:
                                 nam["food"] = nam["food"]-(nam["quinqueremes+"]*30)
                                 nam["timber"] = nam["timber"]-(nam["quinqueremes+"]*40)
                                 nam["quinqueremes"] += nam["quinqueremes+"]
@@ -1349,8 +1780,12 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
             if "!help" in msg.content:
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
-                m="\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations \n !mob - mobilizes specified units for your 1 per country army and navy  \n !harvestLivestock|amount - converts specified livestock into food \n !miltech - show military technologies \n !demob - demobilizes the entire armed forces of your nation"
-                await msg.channel.send(m)
+                
+                await msg.channel.send(
+                    f'\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations '
+                    
+                )
+                await msg.channel.send(f'\n !mob - mobilizes specified units for your 1 per country army and navy  \n !harvestLivestock|amount - converts specified livestock into food \n !miltech - show military technologies \n !demob - demobilizes the entire armed forces of your nation \n !troops - shows your total army and navy\n !troops all - shows all total armies and navies\n !flood|country to flood|amount - removes food production from country, only for Gods use\n!volcano|country to flood|amount - kills people, only for gods use\n!order|east|south - orders movement to your army, to go west and north just input negative numbers into your south/east, if you enter the ocean the army is automatically convoyed by your navy. Any armies that touch each other will automatically attack each other no matter alliances. 2 armies can attack a 3rd together by surrounding the 3rd army and touching it without touching each other\n !map - shows the current location of all armies')
                 with open("countries.json", "w") as f:
                     json.dump(countries, f, indent=4)
                 #!help
@@ -1647,7 +2082,11 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                 "patrol+": 0,
                 "longships+": 0,
                 "quinqueremes+": 0,
-                "quinqueremes": 0
+                "quinqueremes": 0,
+                "x": 0,
+                "y": 0,
+                "x2": 0,
+                "y2": 0
 
                 #current format => !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|moneyconversionate|tax
 
@@ -1666,6 +2105,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
         except Exception as e:
             m="ERROR something went wrong"
             print("🔥 CRASH:", repr(e))
+            print(traceback.format_exc())
             await msg.channel.send(m)
             
 
