@@ -201,196 +201,188 @@ try:
                             nam["pop+"]=nam["pop+"]-0.05
                     m="time progressed!"
                     print(m)
-                    '''
-                    nam["hoplites+"]
-                    nam["hoplites"]
-                    nam["warel+"]
-                    nam["warel"]
-                    nam["sling+"]
-                    nam["sling"]
-                    nam["arch+"]
-                    nam["arch"]
-                    nam["milit+"]
-                    nam["milit"]
-                    nam["harch+"]
-                    nam["harch"]
-                    nam["ligcav+"]
-                    nam["ligcav"]
-                    nam["merccav+"]
-                    nam["merccav"]
-                    nam["mercinf+"]
-                    nam["mercinf"]
-                    nam["triemes"]
-                    nam["canoes"]
-                    nam["patrol"]
-                    nam["longships"]
-                    nam["quinqueremes"]
-                    '''
-                    '''
-                    ARMY
-                    hoplites - 0.7m |locked by med
-                    warel - 15.0m
-                    sling - 0.4r                        
-                    arch - 0.7r
-                    milit - 0.5m
-                    harch - 0.9r |locked by tech
-                    ligcav - 1.0m
-                    merccav - 1.2m
-                    mercinf - 0.8m
-                    NAVY
-                    triemes - 1.0a - 1.0d
-                    canoes - 0.1a - 0.2d
-                    patrol - 0.1a - 0.9d
-                    longships - 2.0a - 0.5d |locked by tech and tech by med
-                    quinqueremes - 1.5a - 1.2d |locked b y tech and tech by med
-                    '''
                     i=0
                     while i<31:
                         for  nam in countries:
                             #nam["x"]->nam["x2"]
                             #nam["y"]->nam["y2"]
-                            dist1 = math.sqrt(nam["x2"] * nam["x2"])
-                            dist2=math.sqrt(nam["y2"] * nam["y2"])
-
-                            if dist > 0:
-                                step = min(1, dist)
-
-                                nam["x"] += (nam["x2"] / dist1) * step
-                                nam["y"] += (nam["y2"] / dist2) * step
-                                nam["x2"]=nam["x2"]-(nam["x2"] / dist1) * step
-                                nam["y2"]=nam["y2"]-(nam["y2"] / dist2) * step
+                            
+                            if nam["x2"]>0:
+                                nam["x"]=nam["x"]+1
+                                nam["x2"]=nam["x2"]-1
+                            if nam["x2"]<0:
+                                nam["x"]=nam["x"]-1
+                                nam["x2"]=nam["x2"]+1
+                            if nam["y2"]>0:
+                                nam["y"]=nam["y"]+1
+                                nam["y2"]=nam["y2"]-1
+                            if nam["y2"]<0:
+                                nam["y"]=nam["y"]-1
+                                nam["y2"]=nam["y2"]+1
                             for  n in countries:
-                                if nam["x"]>n["x"]-5 and nam["x"]<n["x"]+5 and nam["y"]>n["y"]-5 and nam["y"]<n["y"]+5:
-                                    #battle
-                                    img = Image.open("war.png").convert("RGBA")
-                                    if img.getpixel((nam["x"], nam["y"]))==(11, 10, 50):
-                                        #naval battle
-                                        s1=nam["triemes"]+nam["canoes"]*0.1+nam["patrol"]*1.2+nam["longships"]*2+nam["quinqueremes"]*1.5
-                                        s2=n["triemes"]+n["canoes"]*0.1+n["patrol"]*1.2+n["longships"]*2+n["quinqueremes"]*1.5
-                                        tactics1 = random.uniform(0.8, 1.2)
-                                        tactics2 = random.uniform(0.8, 1.2)
+                                if nam["name"]!=n["name"]:
+                                    if nam["x"]>n["x"]-5 and nam["x"]<n["x"]+5 and nam["y"]>n["y"]-5 and nam["y"]<n["y"]+5:
+                                        #battle
+                                        lost=0
+                                        losth=0
+                                        img = Image.open("war.png").convert("RGBA")
+                                        img = Image.open("war.png").convert("RGBA")
 
-                                        final1 = s1 * tactics1
-                                        final2 = s2 * tactics2
+                                        x = int(nam["x"])
+                                        y = int(nam["y"])
 
-                                        print("Side 1:", final1)
-                                        print("Side 2:", final2)
+                                        w, h = img.size
+                                        
+                                        if 0 <= x < w and 0 <= y < h:
+                                            if img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255):
+                                                #naval battle
+                                                s1=nam["triemes"]+nam["canoes"]*0.1+nam["patrol"]*1.2+nam["longships"]*2+nam["quinqueremes"]*1.5
+                                                s2=n["triemes"]+n["canoes"]*0.1+n["patrol"]*1.2+n["longships"]*2+n["quinqueremes"]*1.5
+                                                tactics1 = random.uniform(0.8, 1.2)
+                                                tactics2 = random.uniform(0.8, 1.2)
 
-                                        # Determine winner
-                                        if final1 > final2:
-                                            winner = "side1"
-                                            ratio = final1 / final2
-                                        else:
-                                            winner = "side2"
-                                            ratio = final2 / final1
+                                                final1 = s1 * tactics1
+                                                final2 = s2 * tactics2
 
-                                        # Casualty rates
-                                        # loser takes heavier losses
-                                        winner_loss_rate = random.uniform(0.05, 0.15)
-                                        loser_loss_rate = min(0.5, 0.15 * ratio)
+                                                print("Side 1:", final1)
+                                                print("Side 2:", final2)
 
-                                        print("Winner:", winner)
+                                                # Determine winner
+                                                if final1 > final2:
+                                                    winner = "side1"
+                                                else:
+                                                    winner = "side2"
 
-                                        # Apply losses
-                                        def apply_losses(fleet, loss_rate):
-                                            if nam["triemes"]>0:
-                                                nam["triemes"]=nam["triemes"]*loss_rate
-                                            if nam["canoes"]>0:
-                                                nam["canoes"]=nam["canoes"]*loss_rate
-                                            if nam["patrol"]>0:
-                                                nam["patrol"]=nam["patrol"]*loss_rate
-                                            if nam["longships"]>0:
-                                                nam["longships"]=nam["longships"]*loss_rate
-                                            if nam["quinqueremes"]>0:
-                                                nam["quinqueremes"]=nam["quinqueremes"]*loss_rate
+                                                # Casualty rates
+                                                # loser takes heavier losses
+                                                winner_loss_rate = random.uniform(0.5, 1.0)
+                                                loser_loss_rate = random.uniform(0.15, 0.5)
 
-                                        if winner == "side1":
-                                            apply_losses(nam, winner_loss_rate)
-                                            apply_losses(n, loser_loss_rate)
-                                        else:
-                                            apply_losses(n, winner_loss_rate)
-                                            apply_losses(nam, loser_loss_rate)
+                                                print("Winner:", winner)
 
-                                        print("After battle:")
-                                        print("Side1:", nam)
-                                        print("Side2:", n)
-                                        if winner=="side1":
-                                            n["x2"]=n["x"]
-                                            n["y2"]=["y"]
-                                    else:
-                                        #land battle
-                                        s1=nam["hoplites"]*0.7+15*nam["warel"]+nam["sling"]*0.4+nam["arch"]*0.7+nam["milit"]*0.5+nam["harch"]*0.9+nam["ligcav"]+nam["merccav"]*1.2+ nam["mercinf"]*0.8
-                                        s2=n["hoplites"]*0.7+15*n["warel"]+n["sling"]*0.4+n["arch"]*0.7+n["milit"]*0.5+n["harch"]*0.9+n["ligcav"]+n["merccav"]*1.2+ n["mercinf"]*0.8
-                                        tactics1 = random.uniform(0.8, 1.2)
-                                        tactics2 = random.uniform(0.8, 1.2)
-                                        '''
-                                        hoplites - 0.7m |locked by med
-                                        warel - 15.0m
-                                        sling - 0.4r                        
-                                        arch - 0.7r
-                                        milit - 0.5m
-                                        harch - 0.9r |locked by tech
-                                        ligcav - 1.0m
-                                        merccav - 1.2m
-                                        mercinf - 0.8m
-                                        '''
+                                                # Apply losses
+                                                def apply_losses(f,loss_rate):
+                                                    if f["triemes"]>0:
+                                                        f["triemes"]=f["triemes"]*loss_rate
+                                                        lost = f["triemes"] * (1-loss_rate*40)
+                                                    if f["canoes"]>0:
+                                                        f["canoes"]=f["canoes"]*loss_rate
+                                                        lost = f["canoes"] * (1-loss_rate)
+                                                    if f["patrol"]>0:
+                                                        f["patrol"]=f["patrol"]*loss_rate
+                                                        lost = f["patrol"] * (1-loss_rate*50)
+                                                    if f["longships"]>0:
+                                                        f["longships"]=f["longships"]*loss_rate
+                                                        lost = f["longships"] * (1-loss_rate*20)
+                                                    if f["quinqueremes"]>0:
+                                                        f["quinqueremes"]=f["quinqueremes"]*loss_rate
+                                                        lost = f["quinqueremes"] * (1-loss_rate*30)
 
-                                        final1 = s1 * tactics1
-                                        final2 = s2 * tactics2
+                                                if winner == "side1":
+                                                    apply_losses(nam, winner_loss_rate)
+                                                    apply_losses(n, loser_loss_rate)
+                                                else:
+                                                    apply_losses(n, winner_loss_rate)
+                                                    apply_losses(nam, loser_loss_rate)
 
-                                        print("Side 1:", final1)
-                                        print("Side 2:", final2)
+                                                print("After battle:")
+                                                print("Side1:", nam)
+                                                print("Side2:", n)
+                                                if winner=="side1":
+                                                    n["x2"]=n["x"]
+                                                    n["y2"]=["y"]
+                                            else:
+                                                #land battle
+                                                s1=nam["hoplites"]*0.7+15*nam["warel"]+nam["sling"]*0.4+nam["arch"]*0.7+nam["milit"]*0.5+nam["harch"]*0.9+nam["ligcav"]+nam["merccav"]*1.2+ nam["mercinf"]*0.8
+                                                s2=n["hoplites"]*0.7+15*n["warel"]+n["sling"]*0.4+n["arch"]*0.7+n["milit"]*0.5+n["harch"]*0.9+n["ligcav"]+n["merccav"]*1.2+ n["mercinf"]*0.8
+                                                tactics1 = random.uniform(0.8, 1.2)
+                                                tactics2 = random.uniform(0.8, 1.2)
+                                                '''
+                                                hoplites - 0.7m |locked by med
+                                                warel - 15.0m
+                                                sling - 0.4r                        
+                                                arch - 0.7r
+                                                milit - 0.5m
+                                                harch - 0.9r |locked by tech
+                                                ligcav - 1.0m
+                                                merccav - 1.2m
+                                                mercinf - 0.8m
+                                                '''
+                                                def apply_losses2(f, loss_rate):
+                                                    if f["hoplites"]>0:
+                                                        f["hoplites"]=f["hoplites"]*loss_rate
+                                                        lost = f["hoplites"] * (1-loss_rate)
+                                                    if f["warel"]>0:
+                                                        f["warel"]=f["warel"]*loss_rate
+                                                        lost = f["warel"] * (1-loss_rate)
+                                                        losth = f["warel"] * (1-loss_rate)
+                                                    if f["sling"]>0:
+                                                        f["sling"]=f["sling"]*(loss_rate*1.1)
+                                                        lost = f["sling"] * (1-loss_rate)
+                                                    if f["arch"]>0:
+                                                        f["arch"]=f["arch"]*(loss_rate*1.1)
+                                                        lost = f["sling"] * (1-loss_rate*1.1)
+                                                    if f["milit"]>0:
+                                                        f["milit"]=f["milit"]*loss_rate
+                                                        lost = f["milit"] * (1-loss_rate)
+                                                    if f["harch"]>0:
+                                                        f["harch"]=f["harch"]*(loss_rate*1.1)
+                                                        lost = f["harch"] * (1-loss_rate*1.1)
+                                                        losth = f["harch"] * (1-loss_rate)
+                                                    if f["ligcav"]>0:
+                                                        f["ligcav"]=f["ligcav"]*loss_rate
+                                                        lost = f["ligcav"] * (1-loss_rate*1.1)
+                                                        losth = f["ligcav"] * (1-loss_rate)
+                                                    if f["merccav"]>0:
+                                                        f["merccav"]=f["merccav"]*loss_rate
+                                                    if f["mercinf"]>0:
+                                                        f["mercinf"]=f["mercinf"]*loss_rate
 
-                                        # Determine winner
-                                        if final1 > final2:
-                                            winner = "side1"
-                                            ratio = final1 / final2
-                                        else:
-                                            winner = "side2"
-                                            ratio = final2 / final1
+                                                final1 = s1 * tactics1
+                                                final2 = s2 * tactics2
 
-                                        # Casualty rates
-                                        # loser takes heavier losses
-                                        winner_loss_rate = random.uniform(0.05, 0.15)
-                                        loser_loss_rate = min(0.5, 0.15 * ratio)
+                                                print("Side 1:", final1)
+                                                print("Side 2:", final2)
 
-                                        print("Winner:", winner)
+                                                # Determine winner
+                                                if final1 > final2:
+                                                    winner = "side1"
+                                                else:
+                                                    winner = "side2"
 
-                                        # Apply losses
-                                        def apply_losses(fleet, loss_rate):
-                                            z=1#not done
+                                                # Casualty rates
+                                                # loser takes heavier losses
+                                                winner_loss_rate = random.uniform(0.5, 1.0)
+                                                loser_loss_rate = min(0.05, 0.5)
 
-                                        if winner == "side1":
-                                            apply_losses(nam, winner_loss_rate)
-                                            apply_losses(n, loser_loss_rate)
-                                        else:
-                                            apply_losses(n, winner_loss_rate)
-                                            apply_losses(nam, loser_loss_rate)
+                                                print("Winner:", winner)
 
-                                        print("After battle:")
-                                        print("Side1:", nam)
-                                        print("Side2:", n)
-                                        if winner=="side1":
-                                            n["x2"]=n["x"]
-                                            n["y2"]=["y"]
+                                                if winner == "side1":
+                                                    apply_losses2(nam, winner_loss_rate)
+                                                    apply_losses2(n, loser_loss_rate)
+                                                else:
+                                                    apply_losses2(n, winner_loss_rate)
+                                                    apply_losses2(nam, loser_loss_rate)
 
+                                                print("After battle:")
+                                                print("Side1:", nam)
+                                                print("Side2:", n)
+                                                if winner=="side1":
+                                                    n["x2"]=n["x"]
+                                                    n["y2"]=["y"]
 
+                                        nam["pop"]=nam["pop"]-lost
+                                        nam["rideAnimals"]=nam["rideAnimals"]-losth
 
-                                    '''map_img = Image.open("war.png").convert("RGBA")
-                for  nam in countries:
-                    flag = Image.open(nam["png"]).convert("RGBA")
-                #flag = flag.resize((8, 8))
-                #map_img.paste(flag, (855-5, 550-5), flag)
-                    map_img.paste(flag, (nam["x"]-4, nam["y"]-4), flag)
-                map_img.save("output2.png")
-                await msg.channel.send(file=discord.File("output2.png"))'''
+                                    
 
-                    with open("temp.txt", "w") as f:
-                        json.dump(countries, f, indent=4)
+                        with open("temp.json", "w") as f:
+                            json.dump(countries, f, indent=4)
 
-                    os.replace("temp.txt", "countries.json")
-                    #!progressTimeNow
-                    last_run = slot
+                        os.replace("temp.json", "countries.json")
+                        #!progressTimeNow
+                        last_run = slot
+                        time.sleep(1)
 
             time.sleep(120)
 
@@ -620,6 +612,29 @@ async def on_message(msg):
                                         "coming soon: \n"+
                                        "!horseTraining - costs: 10k money, 3k food and 2k livestock, earns: +15 ride animals production\n"
                                        )
+            if "!specialTech" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                await msg.channel.send("technologies that can be researched are: \n"
+                                       +"Distant North:\n"
+                                       +"!whaleBlubberProcessing - costs: 20k money, 10k food and 5k timber, earns: +500 luxury goods production\n"
+                                       +"!glacierIronMining - costs: 50k money, 20k strategic metals and 10k timber, earns: +800 strategic metals production\n"
+                                       +"Middle West:\n"
+                                       +"!maizeDrying - costs: 20k money, 8k food and 5k timber, earns: +500 food production\n"
+                                       +"!stepPyramidConstruction - costs: 50k money, 20k stone and 10k strategic metals, earns: +800 stone production\n"
+                                       +"Southern forest:\n"
+                                       +"!rainforestHarvesting - costs: 20k money, 8k timber and 5k food, earns: +550 timber production\n"
+                                       +"!parrotFeatherCrafting - costs: 25k money, 8k luxury goods and 5k timber, earns: +500 luxury goods production\n"
+                                       +"!riverCanoeTrade - costs: 40k money, 15k timber and 10k ride animals, earns: +750 treasury income\n"
+                                       +"!goldRiverMining - costs: 50k money, 15k strategic metals and 15k timber, earns: +800 precious metals production\n"
+                                       +"Northern plateau:\n"
+                                       +"!amberJewelry - costs: 20k money, 8k luxury goods and 5k timber, earns: +500 luxury goods production\n"
+                                       +"!bogSteelSmithing - costs: 50k money, 20k strategic metals and 10k timber, earns: +800 strategic metals production\n"
+                                       +"Mediterranean: \n"
+                                       +"!oliveOilTrade - costs: 20k money, 8k luxury goods and 5k timber, earns: +500 luxury goods production\n"
+                                       +"!coastalFishing - costs: 25k money, 10k food and 5k timber, earns: +550 food production\n"
+                                       +"!marbleTempleBuilding - costs: 50k money, 20k stone and 10k strategic metals, earns: +800 stone production\n"
+                                       )
                 
             if "!cropRotation" in msg.content:
                 with open("countries.json", "r") as f:
@@ -830,6 +845,358 @@ async def on_message(msg):
                                 json.dump(countries, f, indent=4)
                         else:
                             await msg.channel.send("you cannot afford that!")
+            if "!whaleBlubberProcessing" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t16"]==0 and any(role.name == "Distant North" for role in msg.author.roles):
+                        if nam["food"]>=10000 and nam["money"]>=20000 and nam["lux"]>=0 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-10000
+                            nam["money"]=nam["money"]-20000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t16"]=16
+                            await msg.channel.send("whale blubber processing researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!glacierIronMining" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t17"]==0 and any(role.name == "Distant North" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>= 10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-20000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+800
+                            nam["t17"]=17
+                            await msg.channel.send("crop rotation researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            
+            if "!maizeDrying" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Middle West" for role in msg.author.roles):
+                        if nam["food"]>=8000 and nam["money"]>=20000 and nam["lux"]>=0 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-8000
+                            nam["money"]=nam["money"]-20000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+500
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("maize drying researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!stepPyramidConstruction" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Middle West" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=20000 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-20000
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-10000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+800
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("step pyramid construction researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!rainforestHarvesting" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
+                        if nam["food"]>=5000 and nam["money"]>=20000 and nam["lux"]>=0 and nam["timber"]>=8000 and nam["stone"]>=8000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-5000
+                            nam["money"]=nam["money"]-20000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-8000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+550
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("rain forest harvesting researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!parrotFeatherCrafting" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=25000 and nam["lux"]>=8000 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-25000
+                            nam["lux"]=nam["lux"]-8000
+                            nam["timber"]=nam["timber"]-5000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("crop rotation researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!riverCanoeTrade" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=40000 and nam["lux"]>=0 and nam["timber"]>=15000 and nam["stone"]>=15000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-40000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-15000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+750
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("river canoe trading researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!goldRiverMining" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=15000 and nam["stone"]>=15000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-15000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-15000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+800
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("gold river mining researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!amberJewelry" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Northern Plateau" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=20000 and nam["lux"]>=8000 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-20000
+                            nam["lux"]=nam["lux"]-8000
+                            nam["timber"]=nam["timber"]-5000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("amber jewelry researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!bogSteelSmithing" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Northern Plateau" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-20000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+800
+                            nam["tid"]=id
+                            await msg.channel.send("bog steel smithing researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!oliveOilTrade" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=20000 and nam["lux"]>=8000 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-20000
+                            nam["lux"]=nam["lux"]-8000
+                            nam["timber"]=nam["timber"]-5000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("olive oil trade researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!coastalFishing" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
+                        if nam["food"]>=10000 and nam["money"]>=25000 and nam["lux"]>=0 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-10000
+                            nam["money"]=nam["money"]-25000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+550
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("coastal fishing researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!marbleTempleBuilding" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=20000 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-20000
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-10000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+800
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("marble temple building researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+
             
 
             if "!miltech" in msg.content:
@@ -1782,10 +2149,10 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                     countries = json.load(f)
                 
                 await msg.channel.send(
-                    f'\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations '
+                    f'\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !nadd|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations '
                     
                 )
-                await msg.channel.send(f'\n !mob - mobilizes specified units for your 1 per country army and navy  \n !harvestLivestock|amount - converts specified livestock into food \n !miltech - show military technologies \n !demob - demobilizes the entire armed forces of your nation \n !troops - shows your total army and navy\n !troops all - shows all total armies and navies\n !flood|country to flood|amount - removes food production from country, only for Gods use\n!volcano|country to flood|amount - kills people, only for gods use\n!order|east|south - orders movement to your army, to go west and north just input negative numbers into your south/east, if you enter the ocean the army is automatically convoyed by your navy. Any armies that touch each other will automatically attack each other no matter alliances. 2 armies can attack a 3rd together by surrounding the 3rd army and touching it without touching each other\n !map - shows the current location of all armies')
+                await msg.channel.send(f'\n !mob - mobilizes specified units for your 1 per country army and navy  \n !harvestLivestock|amount - converts specified livestock into food \n !miltech - show military technologies \n !demob - demobilizes the entire armed forces of your nation \n !troops - shows your total army and navy\n !troops all - shows all total armies and navies\n !flood|country to flood|amount - removes food production from country, only for Gods use\n!volcano|country to flood|amount - kills people, only for gods use\n!order|east|south - orders movement to your army, to go west and north just input negative numbers into your south/east, if you enter the ocean the army is automatically convoyed by your navy. Any armies that touch each other will automatically attack each other no matter alliances. 2 armies can attack a 3rd together by surrounding the 3rd army and touching it without touching each other\n !map - shows the current location of all armies\n!specialTech - shows region specific tech')
                 with open("countries.json", "w") as f:
                     json.dump(countries, f, indent=4)
                 #!help
@@ -1996,7 +2363,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                     #!showExchangeRate
 
 
-            if "!add" in msg.content and any(role.name == "Collaborators" for role in msg.author.roles): #add and progress time need the correct roles
+            if "!nadd" in msg.content and any(role.name == "Collaborators" for role in msg.author.roles): #add and progress time need the correct roles
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 parts = msg.content.split("|")

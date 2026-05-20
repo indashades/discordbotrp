@@ -1,8 +1,8 @@
 {
-    "from": "Dutchy of Novo-Gorod",
-    "to": "Empire of Estonia",
-    "send_item": "lux",
-    "send_amount": 300.0,
-    "receive_item": "food",
-    "receive_amount": 500.0
+    "from": "Kingdom of Storhamn",
+    "to": "Federation of Turkic Tribes",
+    "send_item": "strategicMetals",
+    "send_amount": 400.0,
+    "receive_item": "timber",
+    "receive_amount": 800.0
 }
