@@ -2453,7 +2453,9 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                 "x": 0,
                 "y": 0,
                 "x2": 0,
-                "y2": 0
+                "y2": 0,
+                "png": "genericA.png",
+                "religion": ""
 
                 #current format => !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|moneyconversionate|tax
 

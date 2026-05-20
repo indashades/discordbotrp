@@ -1,8 +1,8 @@
 {
     "from": "Kingdom of Storhamn",
-    "to": "Federation of Turkic Tribes",
-    "send_item": "strategicMetals",
-    "send_amount": 400.0,
-    "receive_item": "timber",
-    "receive_amount": 800.0
+    "to": "Holy Land of the Novan At",
+    "send_item": "triemes",
+    "send_amount": 10.0,
+    "receive_item": "lux",
+    "receive_amount": 1000.0
 }
