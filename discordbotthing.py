@@ -14,13 +14,15 @@ import traceback
 from PIL import Image, ImageDraw
 import math
 import random
+import numpy as np
+
 
 
 
 
 try:
     def economy_loop():
-        last_run = 0
+        last_run = 20
 
         while True:
             now = datetime.now()
@@ -202,26 +204,30 @@ try:
                     m="time progressed!"
                     print(m)
                     i=0
-                    while i<31:
+                    while i<1:
                         for  nam in countries:
-                            #nam["x"]->nam["x2"]
-                            #nam["y"]->nam["y2"]
-                            
-                            if nam["x2"]>0:
-                                nam["x"]=nam["x"]+1
-                                nam["x2"]=nam["x2"]-1
-                            if nam["x2"]<0:
-                                nam["x"]=nam["x"]-1
-                                nam["x2"]=nam["x2"]+1
-                            if nam["y2"]>0:
-                                nam["y"]=nam["y"]+1
-                                nam["y2"]=nam["y2"]-1
-                            if nam["y2"]<0:
-                                nam["y"]=nam["y"]-1
-                                nam["y2"]=nam["y2"]+1
+                            #movement
+                            xz=nam["x"]
+                            yz=nam["y"]
+                            if nam["x2"]=="northeast":
+                                nam["x"]=nam["x"]+25
+                                nam["y"]=nam["y"]-25-25+12
+                            if nam["x2"]=="east":
+                                nam["x"]=nam["x"]+50
+                            if nam["x2"]=="northwest":
+                                nam["x"]=nam["x"]-25
+                                nam["y"]=nam["y"]-25-25+12
+                            if nam["x2"]=="west":
+                                nam["x"]=nam["x"]-50
+                            if nam["x2"]=="southwest":
+                                nam["x"]=nam["x"]-25
+                                nam["y"]=nam["y"]+25+25-12
+                            if nam["x2"]=="southeast":
+                                nam["x"]=nam["x"]+25
+                                nam["y"]=nam["y"]+25+25-12
                             for  n in countries:
                                 if nam["name"]!=n["name"]:
-                                    if nam["x"]>n["x"]-5 and nam["x"]<n["x"]+5 and nam["y"]>n["y"]-5 and nam["y"]<n["y"]+5:
+                                    if nam["x"]>n["x"]-20 and nam["x"]<n["x"]+20 and nam["y"]>n["y"]-20 and nam["y"]<n["y"]+20:
                                         #battle
                                         lost=0
                                         losth=0
@@ -284,6 +290,8 @@ try:
                                                 else:
                                                     apply_losses(n, winner_loss_rate)
                                                     apply_losses(nam, loser_loss_rate)
+                                                    nam["x"]=xz
+                                                    nam["y"]=yz
 
                                                 print("After battle:")
                                                 print("Side1:", nam)
@@ -373,7 +381,7 @@ try:
 
                                         nam["pop"]=nam["pop"]-lost
                                         nam["rideAnimals"]=nam["rideAnimals"]-losth
-
+                        i=i+1
                                     
 
                         with open("temp.json", "w") as f:
@@ -392,6 +400,46 @@ try:
 except Exception as e:
             print("🔥 THREAD CRASH:", repr(e))
             time.sleep(5)
+
+def hex_corner(center, size, i):
+    angle_deg = 60 * i - 30
+    angle_rad = math.radians(angle_deg)
+    return (
+        center[0] + size * math.cos(angle_rad),
+        center[1] + size * math.sin(angle_rad)
+    )
+def draw_hex(draw, x, y, size, outline=(0, 0, 0), width=2):
+    corners = [hex_corner((x, y), size, i) for i in range(6)]
+    draw.polygon(corners, outline=outline)
+def add_hex_overlay(image_path, output_path):
+    img = Image.open(image_path).convert("RGBA")
+    draw = ImageDraw.Draw(img)
+
+    width, height = img.size
+
+    # 50px diameter -> radius = 25px
+    size = 25
+
+    # hex spacing (important for proper tiling)
+    hex_width = size * math.sqrt(3)
+    hex_height = size * 1.5
+
+    for row in range(int(height / hex_height) + 2):
+        for col in range(int(width / hex_width) + 2):
+
+            x = col * hex_width
+            y = row * hex_height
+
+            # offset every other row (staggered grid)
+            if row % 2 == 1:
+                x += hex_width / 2
+
+            draw_hex(draw, x, y, size, outline=(0, 0, 0, 120), width=2)
+
+    img.save(output_path)
+
+
+
 
 
 
@@ -1195,6 +1243,628 @@ async def on_message(msg):
                                 json.dump(countries, f, indent=4)
                         else:
                             await msg.channel.send("you cannot afford that!")
+            if "!forestHoneyTrade" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Central Plateau" for role in msg.author.roles):
+                        if nam["food"]>=5000 and nam["money"]>=25000 and nam["lux"]>=0 and nam["timber"]>=8000 and nam["stone"]>=8000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-5000
+                            nam["money"]=nam["money"]-25000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-8000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tid"]=id
+                            await msg.channel.send("forest honey trade researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!ironHillMining" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Central Plateau" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-20000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+800
+                            nam["tid"]=id
+                            await msg.channel.send("iron hill mining researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!riverHubTradeCities" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t20"]==0 and any(role.name == "Central Plateau" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=30000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=10000 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-30000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10000
+                            nam["stone"]=nam["stone"]-10000
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+650
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t20"]=20
+                            await msg.channel.send("river hub trade cities researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!centralMarketNetworks" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t21"]==0 and any(role.name == "Central Plateau" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=35000 and nam["lux"]>=10000 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=10000 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-35000
+                            nam["lux"]=nam["lux"]-10000
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-10000
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+750
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t21"]=21
+                            await msg.channel.send("central market networks researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!datePalmOases" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t22"]==0 and any(role.name == "Central Desert" for role in msg.author.roles):
+                        if nam["food"]>=8000 and nam["money"]>=20000 and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=5000 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-8000
+                            nam["money"]=nam["money"]-20000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-5000
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+500
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t22"]=22
+                            await msg.channel.send("date palm oases researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!camelLeatherCrafting" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t23"]==0 and any(role.name == "Central Desert" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=25000 and nam["lux"]>=5000 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-25000
+                            nam["lux"]=nam["lux"]-5000
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t23"]=23
+                            await msg.channel.send("camel leather researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!desertCopperMining" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t24"]==0 and any(role.name == "Central Desert" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-20000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+800
+                            nam["t24"]=24
+                            await msg.channel.send("desert copper mining researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!riverFloodFarming" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t25"]==0 and any(role.name == "Behind Desert" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=20000 and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=10000 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-20000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-10000
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+550
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t25"]=25
+                            await msg.channel.send("river flood farming researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!ivoryCarving" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t26"]==0 and any(role.name == "Behind Desert" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=25000 and nam["lux"]>=5000 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-25000
+                            nam["lux"]=nam["lux"]-5000
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t26"]=26
+                            await msg.channel.send("ivory carving researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!deepGoldMining" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t27"]==0 and any(role.name == "Behind Desert" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=15000 and nam["stone"]>=15000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-15000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-15000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+800
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t27"]=27
+                            await msg.channel.send("deep gold mining researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!furClothing" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t31"]==0 and any(role.name == "Cold" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=20000 and nam["lux"]>=0 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-20000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t31"]=31
+                            await msg.channel.send("fur clothing researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!frozenIronMining" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t32"]==0 and any(role.name == "Cold" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50000
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10000
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-20000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+800
+                            nam["t32"]=32
+                            await msg.channel.send("frozen iron mining researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            k=1000
+            if "!horseMessengerRoutes" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t33"]==0 and any(role.name == "Eastern Plateau" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=20*k and nam["lux"]>=0 and nam["timber"]>=5000 and nam["stone"]>=5*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0 and nam["rideAnimals"]>=10000:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-20*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5*k
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["rideAnimals"]=nam["rideAnimals"]-10000
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+450
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t33"]=33
+                            await msg.channel.send("horse messenger routes researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!steppeIronSmithing" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t34"]==0 and any(role.name == "Eastern Plateau" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10*k
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-20*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+800
+                            nam["t34"]=34
+                            await msg.channel.send("steppe iron smithing researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!oasisGardens" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t35"]==0 and any(role.name == "East Desert" for role in msg.author.roles):
+                        if nam["food"]>=8*k and nam["money"]>=20*k and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=5*k and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-8*k
+                            nam["money"]=nam["money"]-20*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-5*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+500
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t35"]=35
+                            await msg.channel.send("oasis gardens researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!incensePerfumes" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t36"]==0 and any(role.name == "East Desert" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=25*k and nam["lux"]>=8*k and nam["timber"]>=5000 and nam["stone"]>=5*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-25*k
+                            nam["lux"]=nam["lux"]-8*k
+                            nam["timber"]=nam["timber"]-5*k
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t36"]=36
+                            await msg.channel.send("incense perfumnes researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!bronzeDesertForges" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t37"]==0 and any(role.name == "East Desert" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=10000:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10*k
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-10*k
+                            nam["strategicMetals"]=nam["strategicMetals"]-20*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+800
+                            nam["t37"]=37
+                            await msg.channel.send("bronze desert forges researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!riceFloodCanals" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t38"]==0 and any(role.name == "East" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=25*k and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=10*k and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-25*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-10*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+650
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t38"]=38
+                            await msg.channel.send("rice canals researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!imperialHarbors" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t39"]==0 and any(role.name == "East" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=40*k and nam["lux"]>=0 and nam["timber"]>=15000 and nam["stone"]>=15*k and nam["nobleMetals"]>=10*k and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-40*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-15*k
+                            nam["stone"]=nam["stone"]-10*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+800
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t39"]=39
+                            await msg.channel.send("imperial harbors researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!castIronWorkshops" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t40"]==0 and any(role.name == "East" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=50*k and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=10*k:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-50*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-10*k
+                            nam["strategicMetals"]=nam["strategicMetals"]-20*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+800
+                            nam["t40"]=40
+                            await msg.channel.send("cast iron workshops researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!jadeCarving" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t41"]==0 and any(role.name == "Kiwi" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=25*k and nam["lux"]>=5*k and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=8*k and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-25*k
+                            nam["lux"]=nam["lux"]-5*k
+                            nam["timber"]=nam["timber"]-0
+                            nam["stone"]=nam["stone"]-8*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+500
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t41"]=41
+                            await msg.channel.send("jade carving researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!islandSeaRoutes" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t42"]==0 and any(role.name == "Kiwi" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=40*k and nam["lux"]>=0 and nam["timber"]>=15000 and nam["stone"]>=15*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-40*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-15*k
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+800
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["t42"]=42
+                            await msg.channel.send("island sea routes researched?")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
+            if "!bronzeCasting" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["t43"]==0 and any(role.name == "East" for role in msg.author.roles):
+                        if nam["food"]>=0 and nam["money"]>=35*k and nam["lux"]>=0 and nam["timber"]>=5000 and nam["stone"]>=5*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=10*k:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-35*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5*k
+                            nam["stone"]=nam["stone"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-10*k
+                            nam["strategicMetals"]=nam["strategicMetals"]-15*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+600
+                            nam["t43"]=43
+                            await msg.channel.send("bronze casting researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+
 
 
             
@@ -1277,7 +1947,7 @@ async def on_message(msg):
             quinqueremes - 1.5a - 1.2d |locked b y tech and tech by med
             '''
 
-            if "!map" in msg.content: #40 pixlar per tur     format !order|A/F|x|y
+            if "!map" in msg.content: #40 pixlar per tur     format !order|northeast/northwest/east/west/southeast/southwest
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 map_img = Image.open("war.png").convert("RGBA")
@@ -1285,24 +1955,26 @@ async def on_message(msg):
                     flag = Image.open(nam["png"]).convert("RGBA")
                 #flag = flag.resize((8, 8))
                 #map_img.paste(flag, (855-5, 550-5), flag)
-                    map_img.paste(flag, (nam["x"]-4, nam["y"]-4), flag)
+                    map_img.paste(flag, (nam["x"]-10, nam["y"]-10), flag)
                 map_img.save("output2.png")
+                #add_hex_overlay("war.png", "output2.png")
                 await msg.channel.send(file=discord.File("output2.png"))
 
+            
 
 
 
 
 
-            if "!order" in msg.content: #40 pixlar per tur     format !order|x|y
+
+            if "!order" in msg.content: #50 pixlar per tur     format !order|x|y
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 splits = msg.content.split("|")
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         #right character
-                        nam["x2"]=int(splits[1])
-                        nam["y2"]=int(splits[2])
+                        nam["x2"]=splits[1]
                         with open("countries.json", "w") as f:
                             json.dump(countries, f, indent=4)
                         await msg.channel.send("orders recieved")
@@ -2152,7 +2824,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                     f'\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !nadd|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations '
                     
                 )
-                await msg.channel.send(f'\n !mob - mobilizes specified units for your 1 per country army and navy  \n !harvestLivestock|amount - converts specified livestock into food \n !miltech - show military technologies \n !demob - demobilizes the entire armed forces of your nation \n !troops - shows your total army and navy\n !troops all - shows all total armies and navies\n !flood|country to flood|amount - removes food production from country, only for Gods use\n!volcano|country to flood|amount - kills people, only for gods use\n!order|east|south - orders movement to your army, to go west and north just input negative numbers into your south/east, if you enter the ocean the army is automatically convoyed by your navy. Any armies that touch each other will automatically attack each other no matter alliances. 2 armies can attack a 3rd together by surrounding the 3rd army and touching it without touching each other\n !map - shows the current location of all armies\n!specialTech - shows region specific tech')
+                await msg.channel.send(f'\n !mob - mobilizes specified units for your 1 per country army and navy  \n !harvestLivestock|amount - converts specified livestock into food \n !miltech - show military technologies \n !demob - demobilizes the entire armed forces of your nation \n !troops - shows your total army and navy\n !troops all - shows all total armies and navies\n !flood|country to flood|amount - removes food production from country, only for Gods use\n!volcano|country to flood|amount - kills people, only for gods use\n!order|northeast/northwest/east/west/southeast/southwest - moves your army, if 2 armies enter the same hex they will fight. if your army is in the water it is your navy\n !map - shows the current location of all armies\n!specialTech - shows region specific tech')
                 with open("countries.json", "w") as f:
                     json.dump(countries, f, indent=4)
                 #!help

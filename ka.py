@@ -17,6 +17,10 @@ def download2():
 def home():
     return "Bot is alive!"
 
+@app.route("/image")
+def image():
+    return send_file("output2.png", mimetype='image/png')
+
 def run():
     app.run(host='0.0.0.0', port=8080, use_reloader=False)
 
