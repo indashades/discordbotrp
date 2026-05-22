@@ -27,7 +27,7 @@ try:
         while True:
             now = datetime.now()
             print("uhhh...", now.hour)
-            if now.hour in [0, 4, 8, 12, 16, 20]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
+            if now.hour in [2, 6, 10, 14, 18, 22]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
                 slot = now.hour
                 print("now in slot: ", slot)
 
@@ -3311,7 +3311,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                 "png": "genericA.png",
                 "religion": ""
 
-                #current format => !add|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|moneyconversionate|tax
+                #current format => !nadd|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|moneyconversionate|averagetax
 
 
 #Storhamn: !add|Kingdom of Storhamn|5200000000|1300000|1.001|50000|25000|10000|1000|50000|100|1000|500|0|700|1000|500|10000|5000|0.8|0.1
