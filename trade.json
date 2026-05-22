@@ -1,8 +1,8 @@
 {
     "from": "Kingdom of Storhamn",
-    "to": "Holy Land of the Novan At",
-    "send_item": "triemes",
-    "send_amount": 10.0,
-    "receive_item": "lux",
-    "receive_amount": 1000.0
+    "to": "The Republic of Germania",
+    "send_item": "money",
+    "send_amount": 1000.0,
+    "receive_item": "livestock",
+    "receive_amount": 750.0
 }
