@@ -208,7 +208,7 @@ try:
                             nam["merccav"] = 0
 
                         if nam["pop+"]<=1.001:
-                            nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
+                            nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
                         elif nam["pop+"]>1.001:
                             nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
                         if nam["pop+"]>1.3:
@@ -221,22 +221,84 @@ try:
                             #movement
                             xz=nam["x"]
                             yz=nam["y"]
-                            if nam["x2"]=="northeast":
-                                nam["x"]=nam["x"]+25
-                                nam["y"]=nam["y"]-25-25+12
+                            img = Image.open("war.png").convert("RGBA")
+                            if nam["x2"]=="northeast": #"x": 2468-2446, "y": 674-712, and target = 2468, 674
+                                nam["x"]=nam["x"]+22
+                                nam["y"]=nam["y"]-38
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                    nam["hoplites"]=nam["hoplites"]*0.9
+                                    nam["warel"]=nam["warel"]*0.9
+                                    nam["sling"]=nam["sling"]*0.9
+                                    nam["arch"]=nam["arch"]*0.9
+                                    nam["milit"]=nam["milit"]*0.9
+                                    nam["harch"]=nam["harch"]*0.9
+                                    nam["ligcav"]=nam["ligcav"]*0.9
+                                    nam["merccav"]=nam["merccav"]*0.9
+                                    nam["mercinf"]=nam["mercinf"]*0.9
                             if nam["x2"]=="east":
-                                nam["x"]=nam["x"]+50
+                                nam["x"]=nam["x"]+43
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                    nam["hoplites"]=nam["hoplites"]*0.9
+                                    nam["warel"]=nam["warel"]*0.9
+                                    nam["sling"]=nam["sling"]*0.9
+                                    nam["arch"]=nam["arch"]*0.9
+                                    nam["milit"]=nam["milit"]*0.9
+                                    nam["harch"]=nam["harch"]*0.9
+                                    nam["ligcav"]=nam["ligcav"]*0.9
+                                    nam["merccav"]=nam["merccav"]*0.9
+                                    nam["mercinf"]=nam["mercinf"]*0.9
                             if nam["x2"]=="northwest":
-                                nam["x"]=nam["x"]-25
-                                nam["y"]=nam["y"]-25-25+12
+                                nam["x"]=nam["x"]-22
+                                nam["y"]=nam["y"]-38
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                    nam["hoplites"]=nam["hoplites"]*0.9
+                                    nam["warel"]=nam["warel"]*0.9
+                                    nam["sling"]=nam["sling"]*0.9
+                                    nam["arch"]=nam["arch"]*0.9
+                                    nam["milit"]=nam["milit"]*0.9
+                                    nam["harch"]=nam["harch"]*0.9
+                                    nam["ligcav"]=nam["ligcav"]*0.9
+                                    nam["merccav"]=nam["merccav"]*0.9
+                                    nam["mercinf"]=nam["mercinf"]*0.9
                             if nam["x2"]=="west":
-                                nam["x"]=nam["x"]-50
+                                nam["x"]=nam["x"]-43
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                    nam["hoplites"]=nam["hoplites"]*0.9
+                                    nam["warel"]=nam["warel"]*0.9
+                                    nam["sling"]=nam["sling"]*0.9
+                                    nam["arch"]=nam["arch"]*0.9
+                                    nam["milit"]=nam["milit"]*0.9
+                                    nam["harch"]=nam["harch"]*0.9
+                                    nam["ligcav"]=nam["ligcav"]*0.9
+                                    nam["merccav"]=nam["merccav"]*0.9
+                                    nam["mercinf"]=nam["mercinf"]*0.9
                             if nam["x2"]=="southwest":
-                                nam["x"]=nam["x"]-25
-                                nam["y"]=nam["y"]+25+25-12
+                                nam["x"]=nam["x"]-22
+                                nam["y"]=nam["y"]+38
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                    nam["hoplites"]=nam["hoplites"]*0.9
+                                    nam["warel"]=nam["warel"]*0.9
+                                    nam["sling"]=nam["sling"]*0.9
+                                    nam["arch"]=nam["arch"]*0.9
+                                    nam["milit"]=nam["milit"]*0.9
+                                    nam["harch"]=nam["harch"]*0.9
+                                    nam["ligcav"]=nam["ligcav"]*0.9
+                                    nam["merccav"]=nam["merccav"]*0.9
+                                    nam["mercinf"]=nam["mercinf"]*0.9
                             if nam["x2"]=="southeast":
-                                nam["x"]=nam["x"]+25
-                                nam["y"]=nam["y"]+25+25-12
+                                nam["x"]=nam["x"]+22
+                                nam["y"]=nam["y"]+38
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                    nam["hoplites"]=nam["hoplites"]*0.9
+                                    nam["warel"]=nam["warel"]*0.9
+                                    nam["sling"]=nam["sling"]*0.9
+                                    nam["arch"]=nam["arch"]*0.9
+                                    nam["milit"]=nam["milit"]*0.9
+                                    nam["harch"]=nam["harch"]*0.9
+                                    nam["ligcav"]=nam["ligcav"]*0.9
+                                    nam["merccav"]=nam["merccav"]*0.9
+                                    nam["mercinf"]=nam["mercinf"]*0.9
+                            nam["x2"]=""
                             for  n in countries:
                                 if nam["name"]!=n["name"]:
                                     if nam["x"]>n["x"]-20 and nam["x"]<n["x"]+20 and nam["y"]>n["y"]-20 and nam["y"]<n["y"]+20:
@@ -750,7 +812,7 @@ async def on_message(msg):
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t4"]==0:
-                        if nam["money"]>=10000 and nam["nobleMetals"]>=5000 and nam["timber"]>=15000:
+                        if nam["money"]>=10000 and nam["nobleMetals"]>=5000 and nam["strategicMetals"]>=15000:
                             nam["money"]=nam["money"]-10000
                             nam["nobleMetals"]=nam["nobleMetals"]-5000
                             nam["strategicMetals"]=nam["strategicMetals"]-15000
@@ -1977,9 +2039,51 @@ async def on_message(msg):
                 await msg.channel.send(file=discord.File("output2.png"))
 
             
+            '''
+            for  nam in countries:
+                            #movement
+                            xz=nam["x"]
+                            yz=nam["y"]
+                            if nam["x2"]=="northeast":
+                                nam["x"]=nam["x"]+27
+                                nam["y"]=nam["y"]-48
+                            if nam["x2"]=="east":
+                                nam["x"]=nam["x"]+55
+                            if nam["x2"]=="northwest":
+                                nam["x"]=nam["x"]-27
+                                nam["y"]=nam["y"]-48
+                            if nam["x2"]=="west":
+                                nam["x"]=nam["x"]-55
+                            if nam["x2"]=="southwest":
+                                nam["x"]=nam["x"]-27
+                                nam["y"]=nam["y"]+48
+                            if nam["x2"]=="southeast":
+                                nam["x"]=nam["x"]+27
+                                nam["y"]=nam["y"]+48
+                                '''
 
-
-
+            if "!ma" in msg.content and any(role.name == "Collaborators" for role in msg.author.roles):
+                for  nam in countries:
+                    #movement
+                    xz=nam["x"]
+                    yz=nam["y"]
+                    if nam["x2"]=="northeast":
+                        nam["x"]=nam["x"]+27
+                        nam["y"]=nam["y"]-48
+                    if nam["x2"]=="east":
+                        nam["x"]=nam["x"]+55
+                    if nam["x2"]=="northwest":
+                        nam["x"]=nam["x"]-27
+                        nam["y"]=nam["y"]-48
+                    if nam["x2"]=="west":
+                        nam["x"]=nam["x"]-55
+                    if nam["x2"]=="southwest":
+                        nam["x"]=nam["x"]-27
+                        nam["y"]=nam["y"]+48
+                    if nam["x2"]=="southeast":
+                        nam["x"]=nam["x"]+27
+                        nam["y"]=nam["y"]+48
+                    nam["x2"]=""
 
 
 
@@ -3188,7 +3292,35 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                         nam["stone+"] +
                         nam["nobleMetals+"] +
                         nam["strategicMetals+"] +
-                        nam["money"]*nam["moncon"]/10000
+                        nam["money"]*nam["moncon"]/10000 +(
+                        nam["hoplites+"] +
+                        nam["hoplites"] +
+                        nam["warel+"] +
+                        nam["warel"] +
+                        nam["sling+"] +
+                        nam["sling"] +
+                        nam["arch+"] +
+                        nam["arch"] +
+                        nam["milit+"] +
+                        nam["milit"] +
+                        nam["harch+"] +
+                        nam["harch"] +
+                        nam["ligcav+"] +
+                        nam["ligcav"] +
+                        nam["merccav+"] +
+                        nam["merccav"] +
+                        nam["mercinf+"] +
+                        nam["mercinf"] +
+                        nam["triemes"] +
+                        nam["canoes"] +
+                        nam["patrol"] +
+                        nam["longships"] +
+                        nam["triemes+"] +
+                        nam["canoes+"] +
+                        nam["patrol+"] +
+                        nam["longships+"] +
+                        nam["quinqueremes+"] +
+                        nam["quinqueremes"])*100
                     )
                 countries2 = sorted(countries, key=score, reverse=True)
                 z=0
@@ -3196,7 +3328,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                     z=z+1
                     if True:
                         m = (
-                            f'ranking:\n{z}. {nam["name"]} - currency value: {fmt(nam["moncon"])}, total resources: {fmt(nam["food"]+nam["lux"]+nam["timber"]+nam["stone"]+nam["nobleMetals"]+nam["strategicMetals"])}, population: {fmt(nam["pop"])}, technology: {nam["t1"]+nam["t2"]+nam["t3"]+nam["t4"]+nam["t5"]+nam["t6"]+nam["t7"]+nam["t8"]+nam["t9"]+nam["t10"]+nam["t11"]+nam["t12"]+nam["t13"]+nam["t14"]+nam["t15"]}, total production: {fmt(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"])}\n'
+                            f'ranking:\n{z}. {nam["name"]} - currency value: {fmt(nam["moncon"])}, total resources: {fmt(nam["food"]+nam["lux"]+nam["timber"]+nam["stone"]+nam["nobleMetals"]+nam["strategicMetals"])}, population: {fmt(nam["pop"])}, technology: {nam["t1"]+nam["t2"]+nam["t3"]+nam["t4"]+nam["t5"]+nam["t6"]+nam["t7"]+nam["t8"]+nam["t9"]+nam["t10"]+nam["t11"]+nam["t12"]+nam["t13"]+nam["t14"]+nam["t15"]}, total production: {fmt(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"])}, military: {nam["hoplites"] +nam["warel+"] +nam["warel"] +nam["sling+"] +nam["sling"] +nam["arch+"] +nam["arch"] +nam["milit+"] +nam["milit"] +nam["harch+"] +nam["harch"] +nam["ligcav+"] +nam["ligcav"] +nam["mercinf+"] +nam["mercinf"] +nam["triemes"] +nam["canoes"] +nam["patrol"] +nam["longships"] +nam["triemes+"] +nam["canoes+"] +nam["patrol+"] +nam["longships+"] +nam["quinqueremes+"] +nam["quinqueremes"]}\n'
                             "--\n"
                         )
                         await msg.channel.send(m)
