@@ -27,7 +27,7 @@ try:
         while True:
             now = datetime.now()
             print("uhhh...", now.hour)
-            if now.hour in [2, 6, 10, 14, 18, 22]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
+            if now.hour in [0, 4, 8, 12, 16, 20]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
                 slot = now.hour
                 print("now in slot: ", slot)
 
@@ -225,7 +225,7 @@ try:
                             if nam["x2"]=="northeast": #"x": 2468-2446, "y": 674-712, and target = 2468, 674
                                 nam["x"]=nam["x"]+22
                                 nam["y"]=nam["y"]-38
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
                                     nam["hoplites"]=nam["hoplites"]*0.9
                                     nam["warel"]=nam["warel"]*0.9
                                     nam["sling"]=nam["sling"]*0.9
@@ -648,7 +648,9 @@ async def on_message(msg):
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
-                        nam["food"]=nam["food"]-2000
+                        nam["food"]=nam["food"]-2000+nam["expand"]
+                        if nam["expand"]<8000:
+                            nam["expand"]=nam["expand"]+500
                         nam["food+"]=nam["food+"]+50
                         nam["strategicMetals+"]=nam["strategicMetals+"]+10
 
@@ -2776,6 +2778,10 @@ async def on_message(msg):
 
 
             if "!troops" in msg.content:
+                guh=""
+                if "|" in msg.content:
+                    parts=msg.content.split("|")
+                    guh=parts[1]
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 with open("countries.json", "r") as f:
@@ -2796,7 +2802,7 @@ async def on_message(msg):
                     else:
                         return f"{num:.3f}".rstrip("0").rstrip(".")
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] or msg.content=="!troops all":
+                    if msg.author.display_name==nam["name"] or msg.content=="!troops all" or nam["name"]==guh:
                         m = (
                             f'\n{nam["name"]} ARMY:\n'
                             f'hoplites: {fmt(nam["hoplites"])}+{fmt(nam["hoplites+"])}\n'
@@ -3107,7 +3113,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                     countries = json.load(f)
                 
                 await msg.channel.send(
-                    f'\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !nadd|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations '
+                    f'\n commands are:\n !printMoney amount - devalues your currency\n !economy - shows specifically your economy\n !economy all - shows all nations economies\n !trade|value to give|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals|other country|value to recieve|money/pop/food/lux/timber/stone/nobleMetals/strategicMetals/livestock/rideAnimals - automated trade between nations, use only when both are present or it will do the opposite of timing out \n !declareWar - enters your nation economically into a state of war \n !declarePeace - enters your nation economically into a state of peace\n !expand -expands i guess, costs: 2000 food +500x amount of times used, earns: 50 food production"+"\n!progressTimeNow - progresses time (only for collaborators) \n !nadd|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|money conversion rate|average taxation ex: 0.3 - creates a new country (only for collaborators)\n !showExchangeRate - shows currency values which is very useful for trades \n !tech - shows what technology you may research\n !resources - gives a detailed explanation of all resources \n !deflateCurrency amountOfGoldToUse - adds value back to your currency at the cost of valuable metals \n !time - gives you time until next rp timeskip \n !leaderboard - shows the leaderboard of nations '
                     
                 )
                 await msg.channel.send(f'\n !mob - mobilizes specified units for your 1 per country army and navy  \n !harvestLivestock|amount - converts specified livestock into food \n !miltech - show military technologies \n !demob - demobilizes the entire armed forces of your nation \n !troops - shows your total army and navy\n !troops all - shows all total armies and navies\n !flood|country to flood|amount - removes food production from country, only for Gods use\n!volcano|country to flood|amount - kills people, only for gods use\n!order|northeast/northwest/east/west/southeast/southwest - moves your army, if 2 armies enter the same hex they will fight. if your army is in the water it is your navy\n !map - shows the current location of all armies\n!specialTech - shows region specific tech\n!npcOrder|nation|northeast/northwest/east/west/southeast/southwest - orders npc nations army\n!raid|country - for god to raid people using the achaemenids')
@@ -3173,6 +3179,10 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
 
 
             if "!economy" in msg.content:
+                guh=""
+                if "|" in msg.content:
+                    parts=msg.content.split("|")
+                    guh=parts[1]
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 with open("countries.json", "r") as f:
@@ -3193,7 +3203,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                     else:
                         return f"{num:.3f}".rstrip("0").rstrip(".")
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] or msg.content=="!economy all":
+                    if msg.author.display_name==nam["name"] or msg.content=="!economy all" or guh==nam["name"]:
                         m = (
                             f'\n{nam["name"]}\n'
                             f'treasury: {fmt(nam["money"])} + {fmt(+nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"]))-nam["mercinf"]*10-nam["merccav"]*20)}\n'

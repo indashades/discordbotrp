@@ -1,8 +1,8 @@
 {
     "from": "Yangtze Dynasty",
-    "to": "Imperial State of Tokyo",
-    "send_item": "money",
-    "send_amount": 20000.0,
-    "receive_item": "money",
-    "receive_amount": 0.0
+    "to": "Federation of Turkic Tribes",
+    "send_item": "stone",
+    "send_amount": 2000.0,
+    "receive_item": "lux",
+    "receive_amount": 3000.0
 }
