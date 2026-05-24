@@ -27,7 +27,7 @@ try:
         while True:
             now = datetime.now()
             print("uhhh...", now.hour)
-            if now.hour in [0, 4, 8, 12, 16, 20]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
+            if now.hour in [2, 6, 10, 14, 18, 22]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
                 slot = now.hour
                 print("now in slot: ", slot)
 
