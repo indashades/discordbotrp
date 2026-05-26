@@ -211,7 +211,7 @@ try:
                             nam["pop+"]=nam["pop+"]+0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
                         elif nam["pop+"]>1.001:
                             nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
-                        if nam["pop+"]>1.3:
+                        if nam["pop+"]>1.1:
                             nam["pop+"]=nam["pop+"]-0.05
                     m="time progressed!"
                     print(m)
@@ -1955,7 +1955,8 @@ async def on_message(msg):
                 await msg.channel.send("technologies that can be researched are: \n"
                                        +"!stirrups - researches stirrups which allows for horse archers cost: 10k money and 5k strategic metal\n"
                                        +"!longships - researches viking longships, costs 10k money and 5k timber, you must be in scandinavia to get this\n"
-                                       +"!quinqueremes - researches quinqueremes, costs 30k money and 10k timber, you must be in the mediterranean to get this"
+                                       +"!quinqueremes - researches quinqueremes, costs 30k money and 10k timber, you must be in the mediterranean to get this\n"
+                                       +"coming soon:\n!recruitGeneral - costs 100k money and 100k luxury goods, allows for a second army"
                                        )
             if "!stirrups" in msg.content:
                 with open("countries.json", "r") as f:
