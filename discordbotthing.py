@@ -212,7 +212,7 @@ try:
                         elif nam["pop+"]>1.001:
                             nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
                         if nam["pop+"]>1.1:
-                            nam["pop+"]=nam["pop+"]-0.05
+                            nam["pop+"]=1.1
                     m="time progressed!"
                     print(m)
                     i=0
@@ -762,6 +762,7 @@ async def on_message(msg):
                                        +"!oliveOilTrade - costs: 20k money, 8k luxury goods and 5k timber, earns: +500 luxury goods production\n"
                                        +"!coastalFishing - costs: 25k money, 10k food and 5k timber, earns: +550 food production\n"
                                        +"!marbleTempleBuilding - costs: 50k money, 20k stone and 10k strategic metals, earns: +800 stone production\n"
+                                       +"CENTRAL PLATEAU:\nforestHoneyTrade - Central Plateau system that builds honey trade production. Cost: 5k food, 25k money, 8k timber. Output: 500 luxury.\ncentralMarketNetworks - Central Plateau system that builds market networks. Cost: 35k money, 10k luxury, 10k stone. Output: 750 money.\nriverHubTradeCities - Central Plateau system that builds river trade cities. Cost: 30k money, 10k timber, 10k stone. Output: 650 money.\n"
                                        )
                 
             if "!cropRotation" in msg.content:
@@ -2125,7 +2126,38 @@ async def on_message(msg):
 
 
 
-
+            if "!gamble" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        if nam["money"]>=1000:
+                            number = random.randint(1, 1000)
+                            nam["money"]=nam["money"]-1000
+                            if number<500:
+                                await msg.channel.send("you won nothing")
+                            elif number>500 and number<600:
+                                nam["food"]=nam["food"]-50
+                                await msg.channel.send("you won -50 food")
+                            elif number>600 and number<700:
+                                nam["food"]=nam["food"]+50
+                                await msg.channel.send("you won 50 food")
+                            elif number>700 and number<750:
+                                nam["lux"]=nam["lux"]-50
+                                await msg.channel.send("you won -50 luxury goods")
+                            elif number>750 and number<800:
+                                nam["lux"]=nam["lux"]+50
+                                await msg.channel.send("you won 50 luxury goods")
+                            elif number>800 and number<850:
+                                nam["timber"]=nam["timber"]+50
+                                await msg.channel.send("you won 50 timber")
+                            else:
+                                nam["timber"]=nam["timber"]-50
+                                await msg.channel.send("you won -50 timber")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
 
 
 
@@ -2841,6 +2873,7 @@ async def on_message(msg):
                             f'\n religious actions are:\n'
                             f'ancestor worship: !sacrifice|amount - sacrifices x people and earns 1 random resource for each sacrifice\n'
                             f'atuatism: !temple - build a temple costs 1000 stone earns 20 food production\n'
+                            f'felisism: !breedCats - breeds cats, a very small chance they are mutated\n'
                 )
                 await msg.channel.send(m)
 
@@ -2904,6 +2937,30 @@ async def on_message(msg):
                                 json.dump(countries, f, indent=4)
                         else:
                             await msg.channel.send("you cannot afford that!")
+            if "!breedCats" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                    
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["religion"]=="Felisism":#"religion": "ancestor worship" and "religion": "atuatism"
+                        if nam["food"]>1000:
+                            nam["food"]=nam["food"]-1000
+                            
+                            number = random.randint(1, 1000)
+                            if number>100 and number<200:
+                                await msg.channel.send(f'your cat mutated and died of cancer')
+                            elif number>11 and number<30:
+                                await msg.channel.send(f'your cat has 2 tails')
+                            elif number>30 and number<100:
+                                await msg.channel.send(f'your cat has 3 tails')
+                            elif number<11:
+                                await msg.channel.send(f'your cat has 4 tails and 5 eyes')
+                            else:
+                                await msg.channel.send(f'you got normal cats')
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")#Felisism
 
 
 
