@@ -648,9 +648,11 @@ async def on_message(msg):
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
-                        nam["food"]=nam["food"]-2000+nam["expand"]
+                        nam["food"]=nam["food"]-(2000+nam["expand"])
                         if nam["expand"]<8000:
                             nam["expand"]=nam["expand"]+500
+                        else:
+                            nam["expand"]=nam["expand"]
                         nam["food+"]=nam["food+"]+50
                         nam["strategicMetals+"]=nam["strategicMetals+"]+10
 
