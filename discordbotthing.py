@@ -237,7 +237,7 @@ try:
                                     nam["mercinf"]=nam["mercinf"]*0.9
                             if nam["x2"]=="east":
                                 nam["x"]=nam["x"]+43
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
                                     nam["hoplites"]=nam["hoplites"]*0.9
                                     nam["warel"]=nam["warel"]*0.9
                                     nam["sling"]=nam["sling"]*0.9
@@ -250,7 +250,7 @@ try:
                             if nam["x2"]=="northwest":
                                 nam["x"]=nam["x"]-22
                                 nam["y"]=nam["y"]-38
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
                                     nam["hoplites"]=nam["hoplites"]*0.9
                                     nam["warel"]=nam["warel"]*0.9
                                     nam["sling"]=nam["sling"]*0.9
@@ -262,7 +262,7 @@ try:
                                     nam["mercinf"]=nam["mercinf"]*0.9
                             if nam["x2"]=="west":
                                 nam["x"]=nam["x"]-43
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
                                     nam["hoplites"]=nam["hoplites"]*0.9
                                     nam["warel"]=nam["warel"]*0.9
                                     nam["sling"]=nam["sling"]*0.9
@@ -275,7 +275,7 @@ try:
                             if nam["x2"]=="southwest":
                                 nam["x"]=nam["x"]-22
                                 nam["y"]=nam["y"]+38
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
                                     nam["hoplites"]=nam["hoplites"]*0.9
                                     nam["warel"]=nam["warel"]*0.9
                                     nam["sling"]=nam["sling"]*0.9
@@ -288,7 +288,7 @@ try:
                             if nam["x2"]=="southeast":
                                 nam["x"]=nam["x"]+22
                                 nam["y"]=nam["y"]+38
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255)):
+                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
                                     nam["hoplites"]=nam["hoplites"]*0.9
                                     nam["warel"]=nam["warel"]*0.9
                                     nam["sling"]=nam["sling"]*0.9
@@ -2808,6 +2808,8 @@ async def on_message(msg):
 
                         nam["ircav+"]=-nam["ircav"]
                 m="army demobilized at next timeskip"
+                with open("countries.json", "w") as f:
+                    json.dump(countries, f, indent=4)
                 await msg.channel.send(m)
                 
 
