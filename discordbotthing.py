@@ -22,12 +22,12 @@ import numpy as np
 
 try:
     def economy_loop():
-        last_run = 21
+        last_run = 0
 
         while True:
             now = datetime.now()
             print("uhhh...", now.hour)
-            if now.hour in [0, 4, 8, 12, 16, 20]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
+            if now.hour in [2, 6, 10, 14, 18, 22]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
                 slot = now.hour
                 print("now in slot: ", slot)
 
@@ -35,104 +35,105 @@ try:
                     countries = []
                     with open("countries.json", "r") as f:
                         countries = json.load(f)
+                    img = Image.open("war.png").convert("RGBA")
                     for  nam in countries:
-                        if nam["irinf+"] != 0:
+                        if nam["irinf+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["irinf+"] and nam["timber"] >= nam["irinf+"]:
                                 nam["food"] = nam["food"]-nam["irinf+"]
                                 nam["timber"] = nam["timber"]-nam["irinf+"]
                                 nam["irinf"] += nam["irinf+"]
                                 nam["irinf+"]=0
-                        if nam["ircav+"] != 0:
+                        if nam["ircav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["ircav+"]*2 and nam["timber"] >= nam["ircav+"]:
                                 nam["food"] = nam["food"]-nam["ircav+"]*2
                                 nam["timber"] = nam["timber"]-nam["ircav+"]
                                 nam["ircav"] += nam["ircav+"]
                                 nam["ircav+"]=0
-                        if nam["hoplites+"] != 0:
+                        if nam["hoplites+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["hoplites+"] and nam["strategicMetals"] >= nam["hoplites+"]:
                                 nam["food"] = nam["food"]-nam["hoplites+"]
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["hoplites+"]
                                 nam["hoplites"] += nam["hoplites+"]
                                 nam["hoplites+"]=0
-                        if nam["warel+"] != 0:
+                        if nam["warel+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["warel+"] and nam["strategicMetals"] >= nam["warel+"]:
                                 nam["food"] = nam["food"]-(nam["warel+"]*20)
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["warel+"]
                                 nam["warel"] += nam["warel+"]
                                 nam["warel+"]=0
-                        if nam["sling+"] != 0:
+                        if nam["sling+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["sling+"] and nam["strategicMetals"] >= nam["sling+"]:
                                 nam["food"] = nam["food"]-(nam["sling+"])
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["sling+"]
                                 nam["sling"] += nam["sling+"]
                                 nam["sling+"]=0
-                        if nam["arch+"] != 0:
+                        if nam["arch+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["arch+"] and nam["strategicMetals"] >= nam["arch+"]:
                                 nam["food"] = nam["food"]-(nam["arch+"])
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["arch+"]
                                 nam["arch"] += nam["arch+"]
                                 nam["arch+"]=0
-                        if nam["milit+"] != 0:
+                        if nam["milit+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["milit+"] and nam["strategicMetals"] >= nam["milit+"]:
                                 nam["food"] = nam["food"]-(nam["milit+"])
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["milit+"]
                                 nam["milit"] += nam["milit+"]
                                 nam["milit+"]=0
-                        if nam["harch+"] != 0:
+                        if nam["harch+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["harch+"]*2 and nam["strategicMetals"] >= nam["harch+"]:
                                 nam["food"] = nam["food"]-(nam["harch+"]*2)
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["harch+"]
                                 nam["harch"] += nam["harch+"]
                                 nam["harch+"]=0
-                        if nam["ligcav+"] != 0:
+                        if nam["ligcav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["ligcav+"]*2 and nam["strategicMetals"] >= nam["ligcav+"]:
                                 nam["food"] = nam["food"]-(nam["ligcav+"]*2)
                                 nam["strategicMetals"] = nam["strategicMetals"]-nam["ligcav+"]
                                 nam["ligcav"] += nam["ligcav+"]
                                 nam["ligcav+"]=0
                         
-                        if nam["merccav+"] != 0:
+                        if nam["merccav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["merccav+"]*2 and nam["money"] >= nam["merccav+"]*20:
                                 nam["food"] = nam["food"]-(nam["merccav+"]*2)
                                 nam["money"] = nam["money"]-(nam["merccav+"]*20)
                                 nam["merccav"] += nam["merccav+"]
                                 nam["merccav+"]=0
                         
-                        if nam["mercinf+"] != 0:
+                        if nam["mercinf+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["mercinf+"] and nam["money"] >= nam["mercinf+"]*10:
                                 nam["food"] = nam["food"]-(nam["mercinf+"])
                                 nam["money"] = nam["money"]-(nam["mercinf+"]*10)
                                 nam["mercinf"] += nam["mercinf+"]
                                 nam["mercinf+"]=0
                         
-                        if nam["triemes+"] != 0:
+                        if nam["triemes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["triemes+"]*40 and nam["timber"] >= nam["triemes+"]*50:
                                 nam["food"] = nam["food"]-(nam["triemes+"]*40)
                                 nam["timber"] = nam["timber"]-(nam["triemes+"]*50)
                                 nam["triemes"] += nam["triemes+"]
                                 nam["triemes+"]=0
                         
-                        if nam["canoes+"] != 0:
+                        if nam["canoes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]*10:
                                 nam["food"] = nam["food"]-(nam["canoes+"])
                                 nam["timber"] = nam["timber"]-(nam["canoes+"]*10)
                                 nam["canoes"] += nam["canoes+"]
                                 nam["canoes+"]=0
                         
-                        if nam["patrol+"] != 0:
+                        if nam["patrol+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["patrol+"]*50 and nam["timber"] >= nam["patrol+"]*100:
                                 nam["food"] = nam["food"]-(nam["patrol+"]*50)
                                 nam["timber"] = nam["timber"]-(nam["patrol+"]*100)
                                 nam["patrol"] += nam["patrol+"]
                                 nam["patrol+"]=0
                         
-                        if nam["longships+"] != 0:
+                        if nam["longships+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["longships+"]*20 and nam["timber"] >= nam["longships+"]*30:
                                 nam["food"] = nam["food"]-(nam["longships+"]*20)
                                 nam["timber"] = nam["timber"]-(nam["longships+"]*30)
                                 nam["longships"] += nam["longships+"]
                                 nam["longships+"]=0
-                        if nam["quinqueremes+"] != 0:
+                        if nam["quinqueremes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
                             if nam["food"] >= nam["quinqueremes+"]*30 and nam["timber"] >= nam["quinqueremes+"]*40:
                                 nam["food"] = nam["food"]-(nam["quinqueremes+"]*30)
                                 nam["timber"] = nam["timber"]-(nam["quinqueremes+"]*40)
@@ -213,6 +214,8 @@ try:
                             nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
                         if nam["pop+"]>1.1:
                             nam["pop+"]=1.1
+                        if nam["pop+"]>1.05 and nam["pop"]>3000000:
+                            nam["pop+"]=nam["pop+"]-0.1+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
                     m="time progressed!"
                     print(m)
                     i=0
@@ -633,6 +636,9 @@ async def on_message(msg):
                         m = "trade accepted"
                         await msg.channel.send(m)
                         with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
+                        trade["to"]=""
+                        with open("trade.json", "w") as f:
                             json.dump(countries, f, indent=4)
 
             if "!n" in msg.content:
@@ -1196,7 +1202,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Northern Plateau" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t37"]==0 and any(role.name == "Northern Plateau" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=20000 and nam["lux"]>=8000 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-20000
@@ -1212,7 +1218,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t37"]=37
                             await msg.channel.send("amber jewelry researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1223,7 +1229,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Northern Plateau" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t38"]==0 and any(role.name == "Northern Plateau" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-50000
@@ -1239,7 +1245,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+800
-                            nam["tid"]=id
+                            nam["t38"]=38
                             await msg.channel.send("bog steel smithing researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1250,7 +1256,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t39"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=20000 and nam["lux"]>=8000 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-20000
@@ -1266,7 +1272,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t39"]=39
                             await msg.channel.send("olive oil trade researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1277,7 +1283,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t40"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
                         if nam["food"]>=10000 and nam["money"]>=25000 and nam["lux"]>=0 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-10000
                             nam["money"]=nam["money"]-25000
@@ -1293,7 +1299,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t40"]=40
                             await msg.channel.send("coastal fishing researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1304,7 +1310,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t41"]==0 and any(role.name == "Mediterranean" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=20000 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-50000
@@ -1320,7 +1326,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+800
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t41"]=41
                             await msg.channel.send("marble temple building researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1330,7 +1336,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Central Plateau" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t42"]==0 and any(role.name == "Central Plateau" for role in msg.author.roles):
                         if nam["food"]>=5000 and nam["money"]>=25000 and nam["lux"]>=0 and nam["timber"]>=8000 and nam["stone"]>=8000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-5000
                             nam["money"]=nam["money"]-25000
@@ -1346,7 +1352,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t42"]=42
                             await msg.channel.send("forest honey trade researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1357,7 +1363,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Central Plateau" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t43"]==0 and any(role.name == "Central Plateau" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=10000 and nam["stone"]>=10000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-50000
@@ -1373,7 +1379,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+800
-                            nam["tid"]=id
+                            nam["t43"]=43
                             await msg.channel.send("iron hill mining researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -3365,33 +3371,19 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                         nam["nobleMetals+"] +
                         nam["strategicMetals+"] +
                         nam["money"]*nam["moncon"]/10000 +(
-                        nam["hoplites+"] +
                         nam["hoplites"] +
-                        nam["warel+"] +
                         nam["warel"] +
-                        nam["sling+"] +
                         nam["sling"] +
-                        nam["arch+"] +
                         nam["arch"] +
-                        nam["milit+"] +
                         nam["milit"] +
-                        nam["harch+"] +
                         nam["harch"] +
-                        nam["ligcav+"] +
                         nam["ligcav"] +
-                        nam["merccav+"] +
                         nam["merccav"] +
-                        nam["mercinf+"] +
                         nam["mercinf"] +
                         nam["triemes"] +
                         nam["canoes"] +
                         nam["patrol"] +
                         nam["longships"] +
-                        nam["triemes+"] +
-                        nam["canoes+"] +
-                        nam["patrol+"] +
-                        nam["longships+"] +
-                        nam["quinqueremes+"] +
                         nam["quinqueremes"])*100
                     )
                 countries2 = sorted(countries, key=score, reverse=True)
@@ -3400,7 +3392,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                     z=z+1
                     if True:
                         m = (
-                            f'ranking:\n{z}. {nam["name"]} - currency value: {fmt(nam["moncon"])}, total resources: {fmt(nam["food"]+nam["lux"]+nam["timber"]+nam["stone"]+nam["nobleMetals"]+nam["strategicMetals"])}, population: {fmt(nam["pop"])}, technology: {nam["t1"]+nam["t2"]+nam["t3"]+nam["t4"]+nam["t5"]+nam["t6"]+nam["t7"]+nam["t8"]+nam["t9"]+nam["t10"]+nam["t11"]+nam["t12"]+nam["t13"]+nam["t14"]+nam["t15"]}, total production: {fmt(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"])}, military: {nam["hoplites"] +nam["warel+"] +nam["warel"] +nam["sling+"] +nam["sling"] +nam["arch+"] +nam["arch"] +nam["milit+"] +nam["milit"] +nam["harch+"] +nam["harch"] +nam["ligcav+"] +nam["ligcav"] +nam["mercinf+"] +nam["mercinf"] +nam["triemes"] +nam["canoes"] +nam["patrol"] +nam["longships"] +nam["triemes+"] +nam["canoes+"] +nam["patrol+"] +nam["longships+"] +nam["quinqueremes+"] +nam["quinqueremes"]}\n'
+                            f'ranking:\n{z}. {nam["name"]} - currency value: {fmt(nam["moncon"])}, total resources: {fmt(nam["food"]+nam["lux"]+nam["timber"]+nam["stone"]+nam["nobleMetals"]+nam["strategicMetals"])}, population: {fmt(nam["pop"])}, technology: {nam["t1"]+nam["t2"]+nam["t3"]+nam["t4"]+nam["t5"]+nam["t6"]+nam["t7"]+nam["t8"]+nam["t9"]+nam["t10"]+nam["t11"]+nam["t12"]+nam["t13"]+nam["t14"]+nam["t15"]}, total production: {fmt(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"])}, military: {nam["hoplites"]  +nam["warel"]  +nam["sling"]  +nam["arch"]  +nam["milit"]  +nam["harch"]  +nam["ligcav"]  +nam["mercinf"] +nam["triemes"] +nam["canoes"] +nam["patrol"] +nam["longships"]  +nam["quinqueremes"]}\n'
                             "--\n"
                         )
                         await msg.channel.send(m)
