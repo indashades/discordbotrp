@@ -27,7 +27,7 @@ try:
         while True:
             now = datetime.now()
             print("uhhh...", now.hour)
-            if now.hour in [2, 6, 10, 14, 18, 22]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
+            if now.hour in [0, 4, 8, 12, 16, 20]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
                 slot = now.hour
                 print("now in slot: ", slot)
 
@@ -1034,7 +1034,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Middle West" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t31"]==0 and any(role.name == "Middle West" for role in msg.author.roles):
                         if nam["food"]>=8000 and nam["money"]>=20000 and nam["lux"]>=0 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-8000
                             nam["money"]=nam["money"]-20000
@@ -1050,7 +1050,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t31"]=31
                             await msg.channel.send("maize drying researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1061,7 +1061,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Middle West" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t32"]==0 and any(role.name == "Middle West" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=20000 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-50000
@@ -1077,7 +1077,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+800
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t32"]=33
                             await msg.channel.send("step pyramid construction researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1088,7 +1088,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t33"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
                         if nam["food"]>=5000 and nam["money"]>=20000 and nam["lux"]>=0 and nam["timber"]>=8000 and nam["stone"]>=8000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-5000
                             nam["money"]=nam["money"]-20000
@@ -1104,7 +1104,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t33"]=33
                             await msg.channel.send("rain forest harvesting researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1115,7 +1115,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t34"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=25000 and nam["lux"]>=8000 and nam["timber"]>=5000 and nam["stone"]>=5000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-25000
@@ -1131,7 +1131,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t34"]=34
                             await msg.channel.send("crop rotation researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1142,7 +1142,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t35"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=40000 and nam["lux"]>=0 and nam["timber"]>=15000 and nam["stone"]>=15000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-40000
@@ -1158,7 +1158,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+0
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t35"]=35
                             await msg.channel.send("river canoe trading researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
@@ -1169,7 +1169,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["tid"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
+                    if msg.author.display_name==nam["name"] and nam["t36"]==0 and any(role.name == "Southern Forest" for role in msg.author.roles):
                         if nam["food"]>=0 and nam["money"]>=50000 and nam["lux"]>=0 and nam["timber"]>=15000 and nam["stone"]>=15000 and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-50000
@@ -1185,7 +1185,7 @@ async def on_message(msg):
                             nam["stone+"]=nam["stone+"]+0
                             nam["nobleMetals+"]=nam["nobleMetals+"]+800
                             nam["strategicMetals+"]=nam["strategicMetals+"]+0
-                            nam["tid"]=id
+                            nam["t36"]=36
                             await msg.channel.send("gold river mining researched!")
                             with open("countries.json", "w") as f:
                                 json.dump(countries, f, indent=4)
