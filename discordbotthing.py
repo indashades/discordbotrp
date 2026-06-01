@@ -22,7 +22,7 @@ import numpy as np
 
 try:
     def economy_loop():
-        last_run = 0
+        last_run = 20
 
         while True:
             now = datetime.now()
@@ -214,8 +214,10 @@ try:
                             nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
                         if nam["pop+"]>1.1:
                             nam["pop+"]=1.1
-                        if nam["pop+"]>1.05 and nam["pop"]>3000000:
+                        if nam["pop"]>3000000:
                             nam["pop+"]=nam["pop+"]-0.1+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
+                        if nam["pop"]>4000000:
+                            nam["pop+"]=nam["pop+"]-0.2+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
                     m="time progressed!"
                     print(m)
                     i=0
@@ -770,8 +772,11 @@ async def on_message(msg):
                                        +"!oliveOilTrade - costs: 20k money, 8k luxury goods and 5k timber, earns: +500 luxury goods production\n"
                                        +"!coastalFishing - costs: 25k money, 10k food and 5k timber, earns: +550 food production\n"
                                        +"!marbleTempleBuilding - costs: 50k money, 20k stone and 10k strategic metals, earns: +800 stone production\n"
-                                       +"CENTRAL PLATEAU:\nforestHoneyTrade - Central Plateau system that builds honey trade production. Cost: 5k food, 25k money, 8k timber. Output: 500 luxury.\ncentralMarketNetworks - Central Plateau system that builds market networks. Cost: 35k money, 10k luxury, 10k stone. Output: 750 money.\nriverHubTradeCities - Central Plateau system that builds river trade cities. Cost: 30k money, 10k timber, 10k stone. Output: 650 money.\n"
+                                       #+"CENTRAL PLATEAU:\nforestHoneyTrade - Central Plateau system that builds honey trade production. Cost: 5k food, 25k money, 8k timber. Output: 500 luxury.\ncentralMarketNetworks - Central Plateau system that builds market networks. Cost: 35k money, 10k luxury, 10k stone. Output: 750 money.\nriverHubTradeCities - Central Plateau system that builds river trade cities. Cost: 30k money, 10k timber, 10k stone. Output: 650 money.\n"
                                        )
+                await msg.channel.send(f'Kiwi\nislandSeaRoutes – Cost: 40k money, 15k timber, 10k ride animal – gain: +800 money production\njadeCarving – Cost: 25k money, 5k luxury, 8k stone – gain: +500 luxury production\n\nEast\nbronzeCasting – Cost: 35k money, 5k timber, 10k precious metal, 15k strategic metal – gain: +600 strategic metal production\ncastIronWorkshops – Cost: 50k money, 10k precious metal, 20k strategic metal – gain: +800 strategic metal production\nimperialHarbors – Cost: 40k money, 15k timber, 10k stone – gain: +800 money production\nriceFloodCanals – Cost: 25k money, 10k stone, 10k precious metals – gain: +650 food production\n\nEast Desert\nbronzeDesertForges – Cost: 50k money, 10k timber, 10k precious metal, 20k strategic metal – gain: +800 strategic metal production\n')
+                await msg.channel.send(f'incensePerfumes – Cost: 25k money, 8k luxury, 5k timber – gain: +500 luxury production\noasisGardens – Cost: 8k food, 20k money, 5k stone – gain: +500 food production\n\nEastern Plateau\nsteppeIronSmithing – Cost: 50k money, 10k timber, 20k strategic metal – gain: +800 strategic metal production\nhorseMessengerRoutes – Cost: 20k money, 5k timber, 10k ride animal – gain: +450 money production\n\nCold\nfrozenIronMining – Cost: 50k money, 10k timber, 20k strategic metal – gain: +800 strategic metal production\nfurClothing – Cost: 20k money, 5k timber – gain: +500 luxury production\n\nBehind Desert\ndeepGoldMining – Cost: 50k money, 15k timber, 15k strategic metal – gain: +800 precious metal production\n')
+                await msg.channel.send(f'ivoryCarving – Cost: 25k money, 5k luxury – gain: +500 luxury production\nriverFloodFarming – Cost: 20k money, 10k stone – gain: +550 food production\n\nCentral Desert\ndesertCopperMining – Cost: 50k money, 20k strategic metal, 10k timber – gain: +800 strategic metal production\ncamelLeatherCrafting – Cost: 25k money, 5k luxury – gain: +500 luxury production\ndatePalmOases – Cost: 8k food, 20k money, 5k stone – gain: +500 food production\n\nCentral Plateau\ncentralMarketNetworks – Cost: 35k money, 10k luxury, 10k stone – gain: +750 money production\nriverHubTradeCities – Cost: 30k money, 10k timber, 10k stone – gain: +650 money production\nironHillMining – Cost: 50k money, 10k timber, 20k strategic metal – gain: +800 strategic metal production\nforestHoneyTrade – Cost: 25k money, 5k food, 8k timber – gain: +500 luxury production')
                 
             if "!cropRotation" in msg.content:
                 with open("countries.json", "r") as f:
@@ -1797,13 +1802,13 @@ async def on_message(msg):
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t38"]==0 and any(role.name == "East" for role in msg.author.roles):
-                        if nam["food"]>=0 and nam["money"]>=25*k and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=10*k and nam["strategicMetals"]>=0:
+                        if nam["food"]>=0 and nam["money"]>=25*k and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=10000 and nam["nobleMetals"]>=10*k and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-0
                             nam["money"]=nam["money"]-25*k
                             nam["lux"]=nam["lux"]-0
                             nam["timber"]=nam["timber"]-0
                             nam["stone"]=nam["stone"]-10*k
-                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["nobleMetals"]=nam["nobleMetals"]-10*k
                             nam["strategicMetals"]=nam["strategicMetals"]-0
                             nam["food+"]=nam["food+"]+650
                             nam["gra+"]=nam["gra+"]+0
@@ -2606,7 +2611,7 @@ async def on_message(msg):
                                 nam["canoes+"]+=amount
                                 nam["us"] = ""
                                 await msg.channel.send(f'constructing {amount} war canoes')
-                        with open("countries.json", "w") as f:
+                                with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
             if msg.content == "!11":
                 with open("countries.json", "r") as f:
@@ -2637,7 +2642,7 @@ async def on_message(msg):
                                 nam["patrol+"]+=amount
                                 nam["us"] = ""
                                 await msg.channel.send(f'constructing {amount} patrol ships')
-                        with open("countries.json", "w") as f:
+                                with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
             if msg.content == "!12":
                 with open("countries.json", "r") as f:
@@ -2668,7 +2673,7 @@ async def on_message(msg):
                                 nam["longships+"]+=amount
                                 nam["us"] = ""
                                 await msg.channel.send(f'constructing {amount} longships')
-                        with open("countries.json", "w") as f:
+                                with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
                     if msg.author.display_name==nam["name"] and nam["us"] == "blongships" and nam["t29"]==0:
                         await msg.channel.send("you need the longship research to build these")
@@ -2702,7 +2707,7 @@ async def on_message(msg):
                                 nam["quinqueremes+"]+=amount
                                 nam["us"] = ""
                                 await msg.channel.send(f'constructing {amount} quinqueremes')
-                        with open("countries.json", "w") as f:
+                                with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
                     if msg.author.display_name==nam["name"] and nam["us"] == "bquinqueremes" and  nam["t30"]==0:
                         await msg.channel.send("you need the quinquereme research to build these")
@@ -2735,7 +2740,7 @@ async def on_message(msg):
                                 nam["irinf+"]+=amount
                                 nam["us"] = ""
                                 await msg.channel.send(f'mobilizing {amount} irregular infantery')
-                        with open("countries.json", "w") as f:
+                                with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
             if msg.content == "!15":
                 with open("countries.json", "r") as f:
@@ -2765,7 +2770,7 @@ async def on_message(msg):
                                 nam["ircav+"]+=amount
                                 nam["us"] = ""
                                 await msg.channel.send(f'mobilizing {amount} irregular cavalry')
-                        with open("countries.json", "w") as f:
+                                with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
             if msg.content == "!16":
                 with open("countries.json", "r") as f:
