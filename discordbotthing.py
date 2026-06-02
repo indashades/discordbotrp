@@ -215,9 +215,9 @@ try:
                         if nam["pop+"]>1.1:
                             nam["pop+"]=1.1
                         if nam["pop"]>3000000:
-                            nam["pop+"]=nam["pop+"]-0.1+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
+                            nam["pop+"]=0.95+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
                         if nam["pop"]>4000000:
-                            nam["pop+"]=nam["pop+"]-0.2+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
+                            nam["pop+"]=0.9+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
                     m="time progressed!"
                     print(m)
                     i=0
