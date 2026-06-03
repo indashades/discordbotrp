@@ -1,7 +1,7 @@
 [
     {
         "name": "Empire of Karthago",
-        "money": 166005.16806653477,
+        "money": 116005.16806653477,
         "gra+": 814.6043824050414,
         "moncon": 0.8932554780063017,
         "pop": 2833568.423193227,
@@ -2363,7 +2363,7 @@
         "longships": 0,
         "triemes+": 0,
         "canoes+": 0,
-        "patrol+": 0,
+        "patrol+": 5,
         "longships+": 0,
         "quinqueremes+": 0,
         "quinqueremes": 0,
@@ -4205,8 +4205,8 @@
         "moncon": 0.7,
         "pop": 19321.254191172247,
         "pop+": 0.9556545040447575,
-        "food": 3600.0,
-        "food+": 600.0,
+        "food": -2400.0,
+        "food+": 650.0,
         "lux": 7000.0,
         "lux+": 150.0,
         "timber": 9200.0,
@@ -4216,7 +4216,7 @@
         "nobleMetals": 5100.0,
         "nobleMetals+": 100.0,
         "strategicMetals": 8922.25,
-        "strategicMetals+": 260.0,
+        "strategicMetals+": 270.0,
         "livestock": 257.6167225489634,
         "rideAnimals": 257.6167225489634,
         "war?": 0,
@@ -4325,7 +4325,7 @@
         "r": 200,
         "g": 84,
         "b": 0,
-        "expand": 4000
+        "expand": 4500
     },
     {
         "name": "Bohado (npc)",
