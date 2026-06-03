@@ -2197,6 +2197,36 @@ async def on_message(msg):
                         await msg.channel.send(f'a volcano has erupted killing {parts[2]} citizens')
                         with open("countries.json", "w") as f:
                             json.dump(countries, f, indent=4)
+            if "!rats" in msg.content and msg.author.display_name=="God":  #!flood|country|amount
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                parts=msg.content.split("|")
+                for  nam in countries:
+                    if parts[1]==nam["name"]:
+                        nam["food"]=nam["food"]-int(parts[2])
+                        await msg.channel.send(f'a rat infestation ate {parts[2]} food from the food storage')
+                        with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
+            if "!stoneDisaster" in msg.content and msg.author.display_name=="God":  #!flood|country|amount
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                parts=msg.content.split("|")
+                for  nam in countries:
+                    if parts[1]==nam["name"]:
+                        nam["food"]=nam["food"]-int(parts[2])
+                        await msg.channel.send(f'{parts[2]} stone somehow disappeared')
+                        with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
+            if "!runningTimber" in msg.content and msg.author.display_name=="God":  #!flood|country|amount
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                parts=msg.content.split("|")
+                for  nam in countries:
+                    if parts[1]==nam["name"]:
+                        nam["food"]=nam["food"]-int(parts[2])
+                        await msg.channel.send(f'{parts[2]} timber rolled into the ocean')
+                        with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
             if "!raid" in msg.content and msg.author.display_name=="God":  #!raid|country
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
