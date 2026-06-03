@@ -1721,7 +1721,7 @@ async def on_message(msg):
                     countries = json.load(f)
                 for  nam in countries:
                     if msg.author.display_name==nam["name"] and nam["t35"]==0 and any(role.name == "East Desert" for role in msg.author.roles):
-                        if nam["food"]>=8*k and nam["money"]>=20*k and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=0 and nam["nobleMetals"]>=5*k and nam["strategicMetals"]>=0:
+                        if nam["food"]>=8*k and nam["money"]>=20*k and nam["lux"]>=0 and nam["timber"]>=0 and nam["stone"]>=5*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0:
                             nam["food"]=nam["food"]-8*k
                             nam["money"]=nam["money"]-20*k
                             nam["lux"]=nam["lux"]-0
@@ -3281,9 +3281,9 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                             f'\n{nam["name"]}\n'
                             f'treasury: {fmt(nam["money"])} + {fmt(+nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"]))-nam["mercinf"]*10-nam["merccav"]*20)}\n'
                             f'population: {fmt(nam["pop"])} * {fmt(nam["pop+"])}\n'
-                            f'food: {fmt(nam["food"])} + {fmt(nam["food+"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"])}\n'
+                            f'food: {fmt(nam["food"])} + {fmt(nam["food+"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]-nam["irinf"]-2*nam["ircav"])}\n'
                             f'luxury goods: {fmt(nam["lux"])} + {fmt(nam["lux+"])}\n'
-                            f'timber: {fmt(nam["timber"])} + {fmt(nam["timber+"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"])}\n'
+                            f'timber: {fmt(nam["timber"])} + {fmt(nam["timber+"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]-nam["irinf"]-nam["ircav"])}\n'
                             f'stone: {fmt(nam["stone"])} + {fmt(nam["stone+"])}\n'
                             f'precious metals: {fmt(nam["nobleMetals"])} + {fmt(nam["nobleMetals+"])}\n'
                             f'strategic metals: {fmt(nam["strategicMetals"])} + {fmt(nam["strategicMetals+"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"])}\n'

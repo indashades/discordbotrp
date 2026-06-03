@@ -6,8 +6,8 @@
         "moncon": 0.8932554780063017,
         "pop": 2833568.423193227,
         "pop+": 1.0112581375427971,
-        "food": 96481.01099999997,
-        "food+": 2600.0,
+        "food": 88981.01099999997,
+        "food+": 2650.0,
         "lux": 82300.0,
         "lux+": 1150.0,
         "timber": 2667.0,
@@ -17,7 +17,7 @@
         "nobleMetals": 17400.0,
         "nobleMetals+": 500.0,
         "strategicMetals": 50484.612415739364,
-        "strategicMetals+": 1311.2336980250998,
+        "strategicMetals+": 1321.2336980250998,
         "livestock": 87584.5329278051,
         "rideAnimals": 9345.32476271934,
         "war?": 0,
@@ -124,7 +124,7 @@
         "r": 2,
         "g": 255,
         "b": 15,
-        "expand": 5500
+        "expand": 6000
     },
     {
         "name": "State of Novogorod",
@@ -641,8 +641,8 @@
         "moncon": 0.5,
         "pop": 2152234.0035170005,
         "pop+": 1.013196363986084,
-        "food": 145801.0,
-        "food+": 2700.0,
+        "food": 139801.0,
+        "food+": 2750.0,
         "lux": 94580.0,
         "lux+": 850.0,
         "timber": 18200.0,
@@ -652,7 +652,7 @@
         "nobleMetals": 5200.0,
         "nobleMetals+": 100.0,
         "strategicMetals": 50400.0,
-        "strategicMetals+": 1190.0,
+        "strategicMetals+": 1200.0,
         "livestock": 12205.99896271119,
         "rideAnimals": 8967.64168132083,
         "war?": 0,
@@ -759,7 +759,7 @@
         "r": 10,
         "g": 38,
         "b": 255,
-        "expand": 4000
+        "expand": 4500
     },
     {
         "name": "Westoid Horde",
@@ -3183,8 +3183,8 @@
         "moncon": 0.7,
         "pop": 3005496.66968284,
         "pop+": 0.9510188480708439,
-        "food": 15898.59999999999,
-        "food+": 1650.0,
+        "food": 9398.59999999999,
+        "food+": 1700.0,
         "lux": 15300.0,
         "lux+": 450.0,
         "timber": 3609.0,
@@ -3194,7 +3194,7 @@
         "nobleMetals": 7000.0,
         "nobleMetals+": 100.0,
         "strategicMetals": 8999.600000000004,
-        "strategicMetals+": 1310.0,
+        "strategicMetals+": 1320.0,
         "livestock": 61951.063402279,
         "rideAnimals": 333944.07440920454,
         "war?": 0,
@@ -3301,7 +3301,7 @@
         "r": 255,
         "g": 21,
         "b": 0,
-        "expand": 4500
+        "expand": 5000
     },
     {
         "name": "Imperial State of Tokyo",
