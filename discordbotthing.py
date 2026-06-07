@@ -1976,7 +1976,7 @@ async def on_message(msg):
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
                 for  nam in countries:
-                    if msg.author.display_name==nam["name"] and nam["t13"]==0:
+                    if msg.author.display_name==nam["name"] and nam["t28"]==0:
                         if nam["money"]>=10000 and nam["strategicMetals"]>=5000:
                             nam["money"]=nam["money"]-10000
                             nam["strategicMetals"]=nam["strategicMetals"]-5000
