@@ -607,33 +607,37 @@ async def on_message(msg):
                         if trade1 == "money":
 
                             # remove sender money
-                            sender["money"] -= tradevar1
+                            if sender["money"]>=tradevar1:
+                                sender["money"] -= tradevar1
 
-                            # convert sender currency -> base -> receiver currency
-                            base_value = tradevar1 * sender["moncon"]
-                            converted_money = base_value / receiver["moncon"]
+                                # convert sender currency -> base -> receiver currency
+                                base_value = tradevar1 * sender["moncon"]
+                                converted_money = base_value / receiver["moncon"]
 
-                            receiver["money"] += converted_money
+                                receiver["money"] += converted_money
 
                         else:
-                            sender[trade1] -= tradevar1
-                            receiver[trade1] += tradevar1
+                            if sender[trade1]>=tradevar1:
+                                sender[trade1] -= tradevar1
+                                receiver[trade1] += tradevar1
 
                         # ---- Receiver gives item ----
                         if trade2 == "money":
 
                             # remove receiver money
-                            receiver["money"] -= tradevar2
+                            if receiver["money"]>=tradevar2:
+                                receiver["money"] -= tradevar2
 
-                            # convert receiver currency -> base -> sender currency
-                            base_value = tradevar2 * receiver["moncon"]
-                            converted_money = base_value / sender["moncon"]
+                                # convert receiver currency -> base -> sender currency
+                                base_value = tradevar2 * receiver["moncon"]
+                                converted_money = base_value / sender["moncon"]
 
-                            sender["money"] += converted_money
+                                sender["money"] += converted_money
 
                         else:
-                            receiver[trade2] -= tradevar2
-                            sender[trade2] += tradevar2
+                            if receiver[trade2]>=tradevar2:
+                                receiver[trade2] -= tradevar2
+                                sender[trade2] += tradevar2
 
                         m = "trade accepted"
                         await msg.channel.send(m)
