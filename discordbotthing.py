@@ -2852,6 +2852,16 @@ async def on_message(msg):
                         nam["irinf+"]=-nam["irinf"]
 
                         nam["ircav+"]=-nam["ircav"]
+
+                        nam["triemes+"]=0
+
+                        nam["quinqueremes+"]=0
+
+                        nam["longships+"]=0
+
+                        nam["patrol+"]=0
+
+                        nam["canoes+"]=0
                 m="army demobilized at next timeskip"
                 with open("countries.json", "w") as f:
                     json.dump(countries, f, indent=4)
@@ -3582,7 +3592,46 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                 "r": 188,
                 "g": 188,
                 "b": 188,
-                "expand": 1000
+                "expand": 1000,
+                "army2": [
+                    {
+                        "hoplites+": 0,
+                        "hoplites": 0,
+                        "warel+": 0,
+                        "warel": 0,
+                        "sling+": 0,
+                        "sling": 0,
+                        "arch+": 0,
+                        "arch": 0,
+                        "milit+": 0,
+                        "milit": 0,
+                        "harch+": 0,
+                        "harch": 0,
+                        "ligcav+": 0,
+                        "ligcav": 0,
+                        "merccav+": 0,
+                        "merccav": 0,
+                        "mercinf+": 0,
+                        "mercinf": 0,
+                        "mercinf": 0,
+                        "triemes": 0,
+                        "canoes": 0,
+                        "patrol": 0,
+                        "longships": 0,
+                        "triemes+": 0,
+                        "canoes+": 0,
+                        "patrol+": 0,
+                        "longships+": 0,
+                        "quinqueremes+": 0,
+                        "quinqueremes": 0,
+                        "x": 0,
+                        "y": 0,
+                        "x2": 0,
+                        "y2": 0,
+                        "armyID": 2, #how i keep track of what army someone is giving orders to/mobilizing to
+                        "tech": 0 #plan is the recruitgeneral tech will flip this to 1
+                    }
+                ]
 
                 #current format => !nadd|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|moneyconversionate|averagetax
 
