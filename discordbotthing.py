@@ -37,124 +37,236 @@ try:
                         countries = json.load(f)
                     img = Image.open("war.png").convert("RGBA")
                     for  nam in countries:
-                        if nam["irinf+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["irinf+"] and nam["timber"] >= nam["irinf+"]:
-                                nam["food"] = nam["food"]-nam["irinf+"]
-                                nam["timber"] = nam["timber"]-nam["irinf+"]
-                                nam["irinf"] += nam["irinf+"]
-                                nam["irinf+"]=0
-                        if nam["ircav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["ircav+"]*2 and nam["timber"] >= nam["ircav+"]:
-                                nam["food"] = nam["food"]-nam["ircav+"]*2
-                                nam["timber"] = nam["timber"]-nam["ircav+"]
-                                nam["ircav"] += nam["ircav+"]
-                                nam["ircav+"]=0
-                        if nam["hoplites+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["hoplites+"] and nam["strategicMetals"] >= nam["hoplites+"]:
-                                nam["food"] = nam["food"]-nam["hoplites+"]
-                                nam["strategicMetals"] = nam["strategicMetals"]-nam["hoplites+"]
-                                nam["hoplites"] += nam["hoplites+"]
-                                nam["hoplites+"]=0
-                        if nam["warel+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["warel+"] and nam["strategicMetals"] >= nam["warel+"]:
-                                nam["food"] = nam["food"]-(nam["warel+"]*20)
-                                nam["strategicMetals"] = nam["strategicMetals"]-nam["warel+"]
-                                nam["warel"] += nam["warel+"]
-                                nam["warel+"]=0
-                        if nam["sling+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["sling+"] and nam["strategicMetals"] >= nam["sling+"]:
-                                nam["food"] = nam["food"]-(nam["sling+"])
-                                nam["strategicMetals"] = nam["strategicMetals"]-nam["sling+"]
-                                nam["sling"] += nam["sling+"]
-                                nam["sling+"]=0
-                        if nam["arch+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["arch+"] and nam["strategicMetals"] >= nam["arch+"]:
-                                nam["food"] = nam["food"]-(nam["arch+"])
-                                nam["strategicMetals"] = nam["strategicMetals"]-nam["arch+"]
-                                nam["arch"] += nam["arch+"]
-                                nam["arch+"]=0
-                        if nam["milit+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["milit+"] and nam["strategicMetals"] >= nam["milit+"]:
-                                nam["food"] = nam["food"]-(nam["milit+"])
-                                nam["strategicMetals"] = nam["strategicMetals"]-nam["milit+"]
-                                nam["milit"] += nam["milit+"]
-                                nam["milit+"]=0
-                        if nam["harch+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["harch+"]*2 and nam["strategicMetals"] >= nam["harch+"]:
-                                nam["food"] = nam["food"]-(nam["harch+"]*2)
-                                nam["strategicMetals"] = nam["strategicMetals"]-nam["harch+"]
-                                nam["harch"] += nam["harch+"]
-                                nam["harch+"]=0
-                        if nam["ligcav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["ligcav+"]*2 and nam["strategicMetals"] >= nam["ligcav+"]:
-                                nam["food"] = nam["food"]-(nam["ligcav+"]*2)
-                                nam["strategicMetals"] = nam["strategicMetals"]-nam["ligcav+"]
-                                nam["ligcav"] += nam["ligcav+"]
-                                nam["ligcav+"]=0
-                        
-                        if nam["merccav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["merccav+"]*2 and nam["money"] >= nam["merccav+"]*20:
-                                nam["food"] = nam["food"]-(nam["merccav+"]*2)
-                                nam["money"] = nam["money"]-(nam["merccav+"]*20)
-                                nam["merccav"] += nam["merccav+"]
-                                nam["merccav+"]=0
-                        
-                        if nam["mercinf+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["mercinf+"] and nam["money"] >= nam["mercinf+"]*10:
-                                nam["food"] = nam["food"]-(nam["mercinf+"])
-                                nam["money"] = nam["money"]-(nam["mercinf+"]*10)
-                                nam["mercinf"] += nam["mercinf+"]
-                                nam["mercinf+"]=0
-                        
-                        if nam["triemes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["triemes+"]*40 and nam["timber"] >= nam["triemes+"]*50:
-                                nam["food"] = nam["food"]-(nam["triemes+"]*40)
-                                nam["timber"] = nam["timber"]-(nam["triemes+"]*50)
-                                nam["triemes"] += nam["triemes+"]
-                                nam["triemes+"]=0
-                        
-                        if nam["canoes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]*10:
-                                nam["food"] = nam["food"]-(nam["canoes+"])
-                                nam["timber"] = nam["timber"]-(nam["canoes+"]*10)
-                                nam["canoes"] += nam["canoes+"]
-                                nam["canoes+"]=0
-                        
-                        if nam["patrol+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["patrol+"]*50 and nam["timber"] >= nam["patrol+"]*100:
-                                nam["food"] = nam["food"]-(nam["patrol+"]*50)
-                                nam["timber"] = nam["timber"]-(nam["patrol+"]*100)
-                                nam["patrol"] += nam["patrol+"]
-                                nam["patrol+"]=0
-                        
-                        if nam["longships+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["longships+"]*20 and nam["timber"] >= nam["longships+"]*30:
-                                nam["food"] = nam["food"]-(nam["longships+"]*20)
-                                nam["timber"] = nam["timber"]-(nam["longships+"]*30)
-                                nam["longships"] += nam["longships+"]
-                                nam["longships+"]=0
-                        if nam["quinqueremes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
-                            if nam["food"] >= nam["quinqueremes+"]*30 and nam["timber"] >= nam["quinqueremes+"]*40:
-                                nam["food"] = nam["food"]-(nam["quinqueremes+"]*30)
-                                nam["timber"] = nam["timber"]-(nam["quinqueremes+"]*40)
-                                nam["quinqueremes"] += nam["quinqueremes+"]
-                                nam["quinqueremes+"]=0
+                        if nam["armyselect"]==1:
+                            if nam["irinf+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["irinf+"] and nam["timber"] >= nam["irinf+"]:
+                                    nam["food"] = nam["food"]-nam["irinf+"]
+                                    nam["timber"] = nam["timber"]-nam["irinf+"]
+                                    nam["irinf"] += nam["irinf+"]
+                                    nam["irinf+"]=0
+                            if nam["ircav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["ircav+"]*2 and nam["timber"] >= nam["ircav+"]:
+                                    nam["food"] = nam["food"]-nam["ircav+"]*2
+                                    nam["timber"] = nam["timber"]-nam["ircav+"]
+                                    nam["ircav"] += nam["ircav+"]
+                                    nam["ircav+"]=0
+                            if nam["hoplites+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["hoplites+"] and nam["strategicMetals"] >= nam["hoplites+"]:
+                                    nam["food"] = nam["food"]-nam["hoplites+"]
+                                    nam["strategicMetals"] = nam["strategicMetals"]-nam["hoplites+"]
+                                    nam["hoplites"] += nam["hoplites+"]
+                                    nam["hoplites+"]=0
+                            if nam["warel+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["warel+"] and nam["strategicMetals"] >= nam["warel+"]:
+                                    nam["food"] = nam["food"]-(nam["warel+"]*20)
+                                    nam["strategicMetals"] = nam["strategicMetals"]-nam["warel+"]
+                                    nam["warel"] += nam["warel+"]
+                                    nam["warel+"]=0
+                            if nam["sling+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["sling+"] and nam["strategicMetals"] >= nam["sling+"]:
+                                    nam["food"] = nam["food"]-(nam["sling+"])
+                                    nam["strategicMetals"] = nam["strategicMetals"]-nam["sling+"]
+                                    nam["sling"] += nam["sling+"]
+                                    nam["sling+"]=0
+                            if nam["arch+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["arch+"] and nam["strategicMetals"] >= nam["arch+"]:
+                                    nam["food"] = nam["food"]-(nam["arch+"])
+                                    nam["strategicMetals"] = nam["strategicMetals"]-nam["arch+"]
+                                    nam["arch"] += nam["arch+"]
+                                    nam["arch+"]=0
+                            if nam["milit+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["milit+"] and nam["strategicMetals"] >= nam["milit+"]:
+                                    nam["food"] = nam["food"]-(nam["milit+"])
+                                    nam["strategicMetals"] = nam["strategicMetals"]-nam["milit+"]
+                                    nam["milit"] += nam["milit+"]
+                                    nam["milit+"]=0
+                            if nam["harch+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["harch+"]*2 and nam["strategicMetals"] >= nam["harch+"]:
+                                    nam["food"] = nam["food"]-(nam["harch+"]*2)
+                                    nam["strategicMetals"] = nam["strategicMetals"]-nam["harch+"]
+                                    nam["harch"] += nam["harch+"]
+                                    nam["harch+"]=0
+                            if nam["ligcav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["ligcav+"]*2 and nam["strategicMetals"] >= nam["ligcav+"]:
+                                    nam["food"] = nam["food"]-(nam["ligcav+"]*2)
+                                    nam["strategicMetals"] = nam["strategicMetals"]-nam["ligcav+"]
+                                    nam["ligcav"] += nam["ligcav+"]
+                                    nam["ligcav+"]=0
+                            
+                            if nam["merccav+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["merccav+"]*2 and nam["money"] >= nam["merccav+"]*20:
+                                    nam["food"] = nam["food"]-(nam["merccav+"]*2)
+                                    nam["money"] = nam["money"]-(nam["merccav+"]*20)
+                                    nam["merccav"] += nam["merccav+"]
+                                    nam["merccav+"]=0
+                            
+                            if nam["mercinf+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["mercinf+"] and nam["money"] >= nam["mercinf+"]*10:
+                                    nam["food"] = nam["food"]-(nam["mercinf+"])
+                                    nam["money"] = nam["money"]-(nam["mercinf+"]*10)
+                                    nam["mercinf"] += nam["mercinf+"]
+                                    nam["mercinf+"]=0
+                            
+                            if nam["triemes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["triemes+"]*40 and nam["timber"] >= nam["triemes+"]*50:
+                                    nam["food"] = nam["food"]-(nam["triemes+"]*40)
+                                    nam["timber"] = nam["timber"]-(nam["triemes+"]*50)
+                                    nam["triemes"] += nam["triemes+"]
+                                    nam["triemes+"]=0
+                            
+                            if nam["canoes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["canoes+"] and nam["timber"] >= nam["canoes+"]*10:
+                                    nam["food"] = nam["food"]-(nam["canoes+"])
+                                    nam["timber"] = nam["timber"]-(nam["canoes+"]*10)
+                                    nam["canoes"] += nam["canoes+"]
+                                    nam["canoes+"]=0
+                            
+                            if nam["patrol+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["patrol+"]*50 and nam["timber"] >= nam["patrol+"]*100:
+                                    nam["food"] = nam["food"]-(nam["patrol+"]*50)
+                                    nam["timber"] = nam["timber"]-(nam["patrol+"]*100)
+                                    nam["patrol"] += nam["patrol+"]
+                                    nam["patrol+"]=0
+                            
+                            if nam["longships+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["longships+"]*20 and nam["timber"] >= nam["longships+"]*30:
+                                    nam["food"] = nam["food"]-(nam["longships+"]*20)
+                                    nam["timber"] = nam["timber"]-(nam["longships+"]*30)
+                                    nam["longships"] += nam["longships+"]
+                                    nam["longships+"]=0
+                            if nam["quinqueremes+"] != 0 and img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255):
+                                if nam["food"] >= nam["quinqueremes+"]*30 and nam["timber"] >= nam["quinqueremes+"]*40:
+                                    nam["food"] = nam["food"]-(nam["quinqueremes+"]*30)
+                                    nam["timber"] = nam["timber"]-(nam["quinqueremes+"]*40)
+                                    nam["quinqueremes"] += nam["quinqueremes+"]
+                                    nam["quinqueremes+"]=0
+                        else:
+                            for a in nam["army2"]:
+                                if a["irinf+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["irinf+"] and a["timber"] >= a["irinf+"]:
+                                        a["food"] = a["food"]-a["irinf+"]
+                                        a["timber"] = a["timber"]-a["irinf+"]
+                                        a["irinf"] += a["irinf+"]
+                                        a["irinf+"]=0
+                                if a["ircav+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["ircav+"]*2 and a["timber"] >= a["ircav+"]:
+                                        a["food"] = a["food"]-a["ircav+"]*2
+                                        a["timber"] = a["timber"]-a["ircav+"]
+                                        a["ircav"] += a["ircav+"]
+                                        a["ircav+"]=0
+                                if a["hoplites+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["hoplites+"] and a["strategicMetals"] >= a["hoplites+"]:
+                                        a["food"] = a["food"]-a["hoplites+"]
+                                        a["strategicMetals"] = a["strategicMetals"]-a["hoplites+"]
+                                        a["hoplites"] += a["hoplites+"]
+                                        a["hoplites+"]=0
+                                if a["warel+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["warel+"] and a["strategicMetals"] >= a["warel+"]:
+                                        a["food"] = a["food"]-(a["warel+"]*20)
+                                        a["strategicMetals"] = a["strategicMetals"]-a["warel+"]
+                                        a["warel"] += a["warel+"]
+                                        a["warel+"]=0
+                                if a["sling+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["sling+"] and a["strategicMetals"] >= a["sling+"]:
+                                        a["food"] = a["food"]-(a["sling+"])
+                                        a["strategicMetals"] = a["strategicMetals"]-a["sling+"]
+                                        a["sling"] += a["sling+"]
+                                        a["sling+"]=0
+                                if a["arch+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["arch+"] and a["strategicMetals"] >= a["arch+"]:
+                                        a["food"] = a["food"]-(a["arch+"])
+                                        a["strategicMetals"] = a["strategicMetals"]-a["arch+"]
+                                        a["arch"] += a["arch+"]
+                                        a["arch+"]=0
+                                if a["milit+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["milit+"] and a["strategicMetals"] >= a["milit+"]:
+                                        a["food"] = a["food"]-(a["milit+"])
+                                        a["strategicMetals"] = a["strategicMetals"]-a["milit+"]
+                                        a["milit"] += a["milit+"]
+                                        a["milit+"]=0
+                                if a["harch+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["harch+"]*2 and a["strategicMetals"] >= a["harch+"]:
+                                        a["food"] = a["food"]-(a["harch+"]*2)
+                                        a["strategicMetals"] = a["strategicMetals"]-a["harch+"]
+                                        a["harch"] += a["harch+"]
+                                        a["harch+"]=0
+                                if a["ligcav+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["ligcav+"]*2 and a["strategicMetals"] >= a["ligcav+"]:
+                                        a["food"] = a["food"]-(a["ligcav+"]*2)
+                                        a["strategicMetals"] = a["strategicMetals"]-a["ligcav+"]
+                                        a["ligcav"] += a["ligcav+"]
+                                        a["ligcav+"]=0
+                                
+                                if a["merccav+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["merccav+"]*2 and a["money"] >= a["merccav+"]*20:
+                                        a["food"] = a["food"]-(a["merccav+"]*2)
+                                        a["money"] = a["money"]-(a["merccav+"]*20)
+                                        a["merccav"] += a["merccav+"]
+                                        a["merccav+"]=0
+                                
+                                if a["mercinf+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["mercinf+"] and a["money"] >= a["mercinf+"]*10:
+                                        a["food"] = a["food"]-(a["mercinf+"])
+                                        a["money"] = a["money"]-(a["mercinf+"]*10)
+                                        a["mercinf"] += a["mercinf+"]
+                                        a["mercinf+"]=0
+                                
+                                if a["triemes+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["triemes+"]*40 and a["timber"] >= a["triemes+"]*50:
+                                        a["food"] = a["food"]-(a["triemes+"]*40)
+                                        a["timber"] = a["timber"]-(a["triemes+"]*50)
+                                        a["triemes"] += a["triemes+"]
+                                        a["triemes+"]=0
+                                
+                                if a["canoes+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["canoes+"] and a["timber"] >= a["canoes+"]*10:
+                                        a["food"] = a["food"]-(a["canoes+"])
+                                        a["timber"] = a["timber"]-(a["canoes+"]*10)
+                                        a["canoes"] += a["canoes+"]
+                                        a["canoes+"]=0
+                                
+                                if a["patrol+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["patrol+"]*50 and a["timber"] >= a["patrol+"]*100:
+                                        a["food"] = a["food"]-(a["patrol+"]*50)
+                                        a["timber"] = a["timber"]-(a["patrol+"]*100)
+                                        a["patrol"] += a["patrol+"]
+                                        a["patrol+"]=0
+                                
+                                if a["longships+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["longships+"]*20 and a["timber"] >= a["longships+"]*30:
+                                        a["food"] = a["food"]-(a["longships+"]*20)
+                                        a["timber"] = a["timber"]-(a["longships+"]*30)
+                                        a["longships"] += a["longships+"]
+                                        a["longships+"]=0
+                                if a["quinqueremes+"] != 0 and img.getpixel((int(a["x"]), int(a["y"])))==(a["r"], a["g"], a["b"], 255):
+                                    if a["food"] >= a["quinqueremes+"]*30 and a["timber"] >= a["quinqueremes+"]*40:
+                                        a["food"] = a["food"]-(a["quinqueremes+"]*30)
+                                        a["timber"] = a["timber"]-(a["quinqueremes+"]*40)
+                                        a["quinqueremes"] += a["quinqueremes+"]
+                                        a["quinqueremes+"]=0
+
+
 
 
                                 
                                 
 
                   
-                        nam["money"]=nam["money"]+nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"]))-nam["mercinf"]*10-nam["merccav"]*20 #1 was nam["moncon"] but now tax is debuffed
+                        nam["money"]=nam["money"]+(nam["gra+"]+nam["pop"]*(((50/1)*nam["tax"])/(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"]))-nam["mercinf"]*10-nam["merccav"]*20) #1 was nam["moncon"] but now tax is debuffed
                         nam["pop"]=nam["pop"]*nam["pop+"]
-                        nam["food"]=nam["food"]+nam["food+"]-nam["hoplites"]-nam["warel"]*20-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]-nam["irinf"]-nam["ircav"]
-                        nam["lux"]=nam["lux"]+nam["lux+"]
-                        nam["timber"]=nam["timber"]+nam["timber+"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]-nam["irinf"]-nam["ircav"]
-                        nam["stone"]=nam["stone"]+nam["stone+"]
-                        nam["nobleMetals"]=nam["nobleMetals"]+nam["nobleMetals+"]
-                        nam["strategicMetals"]=nam["strategicMetals"]+nam["strategicMetals+"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]
+                        nam["food"]=nam["food"]+nam["food+"]*nam["tt2"]-nam["hoplites"]-nam["warel"]*20-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]-nam["irinf"]-nam["ircav"]
+                        nam["lux"]=nam["lux"]+nam["lux+"]*nam["tt2"]
+                        nam["timber"]=nam["timber"]+nam["timber+"]*nam["tt2"]-nam["triemes"]-nam["canoes"]-nam["patrol"]-nam["longships"]-nam["quinqueremes"]-nam["irinf"]-nam["ircav"]
+                        nam["stone"]=nam["stone"]+nam["stone+"]*nam["tt2"]
+                        nam["nobleMetals"]=nam["nobleMetals"]+nam["nobleMetals+"]*nam["tt2"]
+                        nam["strategicMetals"]=nam["strategicMetals"]+nam["strategicMetals+"]*nam["tt2"]-nam["hoplites"]-nam["warel"]-nam["sling"]-nam["arch"]-nam["milit"]-nam["harch"]*2-nam["ligcav"]*2-nam["merccav"]*2-nam["mercinf"]
                         nam["livestock"]=nam["livestock"]*nam["pop+"]
                         nam["rideAnimals"]=nam["rideAnimals"]*nam["pop+"]
+                        for a in nam["army2"]:
+                            nam["money"]=nam["money"]-a["mercinf"]*10-a["merccav"]*20 #---------------------------------
+                            nam["food"]=nam["food"]-a["warel"]*20-a["sling"]-a["arch"]-a["milit"]-a["harch"]*2-a["ligcav"]*2-a["merccav"]*2-a["mercinf"]-a["triemes"]-a["canoes"]-a["patrol"]-a["longships"]-a["quinqueremes"]-a["irinf"]-a["ircav"]
+                            nam["timber"]=nam["timber"]-a["triemes"]-a["canoes"]-a["patrol"]-a["longships"]-a["quinqueremes"]-a["irinf"]-a["ircav"]
+                            nam["strategicMetals"]=nam["strategicMetals"]-a["hoplites"]-a["warel"]-a["sling"]-a["arch"]-a["milit"]-a["harch"]*2-a["ligcav"]*2-a["merccav"]*2-a["mercinf"]
                         if nam["food"]<0:
                             nam["pop+"]=0.9
                             nam["food"]=0
@@ -214,256 +326,664 @@ try:
                             nam["pop+"]=nam["pop+"]-0.002+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000)
                         if nam["pop+"]>1.1:
                             nam["pop+"]=1.1
-                        if nam["pop"]>3000000:
+                        if nam["pop"]>3000000 and nam["tt1"]==0:
                             nam["pop+"]=0.95+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
-                        if nam["pop"]>4000000:
+                        if nam["pop"]>4000000 and nam["tt1"]==1:
+                            nam["pop+"]=0.95+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
+                        if nam["pop"]>4000000 and nam["tt1"]==0:
+                            nam["pop+"]=0.9+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
+                        if nam["pop"]>5000000 and nam["tt1"]==0:
                             nam["pop+"]=0.9+(((nam["lux"]+nam["food"])/nam["pop"]) ** 0.5) * 0.01#(((nam["lux"]+nam["food"])/1000)/10000) test (7000+40000)/2100000
                     m="time progressed!"
                     print(m)
                     i=0
                     while i<1:
                         for  nam in countries:
-                            #movement
-                            xz=nam["x"]
-                            yz=nam["y"]
-                            img = Image.open("war.png").convert("RGBA")
-                            if nam["x2"]=="northeast": #"x": 2468-2446, "y": 674-712, and target = 2468, 674
-                                nam["x"]=nam["x"]+22
-                                nam["y"]=nam["y"]-38
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
-                                    nam["hoplites"]=nam["hoplites"]*0.9
-                                    nam["warel"]=nam["warel"]*0.9
-                                    nam["sling"]=nam["sling"]*0.9
-                                    nam["arch"]=nam["arch"]*0.9
-                                    nam["milit"]=nam["milit"]*0.9
-                                    nam["harch"]=nam["harch"]*0.9
-                                    nam["ligcav"]=nam["ligcav"]*0.9
-                                    nam["merccav"]=nam["merccav"]*0.9
-                                    nam["mercinf"]=nam["mercinf"]*0.9
-                            if nam["x2"]=="east":
-                                nam["x"]=nam["x"]+43
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
-                                    nam["hoplites"]=nam["hoplites"]*0.9
-                                    nam["warel"]=nam["warel"]*0.9
-                                    nam["sling"]=nam["sling"]*0.9
-                                    nam["arch"]=nam["arch"]*0.9
-                                    nam["milit"]=nam["milit"]*0.9
-                                    nam["harch"]=nam["harch"]*0.9
-                                    nam["ligcav"]=nam["ligcav"]*0.9
-                                    nam["merccav"]=nam["merccav"]*0.9
-                                    nam["mercinf"]=nam["mercinf"]*0.9
-                            if nam["x2"]=="northwest":
-                                nam["x"]=nam["x"]-22
-                                nam["y"]=nam["y"]-38
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
-                                    nam["hoplites"]=nam["hoplites"]*0.9
-                                    nam["warel"]=nam["warel"]*0.9
-                                    nam["sling"]=nam["sling"]*0.9
-                                    nam["arch"]=nam["arch"]*0.9
-                                    nam["milit"]=nam["milit"]*0.9
-                                    nam["harch"]=nam["harch"]*0.9
-                                    nam["ligcav"]=nam["ligcav"]*0.9
-                                    nam["merccav"]=nam["merccav"]*0.9
-                                    nam["mercinf"]=nam["mercinf"]*0.9
-                            if nam["x2"]=="west":
-                                nam["x"]=nam["x"]-43
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
-                                    nam["hoplites"]=nam["hoplites"]*0.9
-                                    nam["warel"]=nam["warel"]*0.9
-                                    nam["sling"]=nam["sling"]*0.9
-                                    nam["arch"]=nam["arch"]*0.9
-                                    nam["milit"]=nam["milit"]*0.9
-                                    nam["harch"]=nam["harch"]*0.9
-                                    nam["ligcav"]=nam["ligcav"]*0.9
-                                    nam["merccav"]=nam["merccav"]*0.9
-                                    nam["mercinf"]=nam["mercinf"]*0.9
-                            if nam["x2"]=="southwest":
-                                nam["x"]=nam["x"]-22
-                                nam["y"]=nam["y"]+38
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
-                                    nam["hoplites"]=nam["hoplites"]*0.9
-                                    nam["warel"]=nam["warel"]*0.9
-                                    nam["sling"]=nam["sling"]*0.9
-                                    nam["arch"]=nam["arch"]*0.9
-                                    nam["milit"]=nam["milit"]*0.9
-                                    nam["harch"]=nam["harch"]*0.9
-                                    nam["ligcav"]=nam["ligcav"]*0.9
-                                    nam["merccav"]=nam["merccav"]*0.9
-                                    nam["mercinf"]=nam["mercinf"]*0.9
-                            if nam["x2"]=="southeast":
-                                nam["x"]=nam["x"]+22
-                                nam["y"]=nam["y"]+38
-                                if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
-                                    nam["hoplites"]=nam["hoplites"]*0.9
-                                    nam["warel"]=nam["warel"]*0.9
-                                    nam["sling"]=nam["sling"]*0.9
-                                    nam["arch"]=nam["arch"]*0.9
-                                    nam["milit"]=nam["milit"]*0.9
-                                    nam["harch"]=nam["harch"]*0.9
-                                    nam["ligcav"]=nam["ligcav"]*0.9
-                                    nam["merccav"]=nam["merccav"]*0.9
-                                    nam["mercinf"]=nam["mercinf"]*0.9
-                            nam["x2"]=""
-                            for  n in countries:
-                                if nam["name"]!=n["name"]:
-                                    if nam["x"]>n["x"]-20 and nam["x"]<n["x"]+20 and nam["y"]>n["y"]-20 and nam["y"]<n["y"]+20:
-                                        #battle
-                                        lost=0
-                                        losth=0
-                                        img = Image.open("war.png").convert("RGBA")
-                                        img = Image.open("war.png").convert("RGBA")
+                            for a in nam["army2"]:
+                                #movement
+                                xz=nam["x"]
+                                yz=nam["y"]
+                                img = Image.open("war.png").convert("RGBA")
+                                if nam["x2"]=="northeast": #"x": 2468-2446, "y": 674-712, and target = 2468, 674
+                                    nam["x"]=nam["x"]+22
+                                    nam["y"]=nam["y"]-38
+                                    if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
+                                        nam["hoplites"]=nam["hoplites"]*0.9
+                                        nam["warel"]=nam["warel"]*0.9
+                                        nam["sling"]=nam["sling"]*0.9
+                                        nam["arch"]=nam["arch"]*0.9
+                                        nam["milit"]=nam["milit"]*0.9
+                                        nam["harch"]=nam["harch"]*0.9
+                                        nam["ligcav"]=nam["ligcav"]*0.9
+                                        nam["merccav"]=nam["merccav"]*0.9
+                                        nam["mercinf"]=nam["mercinf"]*0.9
+                                if nam["x2"]=="east":
+                                    nam["x"]=nam["x"]+43
+                                    if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
+                                        nam["hoplites"]=nam["hoplites"]*0.9
+                                        nam["warel"]=nam["warel"]*0.9
+                                        nam["sling"]=nam["sling"]*0.9
+                                        nam["arch"]=nam["arch"]*0.9
+                                        nam["milit"]=nam["milit"]*0.9
+                                        nam["harch"]=nam["harch"]*0.9
+                                        nam["ligcav"]=nam["ligcav"]*0.9
+                                        nam["merccav"]=nam["merccav"]*0.9
+                                        nam["mercinf"]=nam["mercinf"]*0.9
+                                if nam["x2"]=="northwest":
+                                    nam["x"]=nam["x"]-22
+                                    nam["y"]=nam["y"]-38
+                                    if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
+                                        nam["hoplites"]=nam["hoplites"]*0.9
+                                        nam["warel"]=nam["warel"]*0.9
+                                        nam["sling"]=nam["sling"]*0.9
+                                        nam["arch"]=nam["arch"]*0.9
+                                        nam["milit"]=nam["milit"]*0.9
+                                        nam["harch"]=nam["harch"]*0.9
+                                        nam["ligcav"]=nam["ligcav"]*0.9
+                                        nam["merccav"]=nam["merccav"]*0.9
+                                        nam["mercinf"]=nam["mercinf"]*0.9
+                                if nam["x2"]=="west":
+                                    nam["x"]=nam["x"]-43
+                                    if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
+                                        nam["hoplites"]=nam["hoplites"]*0.9
+                                        nam["warel"]=nam["warel"]*0.9
+                                        nam["sling"]=nam["sling"]*0.9
+                                        nam["arch"]=nam["arch"]*0.9
+                                        nam["milit"]=nam["milit"]*0.9
+                                        nam["harch"]=nam["harch"]*0.9
+                                        nam["ligcav"]=nam["ligcav"]*0.9
+                                        nam["merccav"]=nam["merccav"]*0.9
+                                        nam["mercinf"]=nam["mercinf"]*0.9
+                                if nam["x2"]=="southwest":
+                                    nam["x"]=nam["x"]-22
+                                    nam["y"]=nam["y"]+38
+                                    if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
+                                        nam["hoplites"]=nam["hoplites"]*0.9
+                                        nam["warel"]=nam["warel"]*0.9
+                                        nam["sling"]=nam["sling"]*0.9
+                                        nam["arch"]=nam["arch"]*0.9
+                                        nam["milit"]=nam["milit"]*0.9
+                                        nam["harch"]=nam["harch"]*0.9
+                                        nam["ligcav"]=nam["ligcav"]*0.9
+                                        nam["merccav"]=nam["merccav"]*0.9
+                                        nam["mercinf"]=nam["mercinf"]*0.9
+                                if nam["x2"]=="southeast":
+                                    nam["x"]=nam["x"]+22
+                                    nam["y"]=nam["y"]+38
+                                    if not(img.getpixel((int(nam["x"]), int(nam["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255)):
+                                        nam["hoplites"]=nam["hoplites"]*0.9
+                                        nam["warel"]=nam["warel"]*0.9
+                                        nam["sling"]=nam["sling"]*0.9
+                                        nam["arch"]=nam["arch"]*0.9
+                                        nam["milit"]=nam["milit"]*0.9
+                                        nam["harch"]=nam["harch"]*0.9
+                                        nam["ligcav"]=nam["ligcav"]*0.9
+                                        nam["merccav"]=nam["merccav"]*0.9
+                                        nam["mercinf"]=nam["mercinf"]*0.9
+                                nam["x2"]=""
+                                #-------------------new armies----------------
+                                xz=a["x"]
+                                yz=a["y"]
+                                img = Image.open("war.png").convert("RGBA")
+                                if a["x2"]=="northeast": #"x": 2468-2446, "y": 674-712, and target = 2468, 674
+                                    a["x"]=a["x"]+22
+                                    a["y"]=a["y"]-38
+                                    if not(img.getpixel((int(a["x"]), int(a["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(a["x"]), int(a["y"])))==(11, 10, 50, 255)):
+                                        a["hoplites"]=a["hoplites"]*0.9
+                                        a["warel"]=a["warel"]*0.9
+                                        a["sling"]=a["sling"]*0.9
+                                        a["arch"]=a["arch"]*0.9
+                                        a["milit"]=a["milit"]*0.9
+                                        a["harch"]=a["harch"]*0.9
+                                        a["ligcav"]=a["ligcav"]*0.9
+                                        a["merccav"]=a["merccav"]*0.9
+                                        a["mercinf"]=a["mercinf"]*0.9
+                                if a["x2"]=="east":
+                                    a["x"]=a["x"]+43
+                                    if not(img.getpixel((int(a["x"]), int(a["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(a["x"]), int(a["y"])))==(11, 10, 50, 255)):
+                                        a["hoplites"]=a["hoplites"]*0.9
+                                        a["warel"]=a["warel"]*0.9
+                                        a["sling"]=a["sling"]*0.9
+                                        a["arch"]=a["arch"]*0.9
+                                        a["milit"]=a["milit"]*0.9
+                                        a["harch"]=a["harch"]*0.9
+                                        a["ligcav"]=a["ligcav"]*0.9
+                                        a["merccav"]=a["merccav"]*0.9
+                                        a["mercinf"]=a["mercinf"]*0.9
+                                if a["x2"]=="northwest":
+                                    a["x"]=a["x"]-22
+                                    a["y"]=a["y"]-38
+                                    if not(img.getpixel((int(a["x"]), int(a["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(a["x"]), int(a["y"])))==(11, 10, 50, 255)):
+                                        a["hoplites"]=a["hoplites"]*0.9
+                                        a["warel"]=a["warel"]*0.9
+                                        a["sling"]=a["sling"]*0.9
+                                        a["arch"]=a["arch"]*0.9
+                                        a["milit"]=a["milit"]*0.9
+                                        a["harch"]=a["harch"]*0.9
+                                        a["ligcav"]=a["ligcav"]*0.9
+                                        a["merccav"]=a["merccav"]*0.9
+                                        a["mercinf"]=a["mercinf"]*0.9
+                                if a["x2"]=="west":
+                                    a["x"]=a["x"]-43
+                                    if not(img.getpixel((int(a["x"]), int(a["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(a["x"]), int(a["y"])))==(11, 10, 50, 255)):
+                                        a["hoplites"]=a["hoplites"]*0.9
+                                        a["warel"]=a["warel"]*0.9
+                                        a["sling"]=a["sling"]*0.9
+                                        a["arch"]=a["arch"]*0.9
+                                        a["milit"]=a["milit"]*0.9
+                                        a["harch"]=a["harch"]*0.9
+                                        a["ligcav"]=a["ligcav"]*0.9
+                                        a["merccav"]=a["merccav"]*0.9
+                                        a["mercinf"]=a["mercinf"]*0.9
+                                if a["x2"]=="southwest":
+                                    a["x"]=a["x"]-22
+                                    a["y"]=a["y"]+38
+                                    if not(img.getpixel((int(a["x"]), int(a["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(a["x"]), int(a["y"])))==(11, 10, 50, 255)):
+                                        a["hoplites"]=a["hoplites"]*0.9
+                                        a["warel"]=a["warel"]*0.9
+                                        a["sling"]=a["sling"]*0.9
+                                        a["arch"]=a["arch"]*0.9
+                                        a["milit"]=a["milit"]*0.9
+                                        a["harch"]=a["harch"]*0.9
+                                        a["ligcav"]=a["ligcav"]*0.9
+                                        a["merccav"]=a["merccav"]*0.9
+                                        a["mercinf"]=a["mercinf"]*0.9
+                                if a["x2"]=="southeast":
+                                    a["x"]=a["x"]+22
+                                    a["y"]=a["y"]+38
+                                    if not(img.getpixel((int(a["x"]), int(a["y"])))==(nam["r"], nam["g"], nam["b"], 255) or img.getpixel((int(a["x"]), int(a["y"])))==(11, 10, 50, 255)):
+                                        a["hoplites"]=a["hoplites"]*0.9
+                                        a["warel"]=a["warel"]*0.9
+                                        a["sling"]=a["sling"]*0.9
+                                        a["arch"]=a["arch"]*0.9
+                                        a["milit"]=a["milit"]*0.9
+                                        a["harch"]=a["harch"]*0.9
+                                        a["ligcav"]=a["ligcav"]*0.9
+                                        a["merccav"]=a["merccav"]*0.9
+                                        a["mercinf"]=a["mercinf"]*0.9
+                                a["x2"]=""
 
-                                        x = int(nam["x"])
-                                        y = int(nam["y"])
+                                for  n in countries: #have to update everything that has to do with army from here on
+                                    if nam["name"]!=n["name"]:
+                                        for z in n["army2"]:
+                                            if nam["x"]>n["x"]-20 and nam["x"]<n["x"]+20 and nam["y"]>n["y"]-20 and nam["y"]<n["y"]+20:
+                                                #battle
+                                                lost=0
+                                                losth=0
+                                                img = Image.open("war.png").convert("RGBA")
+                                                img = Image.open("war.png").convert("RGBA")
 
-                                        w, h = img.size
-                                        
-                                        if 0 <= x < w and 0 <= y < h:
-                                            if img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255):
-                                                #naval battle
-                                                s1=nam["triemes"]+nam["canoes"]*0.1+nam["patrol"]*1.2+nam["longships"]*2+nam["quinqueremes"]*1.5
-                                                s2=n["triemes"]+n["canoes"]*0.1+n["patrol"]*1.2+n["longships"]*2+n["quinqueremes"]*1.5
-                                                tactics1 = random.uniform(0.8, 1.2)
-                                                tactics2 = random.uniform(0.8, 1.2)
+                                                x = int(nam["x"])
+                                                y = int(nam["y"])
 
-                                                final1 = s1 * tactics1
-                                                final2 = s2 * tactics2
+                                                w, h = img.size
+                                                
+                                                if 0 <= x < w and 0 <= y < h:
+                                                    if img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255):
+                                                        #naval battle
+                                                        s1=nam["triemes"]+nam["canoes"]*0.1+nam["patrol"]*1.2+nam["longships"]*2+nam["quinqueremes"]*1.5
+                                                        s2=n["triemes"]+n["canoes"]*0.1+n["patrol"]*1.2+n["longships"]*2+n["quinqueremes"]*1.5
+                                                        tactics1 = random.uniform(0.8, 1.2)
+                                                        tactics2 = random.uniform(0.8, 1.2)
 
-                                                print("Side 1:", final1)
-                                                print("Side 2:", final2)
+                                                        final1 = s1 * tactics1
+                                                        final2 = s2 * tactics2
 
-                                                # Determine winner
-                                                if final1 > final2:
-                                                    winner = "side1"
-                                                else:
-                                                    winner = "side2"
+                                                        print("Side 1:", final1)
+                                                        print("Side 2:", final2)
 
-                                                # Casualty rates
-                                                # loser takes heavier losses
-                                                winner_loss_rate = random.uniform(0.5, 1.0)
-                                                loser_loss_rate = random.uniform(0.15, 0.5)
+                                                        # Determine winner
+                                                        if final1 > final2:
+                                                            winner = "side1"
+                                                        else:
+                                                            winner = "side2"
 
-                                                print("Winner:", winner)
+                                                        # Casualty rates
+                                                        # loser takes heavier losses
+                                                        winner_loss_rate = random.uniform(0.5, 1.0)
+                                                        loser_loss_rate = random.uniform(0.15, 0.5)
 
-                                                # Apply losses
-                                                def apply_losses(f,loss_rate):
-                                                    if f["triemes"]>0:
-                                                        f["triemes"]=f["triemes"]*loss_rate
-                                                        lost = f["triemes"] * (1-loss_rate*40)
-                                                    if f["canoes"]>0:
-                                                        f["canoes"]=f["canoes"]*loss_rate
-                                                        lost = f["canoes"] * (1-loss_rate)
-                                                    if f["patrol"]>0:
-                                                        f["patrol"]=f["patrol"]*loss_rate
-                                                        lost = f["patrol"] * (1-loss_rate*50)
-                                                    if f["longships"]>0:
-                                                        f["longships"]=f["longships"]*loss_rate
-                                                        lost = f["longships"] * (1-loss_rate*20)
-                                                    if f["quinqueremes"]>0:
-                                                        f["quinqueremes"]=f["quinqueremes"]*loss_rate
-                                                        lost = f["quinqueremes"] * (1-loss_rate*30)
+                                                        print("Winner:", winner)
 
-                                                if winner == "side1":
-                                                    apply_losses(nam, winner_loss_rate)
-                                                    apply_losses(n, loser_loss_rate)
-                                                else:
-                                                    apply_losses(n, winner_loss_rate)
-                                                    apply_losses(nam, loser_loss_rate)
-                                                    nam["x"]=xz
-                                                    nam["y"]=yz
+                                                        # Apply losses
+                                                        def apply_losses(f,loss_rate):
+                                                            if f["triemes"]>0:
+                                                                f["triemes"]=f["triemes"]*loss_rate
+                                                                lost = f["triemes"] * (1-loss_rate*40)
+                                                            if f["canoes"]>0:
+                                                                f["canoes"]=f["canoes"]*loss_rate
+                                                                lost = f["canoes"] * (1-loss_rate)
+                                                            if f["patrol"]>0:
+                                                                f["patrol"]=f["patrol"]*loss_rate
+                                                                lost = f["patrol"] * (1-loss_rate*50)
+                                                            if f["longships"]>0:
+                                                                f["longships"]=f["longships"]*loss_rate
+                                                                lost = f["longships"] * (1-loss_rate*20)
+                                                            if f["quinqueremes"]>0:
+                                                                f["quinqueremes"]=f["quinqueremes"]*loss_rate
+                                                                lost = f["quinqueremes"] * (1-loss_rate*30)
 
-                                                print("After battle:")
-                                                print("Side1:", nam)
-                                                print("Side2:", n)
-                                                if winner=="side1":
-                                                    n["x2"]=n["x"]
-                                                    n["y2"]=["y"]
-                                            else:
-                                                #land battle
-                                                s1=nam["hoplites"]*0.7+15*nam["warel"]+nam["sling"]*0.4+nam["arch"]*0.7+nam["milit"]*0.5+nam["harch"]*0.9+nam["ligcav"]+nam["merccav"]*1.2+ nam["mercinf"]*0.8+nam["irinf"]*0.3+nam["ircav"]*0.4
-                                                s2=n["hoplites"]*0.7+15*n["warel"]+n["sling"]*0.4+n["arch"]*0.7+n["milit"]*0.5+n["harch"]*0.9+n["ligcav"]+n["merccav"]*1.2+ n["mercinf"]*0.8+nam["irinf"]*0.3+nam["ircav"]*0.3
-                                                tactics1 = random.uniform(0.8, 1.2)
-                                                tactics2 = random.uniform(0.8, 1.2)
-                                                '''
-                                                hoplites - 0.7m |locked by med
-                                                warel - 15.0m
-                                                sling - 0.4r                        
-                                                arch - 0.7r
-                                                milit - 0.5m
-                                                harch - 0.9r |locked by tech
-                                                ligcav - 1.0m
-                                                merccav - 1.2m
-                                                mercinf - 0.8m
-                                                '''
-                                                def apply_losses2(f, loss_rate):
-                                                    if f["hoplites"]>0:
-                                                        f["hoplites"]=f["hoplites"]*loss_rate
-                                                        lost = f["hoplites"] * (1-loss_rate)
-                                                    if f["warel"]>0:
-                                                        f["warel"]=f["warel"]*loss_rate
-                                                        lost = f["warel"] * (1-loss_rate)
-                                                        losth = f["warel"] * (1-loss_rate)
-                                                    if f["sling"]>0:
-                                                        f["sling"]=f["sling"]*(loss_rate*1.1)
-                                                        lost = f["sling"] * (1-loss_rate)
-                                                    if f["arch"]>0:
-                                                        f["arch"]=f["arch"]*(loss_rate*1.1)
-                                                        lost = f["sling"] * (1-loss_rate*1.1)
-                                                    if f["milit"]>0:
-                                                        f["milit"]=f["milit"]*loss_rate
-                                                        lost = f["milit"] * (1-loss_rate)
-                                                    if f["harch"]>0:
-                                                        f["harch"]=f["harch"]*(loss_rate*1.1)
-                                                        lost = f["harch"] * (1-loss_rate*1.1)
-                                                        losth = f["harch"] * (1-loss_rate)
-                                                    if f["ligcav"]>0:
-                                                        f["ligcav"]=f["ligcav"]*loss_rate
-                                                        lost = f["ligcav"] * (1-loss_rate*1.1)
-                                                        losth = f["ligcav"] * (1-loss_rate)
-                                                    if f["merccav"]>0:
-                                                        f["merccav"]=f["merccav"]*loss_rate
-                                                    if f["mercinf"]>0:
-                                                        f["mercinf"]=f["mercinf"]*loss_rate
-                                                    if f["irinf"]>0:
-                                                        f["irinf"]=f["irinf"]*loss_rate
-                                                    if f["ircav"]>0:
-                                                        f["ircav"]=f["ircav"]*loss_rate
+                                                        if winner == "side1":
+                                                            apply_losses(nam, winner_loss_rate)
+                                                            apply_losses(n, loser_loss_rate)
+                                                        else:
+                                                            apply_losses(n, winner_loss_rate)
+                                                            apply_losses(nam, loser_loss_rate)
+                                                            nam["x"]=xz
+                                                            nam["y"]=yz
 
-                                                final1 = s1 * tactics1
-                                                final2 = s2 * tactics2
+                                                        print("After battle:")
+                                                        print("Side1:", nam)
+                                                        print("Side2:", n)
+                                                        if winner=="side1":
+                                                            n["x2"]=n["x"]
+                                                            n["y2"]=n["y"]
+                                                    else:
+                                                        #land battle
+                                                        s1=nam["hoplites"]*0.7+15*nam["warel"]+nam["sling"]*0.4+nam["arch"]*0.7+nam["milit"]*0.5+nam["harch"]*0.9+nam["ligcav"]+nam["merccav"]*1.2+ nam["mercinf"]*0.8+nam["irinf"]*0.3+nam["ircav"]*0.4
+                                                        s2=n["hoplites"]*0.7+15*n["warel"]+n["sling"]*0.4+n["arch"]*0.7+n["milit"]*0.5+n["harch"]*0.9+n["ligcav"]+n["merccav"]*1.2+ n["mercinf"]*0.8+nam["irinf"]*0.3+nam["ircav"]*0.3
+                                                        tactics1 = random.uniform(0.8, 1.2)
+                                                        tactics2 = random.uniform(0.8, 1.2)
+                                                        '''
+                                                        hoplites - 0.7m |locked by med
+                                                        warel - 15.0m
+                                                        sling - 0.4r                        
+                                                        arch - 0.7r
+                                                        milit - 0.5m
+                                                        harch - 0.9r |locked by tech
+                                                        ligcav - 1.0m
+                                                        merccav - 1.2m
+                                                        mercinf - 0.8m
+                                                        '''
+                                                        def apply_losses2(f, loss_rate):
+                                                            if f["hoplites"]>0:
+                                                                f["hoplites"]=f["hoplites"]*loss_rate
+                                                                lost = f["hoplites"] * (1-loss_rate)
+                                                            if f["warel"]>0:
+                                                                f["warel"]=f["warel"]*loss_rate
+                                                                lost = f["warel"] * (1-loss_rate)
+                                                                losth = f["warel"] * (1-loss_rate)
+                                                            if f["sling"]>0:
+                                                                f["sling"]=f["sling"]*(loss_rate*1.1)
+                                                                lost = f["sling"] * (1-loss_rate)
+                                                            if f["arch"]>0:
+                                                                f["arch"]=f["arch"]*(loss_rate*1.1)
+                                                                lost = f["sling"] * (1-loss_rate*1.1)
+                                                            if f["milit"]>0:
+                                                                f["milit"]=f["milit"]*loss_rate
+                                                                lost = f["milit"] * (1-loss_rate)
+                                                            if f["harch"]>0:
+                                                                f["harch"]=f["harch"]*(loss_rate*1.1)
+                                                                lost = f["harch"] * (1-loss_rate*1.1)
+                                                                losth = f["harch"] * (1-loss_rate)
+                                                            if f["ligcav"]>0:
+                                                                f["ligcav"]=f["ligcav"]*loss_rate
+                                                                lost = f["ligcav"] * (1-loss_rate*1.1)
+                                                                losth = f["ligcav"] * (1-loss_rate)
+                                                            if f["merccav"]>0:
+                                                                f["merccav"]=f["merccav"]*loss_rate
+                                                            if f["mercinf"]>0:
+                                                                f["mercinf"]=f["mercinf"]*loss_rate
+                                                            if f["irinf"]>0:
+                                                                f["irinf"]=f["irinf"]*loss_rate
+                                                            if f["ircav"]>0:
+                                                                f["ircav"]=f["ircav"]*loss_rate
 
-                                                print("Side 1:", final1)
-                                                print("Side 2:", final2)
+                                                        final1 = s1 * tactics1
+                                                        final2 = s2 * tactics2
 
-                                                # Determine winner
-                                                if final1 > final2:
-                                                    winner = "side1"
-                                                else:
-                                                    winner = "side2"
+                                                        print("Side 1:", final1)
+                                                        print("Side 2:", final2)
 
-                                                # Casualty rates
-                                                # loser takes heavier losses
-                                                winner_loss_rate = random.uniform(0.5, 1.0)
-                                                loser_loss_rate = min(0.05, 0.5)
+                                                        # Determine winner
+                                                        if final1 > final2:
+                                                            winner = "side1"
+                                                        else:
+                                                            winner = "side2"
 
-                                                print("Winner:", winner)
+                                                        # Casualty rates
+                                                        # loser takes heavier losses
+                                                        winner_loss_rate = random.uniform(0.5, 1.0)
+                                                        loser_loss_rate = min(0.05, 0.5)
 
-                                                if winner == "side1":
-                                                    apply_losses2(nam, winner_loss_rate)
-                                                    apply_losses2(n, loser_loss_rate)
-                                                else:
-                                                    apply_losses2(n, winner_loss_rate)
-                                                    apply_losses2(nam, loser_loss_rate)
+                                                        print("Winner:", winner)
 
-                                                print("After battle:")
-                                                print("Side1:", nam)
-                                                print("Side2:", n)
-                                                if winner=="side1":
-                                                    n["x2"]=n["x"]
-                                                    n["y2"]=["y"]
+                                                        if winner == "side1":
+                                                            apply_losses2(nam, winner_loss_rate)
+                                                            apply_losses2(n, loser_loss_rate)
+                                                        else:
+                                                            apply_losses2(n, winner_loss_rate)
+                                                            apply_losses2(nam, loser_loss_rate)
 
-                                        nam["pop"]=nam["pop"]-lost
-                                        nam["rideAnimals"]=nam["rideAnimals"]-losth
+                                                        print("After battle:")
+                                                        print("Side1:", nam)
+                                                        print("Side2:", n)
+                                                        if winner=="side1":
+                                                            n["x2"]=n["x"]
+                                                            n["y2"]=n["y"]
+
+                                                nam["pop"]=nam["pop"]-lost
+                                                nam["rideAnimals"]=nam["rideAnimals"]-losth
+
+                                                ##here we try the new one, it should by all means work by just testing every z instead of a
+                                                if nam["x"]>z["x"]-20 and nam["x"]<z["x"]+20 and nam["y"]>z["y"]-20 and nam["y"]<z["y"]+20:
+                                                    #battle
+                                                    lost=0
+                                                    losth=0
+                                                    img = Image.open("war.png").convert("RGBA")
+                                                    img = Image.open("war.png").convert("RGBA")
+
+                                                    x = int(nam["x"])
+                                                    y = int(nam["y"])
+
+                                                    w, h = img.size
+                                                    
+                                                    if 0 <= x < w and 0 <= y < h:
+                                                        if img.getpixel((int(nam["x"]), int(nam["y"])))==(11, 10, 50, 255):
+                                                            #naval battle
+                                                            s1=nam["triemes"]+nam["canoes"]*0.1+nam["patrol"]*1.2+nam["longships"]*2+nam["quinqueremes"]*1.5
+                                                            s2=z["triemes"]+z["canoes"]*0.1+z["patrol"]*1.2+z["longships"]*2+z["quinqueremes"]*1.5
+                                                            tactics1 = random.uniform(0.8, 1.2)
+                                                            tactics2 = random.uniform(0.8, 1.2)
+
+                                                            final1 = s1 * tactics1
+                                                            final2 = s2 * tactics2
+
+                                                            print("Side 1:", final1)
+                                                            print("Side 2:", final2)
+
+                                                            # Determine winner
+                                                            if final1 > final2:
+                                                                winner = "side1"
+                                                            else:
+                                                                winner = "side2"
+
+                                                            # Casualty rates
+                                                            # loser takes heavier losses
+                                                            winner_loss_rate = random.uniform(0.5, 1.0)
+                                                            loser_loss_rate = random.uniform(0.15, 0.5)
+
+                                                            print("Winner:", winner)
+
+                                                            # Apply losses
+                                                            def apply_losses(f,loss_rate):
+                                                                if f["triemes"]>0:
+                                                                    f["triemes"]=f["triemes"]*loss_rate
+                                                                    lost = f["triemes"] * (1-loss_rate*40)
+                                                                if f["canoes"]>0:
+                                                                    f["canoes"]=f["canoes"]*loss_rate
+                                                                    lost = f["canoes"] * (1-loss_rate)
+                                                                if f["patrol"]>0:
+                                                                    f["patrol"]=f["patrol"]*loss_rate
+                                                                    lost = f["patrol"] * (1-loss_rate*50)
+                                                                if f["longships"]>0:
+                                                                    f["longships"]=f["longships"]*loss_rate
+                                                                    lost = f["longships"] * (1-loss_rate*20)
+                                                                if f["quinqueremes"]>0:
+                                                                    f["quinqueremes"]=f["quinqueremes"]*loss_rate
+                                                                    lost = f["quinqueremes"] * (1-loss_rate*30)
+
+                                                            if winner == "side1":
+                                                                apply_losses(nam, winner_loss_rate)
+                                                                apply_losses(z, loser_loss_rate)
+                                                            else:
+                                                                apply_losses(z, winner_loss_rate)
+                                                                apply_losses(nam, loser_loss_rate)
+                                                                nam["x"]=xz
+                                                                nam["y"]=yz
+
+                                                            print("After battle:")
+                                                            print("Side1:", nam["name"])
+                                                            print("Side2:", n["name"])
+                                                            if winner=="side1":
+                                                                z["x2"]=z["x"]
+                                                                z["y2"]=z["y"]
+                                                        else:
+                                                            #land battle
+                                                            s1=nam["hoplites"]*0.7+15*nam["warel"]+nam["sling"]*0.4+nam["arch"]*0.7+nam["milit"]*0.5+nam["harch"]*0.9+nam["ligcav"]+nam["merccav"]*1.2+ nam["mercinf"]*0.8+nam["irinf"]*0.3+nam["ircav"]*0.4
+                                                            s2=z["hoplites"]*0.7+15*z["warel"]+z["sling"]*0.4+z["arch"]*0.7+z["milit"]*0.5+z["harch"]*0.9+z["ligcav"]+z["merccav"]*1.2+ z["mercinf"]*0.8+z["irinf"]*0.3+z["ircav"]*0.3
+                                                            tactics1 = random.uniform(0.8, 1.2)
+                                                            tactics2 = random.uniform(0.8, 1.2)
+                                                            '''
+                                                            hoplites - 0.7m |locked by med
+                                                            warel - 15.0m
+                                                            sling - 0.4r                        
+                                                            arch - 0.7r
+                                                            milit - 0.5m
+                                                            harch - 0.9r |locked by tech
+                                                            ligcav - 1.0m
+                                                            merccav - 1.2m
+                                                            mercinf - 0.8m
+                                                            '''
+                                                            def apply_losses2(f, loss_rate):
+                                                                if f["hoplites"]>0:
+                                                                    f["hoplites"]=f["hoplites"]*loss_rate
+                                                                    lost = f["hoplites"] * (1-loss_rate)
+                                                                if f["warel"]>0:
+                                                                    f["warel"]=f["warel"]*loss_rate
+                                                                    lost = f["warel"] * (1-loss_rate)
+                                                                    losth = f["warel"] * (1-loss_rate)
+                                                                if f["sling"]>0:
+                                                                    f["sling"]=f["sling"]*(loss_rate*1.1)
+                                                                    lost = f["sling"] * (1-loss_rate)
+                                                                if f["arch"]>0:
+                                                                    f["arch"]=f["arch"]*(loss_rate*1.1)
+                                                                    lost = f["sling"] * (1-loss_rate*1.1)
+                                                                if f["milit"]>0:
+                                                                    f["milit"]=f["milit"]*loss_rate
+                                                                    lost = f["milit"] * (1-loss_rate)
+                                                                if f["harch"]>0:
+                                                                    f["harch"]=f["harch"]*(loss_rate*1.1)
+                                                                    lost = f["harch"] * (1-loss_rate*1.1)
+                                                                    losth = f["harch"] * (1-loss_rate)
+                                                                if f["ligcav"]>0:
+                                                                    f["ligcav"]=f["ligcav"]*loss_rate
+                                                                    lost = f["ligcav"] * (1-loss_rate*1.1)
+                                                                    losth = f["ligcav"] * (1-loss_rate)
+                                                                if f["merccav"]>0:
+                                                                    f["merccav"]=f["merccav"]*loss_rate
+                                                                if f["mercinf"]>0:
+                                                                    f["mercinf"]=f["mercinf"]*loss_rate
+                                                                if f["irinf"]>0:
+                                                                    f["irinf"]=f["irinf"]*loss_rate
+                                                                if f["ircav"]>0:
+                                                                    f["ircav"]=f["ircav"]*loss_rate
+
+                                                            final1 = s1 * tactics1
+                                                            final2 = s2 * tactics2
+
+                                                            print("Side 1:", final1)
+                                                            print("Side 2:", final2)
+
+                                                            # Determine winner
+                                                            if final1 > final2:
+                                                                winner = "side1"
+                                                            else:
+                                                                winner = "side2"
+
+                                                            # Casualty rates
+                                                            # loser takes heavier losses
+                                                            winner_loss_rate = random.uniform(0.5, 1.0)
+                                                            loser_loss_rate = min(0.05, 0.5)
+
+                                                            print("Winner:", winner)
+
+                                                            if winner == "side1":
+                                                                apply_losses2(nam, winner_loss_rate)
+                                                                apply_losses2(n, loser_loss_rate)
+                                                            else:
+                                                                apply_losses2(n, winner_loss_rate)
+                                                                apply_losses2(nam, loser_loss_rate)
+
+                                                            print("After battle:")
+                                                            print("Side1:", nam)
+                                                            print("Side2:", n)
+                                                            if winner=="side1":
+                                                                z["x2"]=z["x"]
+                                                                z["y2"]=z["y"]
+
+                                                    nam["pop"]=nam["pop"]-lost
+                                                    nam["rideAnimals"]=nam["rideAnimals"]-losth
+
+                                                    ##must also make one for just secondary armies now
+                                                    if a["x"]>z["x"]-20 and a["x"]<z["x"]+20 and a["y"]>z["y"]-20 and a["y"]<z["y"]+20:
+                                                        #battle
+                                                        lost=0
+                                                        losth=0
+                                                        img = Image.open("war.png").convert("RGBA")
+                                                        img = Image.open("war.png").convert("RGBA")
+
+                                                        x = int(a["x"])
+                                                        y = int(a["y"])
+
+                                                        w, h = img.size
+                                                        
+                                                        if 0 <= x < w and 0 <= y < h:
+                                                            if img.getpixel((int(a["x"]), int(a["y"])))==(11, 10, 50, 255):
+                                                                #naval battle
+                                                                s1=a["triemes"]+a["canoes"]*0.1+a["patrol"]*1.2+a["longships"]*2+a["quinqueremes"]*1.5
+                                                                s2=z["triemes"]+z["canoes"]*0.1+z["patrol"]*1.2+z["longships"]*2+z["quinqueremes"]*1.5
+                                                                tactics1 = random.uniform(0.8, 1.2)
+                                                                tactics2 = random.uniform(0.8, 1.2)
+
+                                                                final1 = s1 * tactics1
+                                                                final2 = s2 * tactics2
+
+                                                                print("Side 1:", final1)
+                                                                print("Side 2:", final2)
+
+                                                                # Determine winner
+                                                                if final1 > final2:
+                                                                    winner = "side1"
+                                                                else:
+                                                                    winner = "side2"
+
+                                                                # Casualty rates
+                                                                # loser takes heavier losses
+                                                                winner_loss_rate = random.uniform(0.5, 1.0)
+                                                                loser_loss_rate = random.uniform(0.15, 0.5)
+
+                                                                print("Winner:", winner)
+
+                                                                # Apply losses
+                                                                def apply_losses(f,loss_rate):
+                                                                    if f["triemes"]>0:
+                                                                        f["triemes"]=f["triemes"]*loss_rate
+                                                                        lost = f["triemes"] * (1-loss_rate*40)
+                                                                    if f["canoes"]>0:
+                                                                        f["canoes"]=f["canoes"]*loss_rate
+                                                                        lost = f["canoes"] * (1-loss_rate)
+                                                                    if f["patrol"]>0:
+                                                                        f["patrol"]=f["patrol"]*loss_rate
+                                                                        lost = f["patrol"] * (1-loss_rate*50)
+                                                                    if f["longships"]>0:
+                                                                        f["longships"]=f["longships"]*loss_rate
+                                                                        lost = f["longships"] * (1-loss_rate*20)
+                                                                    if f["quinqueremes"]>0:
+                                                                        f["quinqueremes"]=f["quinqueremes"]*loss_rate
+                                                                        lost = f["quinqueremes"] * (1-loss_rate*30)
+
+                                                                if winner == "side1":
+                                                                    apply_losses(a, winner_loss_rate)
+                                                                    apply_losses(z, loser_loss_rate)
+                                                                else:
+                                                                    apply_losses(z, winner_loss_rate)
+                                                                    apply_losses(a, loser_loss_rate)
+                                                                    a["x"]=xz
+                                                                    a["y"]=yz
+
+                                                                print("After battle:")
+                                                                print("Side1:", nam["name"])
+                                                                print("Side2:", n["name"])
+                                                                if winner=="side1":
+                                                                    z["x2"]=z["x"]
+                                                                    z["y2"]=z["y"]
+                                                            else:
+                                                                #land battle
+                                                                s1=a["hoplites"]*0.7+15*a["warel"]+a["sling"]*0.4+a["arch"]*0.7+a["milit"]*0.5+a["harch"]*0.9+a["ligcav"]+a["merccav"]*1.2+ a["mercinf"]*0.8+a["irinf"]*0.3+a["ircav"]*0.4
+                                                                s2=z["hoplites"]*0.7+15*z["warel"]+z["sling"]*0.4+z["arch"]*0.7+z["milit"]*0.5+z["harch"]*0.9+z["ligcav"]+z["merccav"]*1.2+ z["mercinf"]*0.8+z["irinf"]*0.3+z["ircav"]*0.3
+                                                                tactics1 = random.uniform(0.8, 1.2)
+                                                                tactics2 = random.uniform(0.8, 1.2)
+                                                                '''
+                                                                hoplites - 0.7m |locked by med
+                                                                warel - 15.0m
+                                                                sling - 0.4r                        
+                                                                arch - 0.7r
+                                                                milit - 0.5m
+                                                                harch - 0.9r |locked by tech
+                                                                ligcav - 1.0m
+                                                                merccav - 1.2m
+                                                                mercinf - 0.8m
+                                                                '''
+                                                                def apply_losses2(f, loss_rate):
+                                                                    if f["hoplites"]>0:
+                                                                        f["hoplites"]=f["hoplites"]*loss_rate
+                                                                        lost = f["hoplites"] * (1-loss_rate)
+                                                                    if f["warel"]>0:
+                                                                        f["warel"]=f["warel"]*loss_rate
+                                                                        lost = f["warel"] * (1-loss_rate)
+                                                                        losth = f["warel"] * (1-loss_rate)
+                                                                    if f["sling"]>0:
+                                                                        f["sling"]=f["sling"]*(loss_rate*1.1)
+                                                                        lost = f["sling"] * (1-loss_rate)
+                                                                    if f["arch"]>0:
+                                                                        f["arch"]=f["arch"]*(loss_rate*1.1)
+                                                                        lost = f["sling"] * (1-loss_rate*1.1)
+                                                                    if f["milit"]>0:
+                                                                        f["milit"]=f["milit"]*loss_rate
+                                                                        lost = f["milit"] * (1-loss_rate)
+                                                                    if f["harch"]>0:
+                                                                        f["harch"]=f["harch"]*(loss_rate*1.1)
+                                                                        lost = f["harch"] * (1-loss_rate*1.1)
+                                                                        losth = f["harch"] * (1-loss_rate)
+                                                                    if f["ligcav"]>0:
+                                                                        f["ligcav"]=f["ligcav"]*loss_rate
+                                                                        lost = f["ligcav"] * (1-loss_rate*1.1)
+                                                                        losth = f["ligcav"] * (1-loss_rate)
+                                                                    if f["merccav"]>0:
+                                                                        f["merccav"]=f["merccav"]*loss_rate
+                                                                    if f["mercinf"]>0:
+                                                                        f["mercinf"]=f["mercinf"]*loss_rate
+                                                                    if f["irinf"]>0:
+                                                                        f["irinf"]=f["irinf"]*loss_rate
+                                                                    if f["ircav"]>0:
+                                                                        f["ircav"]=f["ircav"]*loss_rate
+
+                                                                final1 = s1 * tactics1
+                                                                final2 = s2 * tactics2
+
+                                                                print("Side 1:", final1)
+                                                                print("Side 2:", final2)
+
+                                                                # Determine winner
+                                                                if final1 > final2:
+                                                                    winner = "side1"
+                                                                else:
+                                                                    winner = "side2"
+
+                                                                # Casualty rates
+                                                                # loser takes heavier losses
+                                                                winner_loss_rate = random.uniform(0.5, 1.0)
+                                                                loser_loss_rate = min(0.05, 0.5)
+
+                                                                print("Winner:", winner)
+
+                                                                if winner == "side1":
+                                                                    apply_losses2(a, winner_loss_rate)
+                                                                    apply_losses2(n, loser_loss_rate)
+                                                                else:
+                                                                    apply_losses2(n, winner_loss_rate)
+                                                                    apply_losses2(a, loser_loss_rate)
+
+                                                                print("After battle:")
+                                                                print("Side1:", nam)
+                                                                print("Side2:", n)
+                                                                if winner=="side1":
+                                                                    z["x2"]=z["x"]
+                                                                    z["y2"]=z["y"]
+
+                                                        nam["pop"]=nam["pop"]-lost
+                                                        nam["rideAnimals"]=nam["rideAnimals"]-losth
                         i=i+1
                                     
 
@@ -751,8 +1271,23 @@ async def on_message(msg):
                                        "!basicWinePress - costs: 12k money, 5k food and 3k timber, earns: +200 luxury goods production\n"+
                                        "!simpleOilPress - costs: 10k money, 3k timber and 3k luxury goods, earns: +150 luxury goods production \n"+
                                        "!dirtRoads - costs: 10k money, 5k stone and 5k timber, earns: +300 income x currencyValue treasury\n"
+                                       "DenseHousing - costs: 1M money and 100k of every other resource, effect: population limit increased to 4M instead of 3M.\n"+
+                                        "goodOrganization - costs: 1M money and 100k of every other resource, effect: 0.25x resource efficiency (0.25x more output).\n"+
+                                        
+                                        "TIMBER TECHS\n"+
+                                        "sawmillExpansion - costs: 25k money, 10k stone and 5k strategic metals, effect: +400 timber production (large-scale wood cutting efficiency)\n"+
+                                        "forestManagement - costs: 30k money, 8k food and 10k timber, effect: +350 timber production (sustainable forest yield boost)\n"+
+                                        "logisticsRafts - costs: 20k money, 5k timber and 5k ride animals, effect: +250 timber production (river log transport system)\n"+
+                                        "STONE TECHS\n"+
+                                        "quarryExpansion - costs: 25k money, 10k timber and 5k strategic metals, effect: +400 stone production (expanded quarry operations)\n"+
+                                        "stoneCuttingTools - costs: 20k money, 5k strategic metals and 5k timber, effect: +300 stone production (improved extraction efficiency)\n"+
+                                        "monumentConstruction - costs: 35k money, 15k stone and 5k timber, effect: +350 stone production (large public works drive)\n"
                                         "coming soon: \n"+
-                                       "!horseTraining - costs: 10k money, 3k food and 2k livestock, earns: +15 ride animals production\n"
+                                       "!horseTraining - costs: 10k money, 3k food and 2k livestock, earns: +15 ride animals production\n"+
+                                       "EastShipWarfare - costs: 60k money, 20k timber, 10k strategic metals, effect: unlocks East naval warships for coastal dominance and river warfare.\n"+
+                                        "desertRiverRaiders - costs: 55k money, 15k timber, 15k ride animals, effect: unlocks fast raiding vessels for desert river systems and oases control.\n"+
+                                        "middleWestRiverFleet - costs: 70k money, 25k timber, 10k stone, effect: unlocks heavy river fleets for transport protection and siege support in inland waterways.\n"
+                                       
                                        )
             if "!specialTech" in msg.content:
                 with open("countries.json", "r") as f:
@@ -1962,6 +2497,292 @@ async def on_message(msg):
                                 json.dump(countries, f, indent=4)
                         else:
                             await msg.channel.send("you cannot afford that!")
+            '''
+            "!horseTraining - costs: 10k money, 3k food and 2k livestock, earns: +15 ride animals production\n"
+            "DenseHousing - costs: 1M money and 100k of every other resource, effect: population limit increased to 4M instead of 3M.\n"+
+            "goodOrganization - costs: 1M money and 100k of every other resource, effect: +25% resource efficiency (0.25x more output).\n"+
+            "EastShipWarfare - costs: 60k money, 20k timber, 10k strategic metals, effect: unlocks East naval warships for coastal dominance and river warfare.\n"+
+            "desertRiverRaiders - costs: 55k money, 15k timber, 15k ride animals, effect: unlocks fast raiding vessels for desert river systems and oases control.\n"+
+            "middleWestRiverFleet - costs: 70k money, 25k timber, 10k stone, effect: unlocks heavy river fleets for transport protection and siege support in inland waterways.\n"+
+            "TIMBER TECHS\n"+
+            "sawmillExpansion - costs: 25k money, 10k stone and 5k strategic metals, effect: +400 timber production (large-scale wood cutting efficiency)\n"+
+            "forestManagement - costs: 30k money, 8k food and 10k timber, effect: +350 timber production (sustainable forest yield boost)\n"+
+            "logisticsRafts - costs: 20k money, 5k timber and 5k ride animals, effect: +250 timber production (river log transport system)\n"+
+            "STONE TECHS\n"+
+            "quarryExpansion - costs: 25k money, 10k timber and 5k strategic metals, effect: +400 stone production (expanded quarry operations)\n"+
+            "stoneCuttingTools - costs: 20k money, 5k strategic metals and 5k timber, effect: +300 stone production (improved extraction efficiency)\n"+
+            "monumentConstruction - costs: 35k money, 15k stone and 5k timber, effect: +350 stone production (large public works drive)\n"
+            '''
+            if "!DenseHousing" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt1"]==0:
+                        if nam["food"]>=0 and nam["money"]>=1000*k and nam["lux"]>=100*k and nam["timber"]>=100*k and nam["stone"]>=100*k and nam["nobleMetals"]>=100*k and nam["strategicMetals"]>=100*k:
+                            nam["food"]=nam["food"]-100*k
+                            nam["money"]=nam["money"]-1000*k
+                            nam["lux"]=nam["lux"]-100*k
+                            nam["timber"]=nam["timber"]-100*k
+                            nam["stone"]=nam["stone"]-100*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-100*k
+                            nam["strategicMetals"]=nam["strategicMetals"]-100*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt1"]=1 
+                            await msg.channel.send("dense housing researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!goodOrganization" in msg.content: # i should note i think this specific tech will upset balance but idk i was asked to make it so guh i guess
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt2"]==1:
+                        if nam["food"]>=0 and nam["money"]>=1000*k and nam["lux"]>=100*k and nam["timber"]>=100*k and nam["stone"]>=100*k and nam["nobleMetals"]>=100*k and nam["strategicMetals"]>=100*k:
+                            nam["food"]=nam["food"]-100*k
+                            nam["money"]=nam["money"]-1000*k
+                            nam["lux"]=nam["lux"]-100*k
+                            nam["timber"]=nam["timber"]-100*k
+                            nam["stone"]=nam["stone"]-100*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-100*k
+                            nam["strategicMetals"]=nam["strategicMetals"]-100*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt2"]=1.25 #tt2 är härmed designerad alla resurcer modifier <-----------------------------------------------------------------------------------------------
+                            await msg.channel.send("org researched!") 
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!") 
+            if "!EastShipWarfare" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt3"]==0:
+                        if nam["food"]>=0 and nam["money"]>=60*k and nam["lux"]>=0 and nam["timber"]>=20*k and nam["stone"]>=0*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=10*k:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-60*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-20*k
+                            nam["stone"]=nam["stone"]-0*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-10*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt3"]=1 #guess i will have to make a new boat unit... i was holding off on doing that... wait i will just say this is next update because i am rehauling troops soon anyway
+                            await msg.channel.send("new boats i guess... researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!sawmillExpansion" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt3"]==0:
+                        if nam["food"]>=0 and nam["money"]>=25*k and nam["lux"]>=0 and nam["timber"]>=0*k and nam["stone"]>=10*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=5*k:
+                            nam["food"]=nam["food"]-0
+                            nam["money"]=nam["money"]-25*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-0*k
+                            nam["stone"]=nam["stone"]-10*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-5*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+400
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt3"]=1 
+                            await msg.channel.send("sawmill expansion researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!forestManagement" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt4"]==0:
+                        if nam["food"]>=8*k and nam["money"]>=30*k and nam["lux"]>=0 and nam["timber"]>=10*k and nam["stone"]>=0*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0*k:
+                            nam["food"]=nam["food"]-8*k
+                            nam["money"]=nam["money"]-30*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10*k
+                            nam["stone"]=nam["stone"]-0*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+350
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt4"]=1 
+                            await msg.channel.send("forests researched! wow who would have thought -what are these research names bruh")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!logisticsRafts" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt5"]==0:
+                        if nam["food"]>=0*k and nam["money"]>=20*k and nam["lux"]>=0 and nam["timber"]>=5*k and nam["stone"]>=0*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0*k and nam["rideAnimals"]>5*k:
+                            nam["food"]=nam["food"]-0*k
+                            nam["rideAnimals"]=nam["rideAnimals"]-5*k
+                            nam["money"]=nam["money"]-20*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5*k
+                            nam["stone"]=nam["stone"]-0*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+250
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt5"]=1 
+                            await msg.channel.send("rafts researched! how didnt you know what a raft was before lol?")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!quarryExpansion" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt6"]==0:
+                        if nam["food"]>=0*k and nam["money"]>=25*k and nam["lux"]>=0 and nam["timber"]>=10*k and nam["stone"]>=0*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=5*k:
+                            nam["food"]=nam["food"]-0*k
+                            nam["money"]=nam["money"]-25*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-10*k
+                            nam["stone"]=nam["stone"]-0*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-5*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+400
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt6"]=1 
+                            await msg.channel.send("quarry expansion researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!stoneCuttingTools" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt7"]==0:
+                        if nam["food"]>=0*k and nam["money"]>=20*k and nam["lux"]>=0 and nam["timber"]>=5*k and nam["stone"]>=0*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=5*k:
+                            nam["food"]=nam["food"]-0*k
+                            nam["money"]=nam["money"]-25*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5*k
+                            nam["stone"]=nam["stone"]-0*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-5*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+300
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt7"]=1 
+                            await msg.channel.send("tools researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            if "!monumentConstruction" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt8"]==0:
+                        if nam["food"]>=0*k and nam["money"]>=35*k and nam["lux"]>=0 and nam["timber"]>=5*k and nam["stone"]>=15*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0*k:
+                            nam["food"]=nam["food"]-0*k
+                            nam["money"]=nam["money"]-35*k
+                            nam["lux"]=nam["lux"]-0
+                            nam["timber"]=nam["timber"]-5*k
+                            nam["stone"]=nam["stone"]-15*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt8"]=1 
+                            await msg.channel.send("monuments researched!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
+            '''
+            "quarryExpansion - costs: 25k money, 10k timber and 5k strategic metals, effect: +400 stone production (expanded quarry operations)\n"+
+            "stoneCuttingTools - costs: 20k money, 5k strategic metals and 5k timber, effect: +300 stone production (improved extraction efficiency)\n"+
+            "monumentConstruction - costs: 35k money, 15k stone and 5k timber, effect: +350 stone production (large public works drive)\n"
+            '''
+            if "!recruitGeneral" in msg.content:
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"] and nam["tt9"]==0:
+                        if nam["food"]>=0*k and nam["money"]>=500*k and nam["lux"]>=500*k and nam["timber"]>=0*k and nam["stone"]>=0*k and nam["nobleMetals"]>=0 and nam["strategicMetals"]>=0*k:
+                            nam["food"]=nam["food"]-0*k
+                            nam["money"]=nam["money"]-500*k
+                            nam["lux"]=nam["lux"]-500*k
+                            nam["timber"]=nam["timber"]-0*k
+                            nam["stone"]=nam["stone"]-0*k
+                            nam["nobleMetals"]=nam["nobleMetals"]-0
+                            nam["strategicMetals"]=nam["strategicMetals"]-0*k
+                            nam["food+"]=nam["food+"]+0
+                            nam["gra+"]=nam["gra+"]+0
+                            nam["lux+"]=nam["lux+"]+0
+                            nam["timber+"]=nam["timber+"]+0
+                            nam["stone+"]=nam["stone+"]+0
+                            nam["nobleMetals+"]=nam["nobleMetals+"]+0
+                            nam["strategicMetals+"]=nam["strategicMetals+"]+0
+                            nam["tt9"]=1 
+                            nam["armycount"]=2
+                            for a in nam["army2"]:
+                                a["x"]=nam["x"]
+                                a["y"]=nam["y"]
+                            await msg.channel.send("a second general recruited!")
+                            with open("countries.json", "w") as f:
+                                json.dump(countries, f, indent=4)
+                        else:
+                            await msg.channel.send("you cannot afford that!")
 
 
 
@@ -1974,7 +2795,7 @@ async def on_message(msg):
                                        +"!stirrups - researches stirrups which allows for horse archers cost: 10k money and 5k strategic metal\n"
                                        +"!longships - researches viking longships, costs 10k money and 5k timber, you must be in scandinavia to get this\n"
                                        +"!quinqueremes - researches quinqueremes, costs 30k money and 10k timber, you must be in the mediterranean to get this\n"
-                                       +"coming soon:\n!recruitGeneral - costs 100k money and 100k luxury goods, allows for a second army"
+                                       +"!recruitGeneral - costs 500k money and 500k luxury goods, allows for a second army"
                                        )
             if "!stirrups" in msg.content:
                 with open("countries.json", "r") as f:
@@ -2055,6 +2876,12 @@ async def on_message(msg):
                 #flag = flag.resize((8, 8))
                 #map_img.paste(flag, (855-5, 550-5), flag)
                     map_img.paste(flag, (nam["x"]-10, nam["y"]-10), flag)
+                    #here i must add new armies
+                    for a in nam["army2"]:
+                        if nam["armycount"]>=a["armyID"]: 
+                            map_img.paste(flag, (a["x"]-10, a["y"]-10), flag)
+
+
                 map_img.save("output2.png")
                 #add_hex_overlay("war.png", "output2.png")
                 await msg.channel.send(file=discord.File("output2.png"))
@@ -2106,7 +2933,14 @@ async def on_message(msg):
                         nam["y"]=nam["y"]+48
                     nam["x2"]=""
 
-
+            if "!selectArmy" in msg.content: #50 pixlar per tur     format !selectArmy|army to select
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                splits = msg.content.split("|")
+                for  nam in countries:
+                    if msg.author.display_name==nam["name"]:
+                        nam["armyselect"]=splits[1]
+                        await msg.channel.send("army "+splits[1]+"selected")
 
             if "!order" in msg.content: #50 pixlar per tur     format !order|northeast/northwest/east/west/southeast/southwest
                 with open("countries.json", "r") as f:
@@ -2115,7 +2949,12 @@ async def on_message(msg):
                 for  nam in countries:
                     if msg.author.display_name==nam["name"]:
                         #right character
-                        nam["x2"]=splits[1]
+                        if nam["armyselect"]==1:
+                            nam["x2"]=splits[1]
+                        else:
+                            for a in nam["army2"]:
+                                if nam["armyselect"]==a["armyID"]:
+                                    a["x2"]=splits[1] 
                         with open("countries.json", "w") as f:
                             json.dump(countries, f, indent=4)
                         await msg.channel.send("orders recieved")
@@ -2217,7 +3056,7 @@ async def on_message(msg):
                 parts=msg.content.split("|")
                 for  nam in countries:
                     if parts[1]==nam["name"]:
-                        nam["food"]=nam["food"]-int(parts[2])
+                        nam["stone"]=nam["stone"]-int(parts[2])
                         await msg.channel.send(f'{parts[2]} stone somehow disappeared')
                         with open("countries.json", "w") as f:
                             json.dump(countries, f, indent=4)
@@ -2227,7 +3066,7 @@ async def on_message(msg):
                 parts=msg.content.split("|")
                 for  nam in countries:
                     if parts[1]==nam["name"]:
-                        nam["food"]=nam["food"]-int(parts[2])
+                        nam["timber"]=nam["timber"]-int(parts[2])
                         await msg.channel.send(f'{parts[2]} timber rolled into the ocean')
                         with open("countries.json", "w") as f:
                             json.dump(countries, f, indent=4)
@@ -2324,10 +3163,10 @@ async def on_message(msg):
                             await msg.channel.send("Write !number")
                             return
                         
-                            if msg.author.display_name==nam["name"]:
-                                nam["hoplites+"]+=amount
-                                nam["us"] = ""
-                                await msg.channel.send(f'mobilizing {amount} hoplites')
+                        if msg.author.display_name==nam["name"]:
+                            nam["hoplites+"]+=amount
+                            nam["us"] = ""
+                            await msg.channel.send(f'mobilizing {amount} hoplites')
                         with open("countries.json", "w") as f:
                                     json.dump(countries, f, indent=4)
                     elif nam["us"] == "hoplitemob" and all(role.name != "Mediterranean" for role in msg.author.roles):
@@ -3439,7 +4278,7 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                 z=0
                 for  nam in countries2:
                     z=z+1
-                    if True:
+                    if True and (nam["t1"]+nam["t2"]+nam["t3"]+nam["t4"]+nam["t5"]+nam["t6"]+nam["t7"]+nam["t8"]+nam["t9"]+nam["t10"]+nam["t11"]+nam["t12"]+nam["t13"]+nam["t14"]+nam["t15"]>0):
                         m = (
                             f'ranking:\n{z}. {nam["name"]} - currency value: {fmt(nam["moncon"])}, total resources: {fmt(nam["food"]+nam["lux"]+nam["timber"]+nam["stone"]+nam["nobleMetals"]+nam["strategicMetals"])}, population: {fmt(nam["pop"])}, technology: {nam["t1"]+nam["t2"]+nam["t3"]+nam["t4"]+nam["t5"]+nam["t6"]+nam["t7"]+nam["t8"]+nam["t9"]+nam["t10"]+nam["t11"]+nam["t12"]+nam["t13"]+nam["t14"]+nam["t15"]}, total production: {fmt(nam["food+"]+nam["lux+"]+nam["timber+"]+nam["stone+"]+nam["nobleMetals+"]+nam["strategicMetals+"])}, military: {nam["hoplites"]  +nam["warel"]  +nam["sling"]  +nam["arch"]  +nam["milit"]  +nam["harch"]  +nam["ligcav"]  +nam["mercinf"] +nam["triemes"] +nam["canoes"] +nam["patrol"] +nam["longships"]  +nam["quinqueremes"]}\n'
                             "--\n"
@@ -3593,6 +4432,8 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                 "g": 188,
                 "b": 188,
                 "expand": 1000,
+                "armycount": 1, #+1 for each army below so 1 means it doesnt get access to the one in army2 right now and i add more of those in other locations
+                "armyselect": 1,
                 "army2": [
                     {
                         "hoplites+": 0,
@@ -3631,7 +4472,108 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                         "armyID": 2, #how i keep track of what army someone is giving orders to/mobilizing to
                         "tech": 0 #plan is the recruitgeneral tech will flip this to 1
                     }
-                ]
+                ],
+                "tt1": 0,
+                "tt2": 1,
+                "tt3": 0,
+                "tt4": 0,
+                "tt5": 0,
+                "tt6": 0,
+                "tt7": 0,
+                "tt8": 0,
+                "tt9": 0,
+                "tt10": 0,
+                "tt11": 0,
+                "tt12": 0,
+                "tt13": 0,
+                "tt14": 0,
+                "tt15": 0,
+                "tt16": 0,
+                "tt17": 0,
+                "tt18": 0,
+                "tt19": 0,
+                "tt20": 0,
+                "tt21": 0,
+                "tt22": 0,
+                "tt23": 0,
+                "tt24": 0,
+                "tt25": 0,
+                "tt26": 0,
+                "tt27": 0,
+                "tt28": 0,
+                "tt29": 0,
+                "tt30": 0,
+                "tt31": 0,
+                "tt32": 0,
+                "tt33": 0,
+                "tt34": 0,
+                "tt35": 0,
+                "tt36": 0,
+                "tt37": 0,
+                "tt38": 0,
+                "tt39": 0,
+                "tt40": 0,
+                "tt41": 0,
+                "tt42": 0,
+                "tt43": 0,
+                "tt44": 0,
+                "tt45": 0,
+                "tt46": 0,
+                "tt47": 0,
+                "tt48": 0,
+                "tt49": 0,
+                "tt50": 0,
+                "tt51": 0,
+                "tt52": 0,
+                "tt53": 0,
+                "tt54": 0,
+                "tt55": 0,
+                "tt56": 0,
+                "tt57": 0,
+                "tt58": 0,
+                "tt59": 0,
+                "tt60": 0,
+                "tt61": 0,
+                "tt62": 0,
+                "tt63": 0,
+                "tt64": 0,
+                "tt65": 0,
+                "tt66": 0,
+                "tt67": 0,
+                "tt68": 0,
+                "tt69": 0,
+                "tt70": 0,
+                "tt71": 0,
+                "tt72": 0,
+                "tt73": 0,
+                "tt74": 0,
+                "tt75": 0,
+                "tt76": 0,
+                "tt77": 0,
+                "tt78": 0,
+                "tt79": 0,
+                "tt80": 0,
+                "tt81": 0,
+                "tt82": 0,
+                "tt83": 0,
+                "tt84": 0,
+                "tt85": 0,
+                "tt86": 0,
+                "tt87": 0,
+                "tt88": 0,
+                "tt89": 0,
+                "tt90": 0,
+                "tt91": 0,
+                "tt92": 0,
+                "tt93": 0,
+                "tt94": 0,
+                "tt95": 0,
+                "tt96": 0,
+                "tt97": 0,
+                "tt98": 0,
+                "tt99": 0,
+                "tt100": 0
+
 
                 #current format => !nadd|name|treasury|population|popgrowth|foodStockpile|foodsurplus|luxuryGoods|luxuryGoodsSurplus|timber|timbersurplus|stone|stonesurplus|PreciousMetals|PreciousMetalssurplus|strategicMetals|strategicMetalssurplus|livestock|rideAnimals|moneyconversionate|averagetax
 
