@@ -1271,10 +1271,12 @@ async def on_message(msg):
                                        "!basicWinePress - costs: 12k money, 5k food and 3k timber, earns: +200 luxury goods production\n"+
                                        "!simpleOilPress - costs: 10k money, 3k timber and 3k luxury goods, earns: +150 luxury goods production \n"+
                                        "!dirtRoads - costs: 10k money, 5k stone and 5k timber, earns: +300 income x currencyValue treasury\n"
-                                       "DenseHousing - costs: 1M money and 100k of every other resource, effect: population limit increased to 4M instead of 3M.\n"+
+                                       "DenseHousing - costs: 1M money and 100k of every other resource, effect: population limit increased to 4M instead of 3M.\n"
+                                       
+                                       )
+                await msg.channel.send(
+                    
                                         "goodOrganization - costs: 1M money and 100k of every other resource, effect: 0.25x resource efficiency (0.25x more output).\n"+
-                                        
-                                        "TIMBER TECHS\n"+
                                         "sawmillExpansion - costs: 25k money, 10k stone and 5k strategic metals, effect: +400 timber production (large-scale wood cutting efficiency)\n"+
                                         "forestManagement - costs: 30k money, 8k food and 10k timber, effect: +350 timber production (sustainable forest yield boost)\n"+
                                         "logisticsRafts - costs: 20k money, 5k timber and 5k ride animals, effect: +250 timber production (river log transport system)\n"+
@@ -1287,8 +1289,7 @@ async def on_message(msg):
                                        "EastShipWarfare - costs: 60k money, 20k timber, 10k strategic metals, effect: unlocks East naval warships for coastal dominance and river warfare.\n"+
                                         "desertRiverRaiders - costs: 55k money, 15k timber, 15k ride animals, effect: unlocks fast raiding vessels for desert river systems and oases control.\n"+
                                         "middleWestRiverFleet - costs: 70k money, 25k timber, 10k stone, effect: unlocks heavy river fleets for transport protection and siege support in inland waterways.\n"
-                                       
-                                       )
+                )
             if "!specialTech" in msg.content:
                 with open("countries.json", "r") as f:
                     countries = json.load(f)
