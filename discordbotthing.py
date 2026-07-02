@@ -3084,6 +3084,16 @@ async def on_message(msg):
                         await msg.channel.send(f'an Achaemenids raid occured killing {50} citizens and stealing 200 from the treasury of {nam["name"]}')
                         with open("countries.json", "w") as f:
                             json.dump(countries, f, indent=4)
+            if "!removeMoney" in msg.content and msg.author.display_name=="God":  #!flood|country|amount
+                with open("countries.json", "r") as f:
+                    countries = json.load(f)
+                parts=msg.content.split("|")
+                for  nam in countries:
+                    if parts[1]==nam["name"]:
+                        nam["money"]=nam["money"]-int(parts[2])
+                        await msg.channel.send(f'{parts[2]} money vanished into thin air i swear, it may not sound believable but i swear i didnt steal it i quaestor am not corrupt trust')
+                        with open("countries.json", "w") as f:
+                            json.dump(countries, f, indent=4)
 
 
 
