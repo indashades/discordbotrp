@@ -27,7 +27,7 @@ try:
         while True:
             now = datetime.now()
             print("uhhh...", now.hour)
-            if now.hour in [2, 6, 10, 14, 18, 22]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
+            if now.hour in [2, 6, 10, 14, 18, 22, 19]: #server-[2, 6, 10, 14, 18, 22]: me-[0, 4, 8, 12, 16, 20]
                 slot = now.hour
                 print("now in slot: ", slot)
 
@@ -263,6 +263,8 @@ try:
                         nam["livestock"]=nam["livestock"]*nam["pop+"]
                         nam["rideAnimals"]=nam["rideAnimals"]*nam["pop+"]
                         for a in nam["army2"]:
+                            ##print(nam.keys())
+                            print(nam["name"])
                             nam["money"]=nam["money"]-a["mercinf"]*10-a["merccav"]*20 #---------------------------------
                             nam["food"]=nam["food"]-a["warel"]*20-a["sling"]-a["arch"]-a["milit"]-a["harch"]*2-a["ligcav"]*2-a["merccav"]*2-a["mercinf"]-a["triemes"]-a["canoes"]-a["patrol"]-a["longships"]-a["quinqueremes"]-a["irinf"]-a["ircav"]
                             nam["timber"]=nam["timber"]-a["triemes"]-a["canoes"]-a["patrol"]-a["longships"]-a["quinqueremes"]-a["irinf"]-a["ircav"]
@@ -4466,6 +4468,10 @@ Grass can refer to a green area, such as a lawn, park, or a field, and is often 
                         "longships+": 0,
                         "quinqueremes+": 0,
                         "quinqueremes": 0,
+                        "irinf": 0,
+                        "irinf+": 0,
+                        "ircav": 0,
+                        "ircav+": 0,
                         "x": 0,
                         "y": 0,
                         "x2": 0,
